@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Executor implements CommandExecutor, Colors
+public class Executor extends Arena implements CommandExecutor, Colors
 {
 	
 	private RollTheDice plugin;
@@ -17,6 +17,10 @@ public class Executor implements CommandExecutor, Colors
 		this.plugin = plugin;
 		
 	}
+	
+	private int delay;
+	private int delaySeconds;
+	private int id;
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
@@ -69,6 +73,17 @@ public class Executor implements CommandExecutor, Colors
 					{
 						
 						disableRTD(player);
+						
+					}
+					
+				}
+				else if (args[0].equalsIgnoreCase("join"))
+				{
+					
+					if (checkPerms(player, "rtd.play"))
+					{
+						
+						joinMatch(player);
 						
 					}
 					
@@ -171,6 +186,110 @@ public class Executor implements CommandExecutor, Colors
 			player.sendMessage(gold + pluginName + dgreen + "RTD matches are now enabled.");			
 			
 		}
+		
+	}
+	
+	public void joinMatch(Player player)
+	{
+		
+		if (!inMatch.contains(player))
+		{
+			
+			if (!isStarted)
+			{
+				
+				inMatch.add(player);
+				player.sendMessage(gold + pluginName + daqua + "You have joined the match.");
+				
+				if(calculateRemaining() != 0)
+				{
+					
+					player.sendMessage(gold + pluginName + daqua + calculateRemaining() + " more players are needed to start the match.");
+				
+				}
+				else
+				{
+					
+					startCountDown();
+					
+				}
+				
+			}
+			else
+			{
+				
+				player.sendMessage(gold + pluginName + red + "Match already started. Please wait until match ends.");
+				
+			}
+			
+		}
+		else
+		{
+			
+			player.sendMessage(gold + pluginName + red + "You are already in the match!");
+			
+		}
+		
+	}
+	
+	public Integer calculateRemaining()
+	{
+		
+		int min = plugin.getConfig().getInt("RTD.Minimum");
+		int size = inMatch.size();
+		
+		return min - size;
+		
+	}
+	
+	public void startCountDown()
+	{
+		
+		delay = plugin.getConfig().getInt("RTD.Delay") * 20;
+		delaySeconds = plugin.getConfig().getInt("RTD.Delay");
+		Bukkit.broadcastMessage(gold + pluginName + daqua + "Match will start in " + delaySeconds + " seconds. Type " + purple + "/rta join" + daqua + " to join!");
+		delaySeconds--;
+		id = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+
+		   public void run() 
+		   {
+			 
+			   if (delaySeconds > 0)
+			   {
+				   
+				   for (Player player : inMatch)
+				   {
+					   
+					   player.sendMessage(gold + pluginName + dgreen + "Match will begin in " + delay + " seconds.");
+					   delaySeconds--;
+					   
+				   }
+			   
+			   }
+			   else
+			   {
+				   
+				   isStarted = true;
+				   for (Player player : inMatch)
+				   {
+					   
+					   player.sendMessage(gold + pluginName + aqua + "Match has started.");
+					   startMatch(player);
+					   
+				   }
+				   plugin.getServer().getScheduler().cancelTask(id);
+				   
+			   }
+			   
+		   }
+		}, delay, delay);
+		
+	}
+	
+	public void startMatch(Player player)
+	{
+		
+		
 		
 	}
 	

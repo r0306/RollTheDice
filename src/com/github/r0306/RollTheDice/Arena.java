@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
-public interface Arena 
+public class Arena 
 {
 	
 	public static List<Player> inMatch = new ArrayList<Player>();
+	public boolean isStarted;
+	
 
 }
