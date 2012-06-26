@@ -1,10 +1,18 @@
 package com.github.r0306.RollTheDice;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Executor extends Arena implements CommandExecutor, Colors
 {
@@ -21,6 +29,9 @@ public class Executor extends Arena implements CommandExecutor, Colors
 	private int delay;
 	private int delaySeconds;
 	private int id;
+	
+	private FileConfiguration playerInventories = null;
+	private File playerInventoryFile = null;
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
@@ -88,6 +99,17 @@ public class Executor extends Arena implements CommandExecutor, Colors
 					}
 					
 				}
+				else if (args[0].equalsIgnoreCase("leave"))
+				{
+					
+					if (checkPerms(player, "rtd.play"))
+					{
+						
+						leaveMatch(player);
+					
+					}
+					
+				}
 				
 			}
 			else if (args.length == 2)
@@ -103,6 +125,16 @@ public class Executor extends Arena implements CommandExecutor, Colors
 						
 					}
 					
+				}
+				else if (args[0].equalsIgnoreCase("setmin"))
+				{
+					
+					if (checkPerms(player, "rtd.configure"))
+					{
+						
+						setMin(player, args[1]);
+						
+					}
 				}
 	
 			}
@@ -201,7 +233,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				inMatch.add(player);
 				player.sendMessage(gold + pluginName + daqua + "You have joined the match.");
 				
-				if(calculateRemaining() != 0)
+				if(calculateRemaining() >= 0)
 				{
 					
 					player.sendMessage(gold + pluginName + daqua + calculateRemaining() + " more players are needed to start the match.");
@@ -230,6 +262,131 @@ public class Executor extends Arena implements CommandExecutor, Colors
 			
 		}
 		
+	}
+	
+	public void saveInventory(Player player)
+	{
+		
+		getInventories().set("Inventories." + player.getName() + ".Main", player.getInventory().getContents());
+		getInventories().set("Inventories." + player.getName() + ".Armor", player.getInventory().getArmorContents());
+		saveInventories();
+		
+	}
+	
+	public void restoreInventory(Player player)
+	{
+		
+		player.getInventory().clear();
+		ItemStack[] main = (ItemStack[]) getInventories().get("Inventories." + player.getName() + ".Main");
+		ItemStack[] armor = (ItemStack[]) getInventories().get("Inventories." + player.getName() + ".Armor");
+		player.getInventory().setContents(main);
+		player.getInventory().setArmorContents(armor);
+		getInventories().set("Inventories." + player.getName(), null);
+		saveInventories();
+		
+	}
+	
+	public void reloadInventories()
+	{
+	
+		if (playerInventoryFile == null)
+		{
+	    
+			playerInventoryFile = new File(plugin.getDataFolder(), "PlayerInventories.yml");
+	    
+		}
+	    
+		playerInventories = YamlConfiguration.loadConfiguration(playerInventoryFile);
+	 
+	    InputStream defConfigStream = plugin.getResource("playerInventories.yml");
+	    
+	    if (defConfigStream != null)
+	    {
+	    
+	    	YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+	        playerInventories.setDefaults(defConfig);
+	   
+	    }
+	
+	}
+	
+	public FileConfiguration getInventories()
+	{
+	
+		if (playerInventoryFile == null)
+		{
+	    
+			this.reloadInventories();
+	    
+		}
+	    
+		return playerInventories;
+	
+	}
+	
+	public void saveInventories() 
+	{
+		
+	    if (playerInventories == null || playerInventoryFile == null)
+	    {
+	    	
+	    	return;
+	    
+	    }
+	    try
+	    {
+	     
+	    	playerInventories.save(playerInventoryFile);
+	    
+	    } catch (IOException ex) {
+	    
+	    	plugin.getLogger().log(Level.SEVERE, "Could not save config to " + playerInventoryFile, ex);
+	    
+	    }
+
+	}
+	
+	public void leaveMatch(Player player)
+	{
+		
+		if (inMatch.contains(player))
+		{
+							
+				player.sendMessage(gold + pluginName + aqua + "You have left the match.");
+				inMatch.remove(player);
+				
+				for (Player p : inMatch)
+				{
+					
+					p.sendMessage(dgreen + player.getName() + " has left the match.");
+					
+				}
+				
+		}
+		else
+		{
+			
+			player.sendMessage(gold + pluginName + red + "You were not in the match.");
+		}
+		
+	}
+	
+	public void setMin(Player player, String min)
+	{
+		
+		try 
+		{
+			
+			int minimum = Integer.parseInt(min);
+			plugin.getConfig().set("RTD.Minimum", minimum);
+			plugin.saveConfig();
+			player.sendMessage(gold + pluginName + dgreen + "Minimum successfully set.");
+			
+		} catch (NumberFormatException e) {
+			
+			player.sendMessage(gold + pluginName + red + "You must enter a valid number!");
+		
+		}
 	}
 	
 	public Integer calculateRemaining()
