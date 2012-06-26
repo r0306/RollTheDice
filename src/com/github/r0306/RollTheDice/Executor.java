@@ -3,6 +3,7 @@ package com.github.r0306.RollTheDice;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -233,6 +234,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				
 				inMatch.add(player);
 				saveInventory(player);
+				saveExperience(player);
 				player.sendMessage(gold + pluginName + daqua + "You have joined the match.");
 				
 				if(calculateRemaining() >= 0)
@@ -261,6 +263,25 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		{
 			
 			player.sendMessage(gold + pluginName + red + "You are already in the match!");
+			
+		}
+		
+	}
+	
+	public void setMinKills(Player player, String kills)
+	{
+		
+		int killNum;
+		
+		try
+		{
+			
+			killNum = Integer.parseInt(kills);
+			plugin.getConfig().set("RTD.Kills", killNum);
+			
+		} catch (NumberFormatException e) {
+			
+			player.sendMessage(gold + pluginName + red + "You must enter a valid number!");
 			
 		}
 		
@@ -302,7 +323,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 	
 	}
 	
-	public void loadExperience(Player player)
+	public void restoreExperience(Player player)
 	{
 		
 		float exp = (float) getInventories().getDouble("Experience." + player.getName() + ".Exp");
@@ -378,15 +399,22 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		if (inMatch.contains(player))
 		{
 							
-				player.sendMessage(gold + pluginName + aqua + "You have left the match.");
-				inMatch.remove(player);
-				
+			player.sendMessage(gold + pluginName + aqua + "You have left the match.");
+			inMatch.remove(player);
+			restoreInventory(player);
+			restoreExperience(player);
+			
+			if (isStarted)
+			{
+			
 				for (Player p : inMatch)
 				{
 					
 					p.sendMessage(dgreen + player.getName() + " has left the match.");
 					
 				}
+			
+			}
 				
 		}
 		else
@@ -457,9 +485,9 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				   {
 					   
 					   player.sendMessage(gold + pluginName + aqua + "Match has started.");
-					   startMatch(player);
 					   
 				   }
+				   startMatch(inMatch);
 				   plugin.getServer().getScheduler().cancelTask(id);
 				   
 			   }
@@ -469,10 +497,34 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		
 	}
 	
-	public void startMatch(Player player)
+	public void startMatch(List<Player> players)
+	{
+
+		for (Player player : players)
+		{
+			
+			assignPlayer(player, Dice.roll());
+			
+		}
+		
+		int timeLimit = plugin.getConfig().getInt("RTD.Time-Limit") * 1200;
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+
+			   public void run() 
+			   {
+			  
+				   
+			   
+			   }
+			   
+		}, timeLimit);
+		
+	}
+	
+	public void assignPlayer(Player player, Integer side)
 	{
 		
-		
+		dice.put(player, side);
 		
 	}
 	
