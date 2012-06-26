@@ -135,6 +135,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 						setMin(player, args[1]);
 						
 					}
+				
 				}
 	
 			}
@@ -231,6 +232,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 			{
 				
 				inMatch.add(player);
+				saveInventory(player);
 				player.sendMessage(gold + pluginName + daqua + "You have joined the match.");
 				
 				if(calculateRemaining() >= 0)
@@ -270,6 +272,8 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		getInventories().set("Inventories." + player.getName() + ".Main", player.getInventory().getContents());
 		getInventories().set("Inventories." + player.getName() + ".Armor", player.getInventory().getArmorContents());
 		saveInventories();
+		player.getInventory().clear();
+		player.sendMessage(gold + pluginName + dgreen + "Your inventory has been saved and will be restored after the match");
 		
 	}
 	
@@ -283,6 +287,28 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		player.getInventory().setArmorContents(armor);
 		getInventories().set("Inventories." + player.getName(), null);
 		saveInventories();
+		player.sendMessage(gold + pluginName + dgreen + "Your inventory has been restored.");
+		
+	}
+	
+	public void saveExperience(Player player)
+	{
+		
+		float exp = player.getExp();
+		int level = player.getLevel();
+		getInventories().set("Experience." + player.getName() + ".Level", level);
+		getInventories().set("Experience." + player.getName() + ".Exp", exp);
+		saveInventories();
+	
+	}
+	
+	public void loadExperience(Player player)
+	{
+		
+		float exp = (float) getInventories().getDouble("Experience." + player.getName() + ".Exp");
+		int level = getInventories().getInt("Experience." + player.getName() + ".Level");
+		player.setLevel(level);
+		player.setExp(exp);
 		
 	}
 	
