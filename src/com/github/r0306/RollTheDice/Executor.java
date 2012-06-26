@@ -45,7 +45,34 @@ public class Executor implements CommandExecutor, Colors
 			else if (args.length == 1)
 			{
 				
-				helpPage(player);
+				if (args[0].equalsIgnoreCase("help"))
+				{
+					
+					helpPage(player);
+				
+				}
+				else if (args[0].equalsIgnoreCase("enable"))
+				{
+					
+					if (checkPerms(player, "rtd.configure"))
+					{
+						
+						enableRTD(player);
+					
+					}
+					
+				}
+				else if (args[0].equalsIgnoreCase("disable"))
+				{
+					
+					if (checkPerms(player, "rtd.configure"))
+					{
+						
+						disableRTD(player);
+						
+					}
+					
+				}
 				
 			}
 			else if (args.length == 2)
@@ -54,14 +81,18 @@ public class Executor implements CommandExecutor, Colors
 				if (args[0].equalsIgnoreCase("setworld"))
 				{
 					
-					setWorld(player, args[0]);
-				
+					if (checkPerms(player, "rtd.configure"))
+					{
+						
+						setWorld(player, args[1]);
+						
+					}
+					
 				}
-				
+	
 			}
 			
 		}
-		
 		
 		return true;
 	}
@@ -93,7 +124,7 @@ public class Executor implements CommandExecutor, Colors
 		if (Bukkit.getWorld(world) != null)
 		{
 			
-			plugin.getConfig().set("Default.World", world);
+			plugin.getConfig().set("RTD.World", world);
 			plugin.saveConfig();
 			player.sendMessage(gold + pluginName + dgreen + "Default world for match set to: " + yellow + world + dgreen + ".");
 			player.sendMessage(gold + pluginName + dgreen + "If a match is currently ongoing, changes will take place upon next match");
@@ -103,6 +134,41 @@ public class Executor implements CommandExecutor, Colors
 		{
 			
 			player.sendMessage("gold" + pluginName + red + "World does not exist. Check your spelling and try again.");
+			
+		}
+		
+	}
+	
+	public void disableRTD(Player player)
+	{
+		
+		if (plugin.getConfig().getBoolean("RTD.Enabled"))
+		{
+			
+			plugin.getConfig().set("RTD.Enabled", false);
+			plugin.saveConfig();
+			player.sendMessage(gold + pluginName + dgreen + "RTD matches are now disabled.");
+			player.sendMessage(gold + pluginName + dgreen +  "If a match is ongoing, the changes will take effect after the match ends.");
+			
+		}
+		else
+		{
+			
+			player.sendMessage(gold + pluginName + red + "RTD is already disabled!");
+			
+		}
+		
+	}
+	
+	public void enableRTD(Player player)
+	{
+		
+		if (!plugin.getConfig().getBoolean("RTD.Enabled"))
+		{
+			
+			plugin.getConfig().set("RTD.Enabled", true);
+			plugin.saveConfig();
+			player.sendMessage(gold + pluginName + dgreen + "RTD matches are now enabled.");			
 			
 		}
 		
