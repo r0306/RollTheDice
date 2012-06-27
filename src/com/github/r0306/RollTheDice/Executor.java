@@ -3,6 +3,8 @@ package com.github.r0306.RollTheDice;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -30,6 +32,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 	private int delay;
 	private int delaySeconds;
 	private int id;
+	private int stopId;
 	
 	private FileConfiguration playerInventories = null;
 	private File playerInventoryFile = null;
@@ -111,6 +114,30 @@ public class Executor extends Arena implements CommandExecutor, Colors
 					}
 					
 				}
+				else if (args[0].equalsIgnoreCase("kills"))
+				{
+					
+					getKills(player);
+					
+				}
+				else if (args[0].equalsIgnoreCase("wins"))
+				{
+					
+					getWins(player);
+					
+				}
+				else if (args[0].equalsIgnoreCase("leaderboard"))
+				{
+					
+					calculateLeaderBoard(player);
+					
+				}
+				else if (args[0].equalsIgnoreCase("list"))
+				{
+					
+					list(player);
+					
+				}
 				
 			}
 			else if (args.length == 2)
@@ -138,6 +165,28 @@ public class Executor extends Arena implements CommandExecutor, Colors
 					}
 				
 				}
+				else if (args[0].equalsIgnoreCase("setdelay"))
+				{
+					
+					if (checkPerms(player, "rtd.configure"))
+					{
+						
+						setDelay(player, args[1]);
+						
+					}
+					
+				}
+				else if (args[0].equalsIgnoreCase("settimelimit"))
+				{
+					
+					if (checkPerms(player, "rtd.configure"))
+					{
+						
+						setTimeLimit(player, args[1]);
+						
+					}
+					
+				}
 	
 			}
 			
@@ -149,8 +198,8 @@ public class Executor extends Arena implements CommandExecutor, Colors
 	public void mainPage(Player player)
 	{
 		
-		player.sendMessage("This server is running RollTheDice version" + version + ".");
-		player.sendMessage(gray + "For help, type " + dgray + "/rta help" + gray + ".");
+		player.sendMessage(daqua + "This server is running RollTheDice version " + yellow + version + ".");
+		player.sendMessage(gray + "For help, type " + purple + "/rtd help" + gray + ".");
 		
 	}
 	
@@ -160,13 +209,229 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		player.sendMessage(daqua + "Visit the wiki at: " + yellow + website + daqua + " for in-depth information.");
 		player.sendMessage(daqua + "List of commands:");
 		player.sendMessage(daqua + "------------------");
-		player.sendMessage(dgreen + "/dta" + white + " - " + dgreen + "Displays basic plugin information.");
-		player.sendMessage(dgreen + "/dta help" + white + " - " + dgreen + "Displays help page.");
-		player.sendMessage(dgreen + "/dta join" + white + " - " + dgreen + "Join the match if it hasn't started yet.");
+		player.sendMessage(dgreen + "/rtd" + white + " - " + aqua + "Displays basic plugin information.");
+		player.sendMessage(dgreen + "/rtd help" + white + " - " + aqua + "Displays help page.");
+		player.sendMessage(dgreen + "/rtd list" + white + " - " + aqua + "Check the players in the match.");
+		player.sendMessage(dgreen + "/rtd join" + white + " - " + aqua + "Join the match if it hasn't started yet.");
+		player.sendMessage(dgreen + "/rtd leave" + white + " - " + aqua + "Leave the ongoing match.");
+		player.sendMessage(dgreen + "/rtd wins" + white + " - " + aqua + "Check how many wins you have attained.");
+		player.sendMessage(dgreen + "/rtd kills" + white + " - " + aqua + "Check the number of players you have killed.");
+		player.sendMessage(dgreen + "/rtd leaderboard" + white + " - " + aqua + "Displays the top ranking players and their scores.");
+		
+		if (player.hasPermission("rtd.configure"))
+		{
+			
+			player.sendMessage(daqua + " ");
+			player.sendMessage(daqua + "Below is a list of admin commands:");
+			player.sendMessage(daqua + "------------------");
+			player.sendMessage(dgreen + "/rtd setworld <world>" + white + " - " + aqua + "Sets the world for which RTD will run in.");
+			player.sendMessage(dgreen + "/rtd enable" + white + " - " + aqua + "Enables RTD matches on the server.");
+			player.sendMessage(dgreen + "/rtd disable" + white + " - " + aqua + "Disables RTD matches on the server.");
+			player.sendMessage(dgreen + "/rtd setmin <kills>" + white + " - " + aqua + "Set the minimum number of players needed to start a match.");
+			player.sendMessage(dgreen + "/rtd setdelay <seconds>" + white + " - " + aqua + "Number of seconds to wait before starting when the minimum number of players is met.");
+			player.sendMessage(dgreen + "/rtd settimelimit <minutes>" + white + " - " + aqua + "Time to wait before ending the ongoing match.");
+			
+		}
+		
+	}
+	
+	public void getKills(Player player)
+	{
+		
+		int kills = plugin.getConfig().getInt("Data." + player.getName() + ".Kills");
+		player.sendMessage(gold + pluginName + daqua + "You have " + yellow + kills + daqua + " kills.");
+		
+	}
+	
+	public void list(Player player)
+	{
+		
+		if (isStarted)
+		{
+		
+			if (inMatch.size() != 0)
+			{
+				
+				player.sendMessage(gold + pluginName + dgreen + "Players in the match:");
+				player.sendMessage(gold + pluginName + dgreen + "----------------------------------------");
+				int counter = 1;
+				
+				for (Player p : inMatch)
+				{
+					
+					player.sendMessage(gold + pluginName + yellow + counter + ". " + green + p.getName());
+					counter++;
+					
+				}
+				
+			}
+			else
+			{
+				
+				player.sendMessage(gold + pluginName + red + "There are no players in the match right now.");
+				
+			}
+		
+		}
+		else
+		{
+			
+			player.sendMessage(gold + pluginName + red + "A match is not in progress!");
+			
+		}
+	
+	}
+	
+	public void setDelay(Player player, String delay)
+	{
+		
+		try
+		{
+			
+			int time = Integer.parseInt(delay);
+			plugin.getConfig().set("RTD.Delay", time);
+			plugin.saveConfig();
+			player.sendMessage(gold + pluginName + daqua + "Delay time successfully set.");
+			player.sendMessage(gold + pluginName + dgreen +  "If a match is ongoing, the changes will take effect after the match ends.");
+			
+		} catch (NumberFormatException e) {
+			
+			player.sendMessage(gold + pluginName + red + "You must enter a valid number!");
+			
+		}
 		
 		
 	}
 	
+	public void setTimeLimit(Player player, String limit)
+	{
+		
+		try
+		{
+			
+			int time = Integer.parseInt(limit);
+			plugin.getConfig().set("RTD.Time-Limit", time);
+			plugin.saveConfig();
+			player.sendMessage(gold + pluginName + daqua + "Time limit successfully set.");
+			player.sendMessage(gold + pluginName + dgreen +  "If a match is ongoing, the changes will take effect after the match ends.");
+			
+		} catch (NumberFormatException e) {
+			
+			player.sendMessage(gold + pluginName + red + "You must enter a valid number!");
+			
+		}
+		
+	}
+	
+	public void calculateLeaderBoard(Player player)
+	{
+		
+		List<String> players = plugin.getConfig().getStringList("Players.List");
+		int highest = 0;
+		HashMap<String, Integer> topWins = new HashMap<String, Integer>();
+		HashMap<String, Integer> topKills = new HashMap<String, Integer>();
+		List<String> list = new ArrayList<String>();
+		String name = "";
+		
+		for (int l = 0; l < 10; l ++)
+		{
+			
+			if (topWins.size() <= players.size())
+			{
+				
+				for (String p : players)
+				{
+					
+					int i = plugin.getConfig().getInt("Data." + p + ".Wins");
+					
+					if (highest < i && i != 0)
+					{
+						
+						name = p;
+						highest = i;
+						
+					}
+					
+				}
+				
+				topWins.put(name, highest);
+				players.remove(name);
+				list.add(name);
+				name = "";
+				highest = 0;
+			
+			}
+			
+		}
+		
+		name = "";
+		highest = 0;
+		List<String> players1 = plugin.getConfig().getStringList("Players.List");
+		List<String> list1 = new ArrayList<String>();
+		
+		for (int l = 0; l < 10; l ++)
+		{
+			
+			if (topKills.size() <= players1.size())
+			{
+				
+				for (String p : players1)
+				{
+					
+					int i = plugin.getConfig().getInt("Data." + p + ".Kills");
+					
+					if (highest < i && i != 0)
+					{
+						
+						name = p;
+						highest = i;
+						
+					}
+					
+				}
+				
+				topKills.put(name, highest);
+				players1.remove(name);
+				list1.add(name);
+				name = "";
+				highest = 0;
+			
+			}
+			
+		}
+		
+		player.sendMessage(gold + pluginName + daqua + "LeaderBoards:");
+		player.sendMessage(daqua + "////////////////////////////////////////////////////////////////////////////");
+		player.sendMessage(gold + "Wins:");
+		
+		for (int i = 0; i < topWins.size(); i ++)
+		{
+			
+			player.sendMessage(yellow + "" + i + "." + green + players.indexOf(i) + " - " + topWins.get(players.indexOf(i)) + " wins");
+		
+		}
+		
+		player.sendMessage(" ");
+		player.sendMessage(gold + "Kills:");
+		
+		for (int i = 0; i < topKills.size(); i ++)
+		{
+			
+			player.sendMessage(yellow + "" + i + "." + green + players1.indexOf(i) + " - " + topKills.get(players1.indexOf(i)) + " kills");
+		
+		}
+		
+		player.sendMessage(daqua + "////////////////////////////////////////////////////////////////////////////");
+		
+	}
+	
+	public void getWins(Player player)
+	{
+		
+		int wins = plugin.getConfig().getInt("Data." + player.getName() + ".Wins");
+		player.sendMessage(gold + pluginName + daqua + "You have " + yellow + wins + daqua + " wins.");		
+		
+	}
 	public void setWorld(Player player, String world)
 	{
 		
@@ -237,7 +502,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				saveExperience(player);
 				player.sendMessage(gold + pluginName + daqua + "You have joined the match.");
 				
-				if(calculateRemaining() >= 0)
+				if(calculateRemaining() > 0)
 				{
 					
 					player.sendMessage(gold + pluginName + daqua + calculateRemaining() + " more players are needed to start the match.");
@@ -434,7 +699,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 			int minimum = Integer.parseInt(min);
 			plugin.getConfig().set("RTD.Minimum", minimum);
 			plugin.saveConfig();
-			player.sendMessage(gold + pluginName + dgreen + "Minimum successfully set.");
+			player.sendMessage(gold + pluginName + dgreen + "Minimum players successfully set.");
 			
 		} catch (NumberFormatException e) {
 			
@@ -456,10 +721,9 @@ public class Executor extends Arena implements CommandExecutor, Colors
 	public void startCountDown()
 	{
 		
-		delay = plugin.getConfig().getInt("RTD.Delay") * 20;
 		delaySeconds = plugin.getConfig().getInt("RTD.Delay");
-		Bukkit.broadcastMessage(gold + pluginName + daqua + "Match will start in " + delaySeconds + " seconds. Type " + purple + "/rta join" + daqua + " to join!");
-		delaySeconds--;
+		Bukkit.broadcastMessage(gold + pluginName + daqua + "Match will start in " + delaySeconds + " seconds. Type " + purple + "/rtd join" + daqua + " to join!");
+		delaySeconds = delaySeconds - 10;
 		id = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 
 		   public void run() 
@@ -471,29 +735,48 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				   for (Player player : inMatch)
 				   {
 					   
-					   player.sendMessage(gold + pluginName + dgreen + "Match will begin in " + delay + " seconds.");
-					   delaySeconds--;
+					   player.sendMessage(gold + pluginName + daqua + "Match will begin in " + delaySeconds + " seconds.");
 					   
 				   }
+				   
+				   delaySeconds = delaySeconds - 10;
 			   
 			   }
 			   else
 			   {
 				   
-				   isStarted = true;
-				   for (Player player : inMatch)
+				   if (inMatch.size() > 1)
 				   {
 					   
-					   player.sendMessage(gold + pluginName + aqua + "Match has started.");
+					   isStarted = true;
+					   for (Player player : inMatch)
+					   {
+						   
+						   player.sendMessage(gold + pluginName + aqua + "Match has started.");
+						   
+					   }
+					   startMatch(inMatch);
+					   plugin.getServer().getScheduler().cancelTask(id);
 					   
 				   }
-				   startMatch(inMatch);
-				   plugin.getServer().getScheduler().cancelTask(id);
+				   else
+				   {
+					   
+					   if (inMatch.size() == 1)
+					   {
+						   
+						   inMatch.get(0).sendMessage(gold + pluginName + daqua + "There are not enough players. Match has been cancelled.");
+						   leaveMatch(inMatch.get(0));
+						   plugin.getServer().getScheduler().cancelTask(id);
+						   
+					   }
+					   
+				   }
 				   
 			   }
 			   
 		   }
-		}, delay, delay);
+		}, 200L, 200L);
 		
 	}
 	
@@ -508,16 +791,148 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		}
 		
 		int timeLimit = plugin.getConfig().getInt("RTD.Time-Limit") * 1200;
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+		stopId = plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 
 			   public void run() 
 			   {
 			  
-				   
+				   stopMatch(true, null);
 			   
 			   }
 			   
 		}, timeLimit);
+		
+	}
+	
+	public void checkWinner()
+	{
+		
+		int highest = 0;
+		List<Player> winners = new ArrayList<Player>();
+		String winnerList = "";
+		
+		for (Player player : kills.keySet())
+		{
+			
+			int pKills = kills.get(player);
+			if (highest < pKills)
+			{
+				
+				highest = pKills;
+				winners.clear();
+				winners.add(player);
+				
+			}
+			
+		}
+		
+		for (Player player : winners)
+		{
+			
+			if (winners.indexOf(player) != winners.size() - 1)
+			{
+				
+				winnerList += yellow + player.getName() + dgreen + ",";
+			
+			}
+			else
+			{
+				
+				winnerList += yellow + player.getName();
+				
+			}
+			
+		}
+		
+		updateScores(winners);
+		
+		Bukkit.broadcastMessage(gold + pluginName + daqua + "The match has ended!");
+		
+		if (highest == 0)
+		{
+			
+			Bukkit.broadcastMessage(gold + pluginName + dgreen + "There was no winner that round.");
+			Bukkit.broadcastMessage(gold + pluginName + daqua + "Want to be the next winner? Type " + purple + "/rtd join" + daqua + " now!");
+			
+		}
+		else
+		{
+		
+			if (winners.size() == 1)
+			{
+			
+				Bukkit.broadcastMessage(gold + pluginName + dgreen + "The winner of the match is " + yellow + winners.get(0) + dgreen + " with " + yellow + highest + dgreen + " kills.");
+			
+			}
+			else
+			{
+				
+				Bukkit.broadcastMessage(gold + pluginName + dgreen + "The winners are: " + winnerList + dgreen + ". All tied at a score of " + yellow + highest + dgreen + ".");
+				
+			}
+			
+			Bukkit.broadcastMessage(gold + pluginName + daqua + "Want to beat their score? Type " + purple + "/rtd join" + daqua + " now!");
+			
+		}
+	
+	}
+	
+	public void updateScores(List<Player> winners)
+	{
+		
+		for (Player player : inMatch)
+		{
+			
+			plugin.getConfig().set("Data." + player.getName() + ".Kills", plugin.getConfig().getInt("Data." + player.getName() + ".Kills" + kills.get(player)));
+			
+			if (winners.contains(player))
+			{
+				
+				plugin.getConfig().set("Data." + player.getName() + ".Wins", plugin.getConfig().getInt("Data." + player.getName() + ".Wins" + 1));
+				
+			}
+			
+		}
+		
+		plugin.saveConfig();
+		
+	}
+	
+	public void stopMatch(boolean limitReached, Player p)
+	{
+		
+		if (limitReached)
+		{
+			
+			Bukkit.broadcastMessage(gold + pluginName + daqua + "The time limit was reached.");
+			checkWinner();
+			
+		}
+		
+		else
+		{
+			
+			plugin.getServer().getScheduler().cancelTask(stopId);
+			broadcastWinner(p);
+			
+		}
+		
+		for (Player player : inMatch)
+		{
+			
+			leaveMatch(player);
+			
+		}
+		
+		clearAllFields();
+			
+	}
+
+	public void broadcastWinner(Player player)
+	{
+	
+		Bukkit.broadcastMessage(gold + pluginName + yellow + player.getName() + dgreen + " has won the match with a total of " + yellow + kills.get(player) + dgreen + " kills.");
+		Bukkit.broadcastMessage(gold + pluginName + daqua + "Want to beat their score? Type " + purple + "/rtd join" + daqua + " now!");
 		
 	}
 	

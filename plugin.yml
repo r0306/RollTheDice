@@ -1,3 +1,59 @@
 name: RollTheDice
 main: com.github.r0306.RollTheDice.RollTheDice
 version: 1.0.0
+website: http://github.com/r0306
+commands:
+  rtd:
+    description: Shows plugin information.
+    usage: /<command>
+  rtd help:
+    description: Shows help.
+    usage: /<command>
+  rtd list:
+    description: Check the players in the match.
+    usage: /<command>
+  rtd join:
+    description: Join the match if it hasn't started yet.
+    usage: /<command>
+  rtd leave:
+    description: Leave the ongoing match.
+    usage: /<command>
+  rtd wins:
+    description: Check how many wins you have attained.
+    usage: /<command>
+  rtd kills:
+    description: Check the number of players you have killed.
+    usage: /<command>
+  rtd leaderboard:
+    description: Displays the top ranking players and their scores.
+    usage: /<command>
+  rtd setworld <world>:
+    description: Sets the world for which RTD will run in.
+    usage: /<command>
+  rtd enable:
+    description: Enables RTD matches on the server.
+    usage: /<command>
+  rtd disable:
+    description: Disables RTD matches on the server.
+    usage: /<command>
+  rtd setmin <kills>:
+    description: Set the minimum number of players needed to start a match.
+    usage: /<command>
+  rtd setdelay <seconds>:
+    description: Number of seconds to wait before starting when the minimum number of players is met.
+    usage: /<command>
+  rtd settimelimit <minutes>:
+    description: Time to wait before ending the ongoing match.
+    usage: /<command>
+permissions:
+    rtd.*:
+        description: Gives access to all RTD related permissions and commands.
+        children:
+            rtd.configure: true
+            rtd.play: true
+    rtd.play:
+        description: Players who have this can join RTD matches.
+        default: not op
+    rtd.configure:
+        description: Allows users to configure the plugin config through in-game commands.
+        default: op

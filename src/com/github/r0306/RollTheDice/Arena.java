@@ -14,4 +14,14 @@ public class Arena
 	public static HashMap<Player, Integer> dice = new HashMap<Player, Integer>();
 	public static HashMap<Player, Integer> kills = new HashMap<Player, Integer>();
 
+	public void clearAllFields()
+	{
+		
+		inMatch.clear();
+		isStarted = false;
+		dice.clear();
+		kills.clear();
+		
+	}
+	
 }
