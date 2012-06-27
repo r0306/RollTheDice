@@ -17,6 +17,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.r0306.RollTheDice.DiceHandlers.Dice;
+import com.github.r0306.RollTheDice.Util.Colors;
+
 public class Executor extends Arena implements CommandExecutor, Colors
 {
 	
