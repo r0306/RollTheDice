@@ -46,12 +46,10 @@ public class PlayerHandlers extends Executor implements Listener
 	{
 		
 		Player player = event.getPlayer();
-		
+
 		List<String> playerNames = plugin.getConfig().getStringList("Players.List");
 		LinkedList<String> test = new LinkedList<String>();
 		
-		Disguise d = new Disguise(10, test , MobType.Cow);
-		Disguise.disguiseDB.put(player.getName(), d);
 		
 		if (!playerNames.contains(player.getName()))
 		{

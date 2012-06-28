@@ -40,11 +40,17 @@ public class Disguise
 	  private int encposY;
 	  private int encposZ;
 	  private boolean firstpos = true;
+	  protected int nextID = -1947483648;
 	  
 	  public static ConcurrentHashMap<String, Disguise> disguiseDB = new ConcurrentHashMap<String, Disguise>();
 	  public LinkedList<String> disguiseQuitters = new LinkedList<String>();
 	  public static ConcurrentHashMap<Integer, String> disguiseIDs = new ConcurrentHashMap<Integer, String>();
 	  public HashMap<String, String> customNick = new HashMap<String, String>();
+	  
+	  public Disguise()
+	  {
+		  
+	  }
 	  
 	  public Disguise(int entityID, LinkedList<String> data, MobType mob)
 	  {
@@ -54,6 +60,13 @@ public class Disguise
 
 	    initializeData();
 
+	  }
+	  
+	  public int getNextAvailableID()
+	  {
+	    
+		  return this.nextID++;
+	  
 	  }
 
 	  public Disguise(int entityID, String data, MobType mob)
@@ -171,7 +184,7 @@ public class Disguise
 		        {
 		        	
 		        	sendPacketToWorld(disguised.getWorld(), new Packet[] { packet });
-		        
+		        	        
 		        }
 		        
 		        else
@@ -403,6 +416,30 @@ public class Disguise
 		  }
 		  
 	  }
+	  
+	  public void disguisePlayer(Player player, Disguise disguise)
+	  {
+		    
+		  if (disguise.isPlayer())
+		  {
+		   
+			  if ((!this.customNick.containsKey(player.getName())) && (!player.getName().equals(player.getDisplayName()))) 
+			  {
+		       
+				  this.customNick.put(player.getName(), player.getDisplayName());
+		      
+			  }
+		      
+			  player.setDisplayName((String)disguise.data.getFirst());
+		    
+		  }
+		 
+		  disguiseDB.put(player.getName(), disguise); 
+		  disguiseIDs.put(Integer.valueOf(disguise.entityID), player.getName());
+		    
+		  sendDisguise(player, null);
+		 
+	  }
 	    
 	  public void sendUnDisguise(Player disguised, Player observer)
 	  {
@@ -553,10 +590,9 @@ public class Disguise
 		    	  {
 		          
 		    		  observer.hidePlayer(disguised);
+			    	  ((CraftPlayer)observer).getHandle().netServerHandler.sendPacket(packet);
 		    		  
 		    	  }
-		        
-		    	  ((CraftPlayer)observer).getHandle().netServerHandler.sendPacket(packet);
 		        
 		      }
 		     

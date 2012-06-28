@@ -28,7 +28,7 @@ public class RollTheDice extends JavaPlugin implements Colors
     	myExecutor = new Executor(this);
 		getCommand("rtd").setExecutor(myExecutor);
 		getServer().getPluginManager().registerEvents(new PlayerHandlers(this), this);
-		getServer().getPluginManager().registerEvents(new DisguiseListeners(0, null, null), this);
+		getServer().getPluginManager().registerEvents(new DisguiseListeners(), this);
 		System.out.println("RollTheDice version [" + getDescription().getVersion() + "] loaded.");
 		
 	}

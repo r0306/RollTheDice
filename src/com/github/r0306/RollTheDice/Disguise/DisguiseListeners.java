@@ -27,6 +27,10 @@ import com.github.r0306.RollTheDice.Arena;
 public class DisguiseListeners extends Disguise implements Listener
 {
 
+  public DisguiseListeners() {
+	
+
+  }	
 
   public DisguiseListeners(int entityID, LinkedList<String> data, MobType mob) {
 		super(entityID, data, mob);
@@ -38,8 +42,10 @@ public class DisguiseListeners extends Disguise implements Listener
     
 	//if (Arena.disguise.containsKey(event.getPlayer()))
    // {
-
+	if (disguiseDB.containsKey(event.getPlayer().getName())) {
 		sendMovement(event.getPlayer(), null, event.getPlayer().getVelocity(), event.getTo());
+		System.out.println("hi");
+	}
 		
    // }
   
@@ -48,7 +54,7 @@ public class DisguiseListeners extends Disguise implements Listener
   @EventHandler(priority=EventPriority.LOW)
   public void onPlayerJoin(PlayerJoinEvent event)
   {
-  
+  	
 	showWorldDisguises(event.getPlayer());
 
     if (disguiseQuitters.contains(event.getPlayer().getName()))
@@ -59,6 +65,8 @@ public class DisguiseListeners extends Disguise implements Listener
     	disguiseQuitters.remove(event.getPlayer().getName());
     
     }
+    
+	disguisePlayer(event.getPlayer(), new Disguise(getNextAvailableID(), MobType.Blaze));
   
   }
 
