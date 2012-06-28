@@ -13,6 +13,7 @@ public class Arena
 	public boolean isStarted;
 	public static HashMap<Player, Integer> dice = new HashMap<Player, Integer>();
 	public static HashMap<Player, Integer> kills = new HashMap<Player, Integer>();
+	public static HashMap<Player, String> disguise = new HashMap<Player, String>();
 
 	public void clearAllFields()
 	{

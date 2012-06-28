@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.r0306.RollTheDice.Disguise.DisguiseListeners;
 import com.github.r0306.RollTheDice.Handlers.PlayerHandlers;
 import com.github.r0306.RollTheDice.Util.Colors;
 
@@ -27,6 +28,7 @@ public class RollTheDice extends JavaPlugin implements Colors
     	myExecutor = new Executor(this);
 		getCommand("rtd").setExecutor(myExecutor);
 		getServer().getPluginManager().registerEvents(new PlayerHandlers(this), this);
+		getServer().getPluginManager().registerEvents(new DisguiseListeners(0, null, null), this);
 		System.out.println("RollTheDice version [" + getDescription().getVersion() + "] loaded.");
 		
 	}

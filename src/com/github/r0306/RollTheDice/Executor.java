@@ -737,7 +737,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				   
 				   for (Player player : inMatch)
 				   {
-					   
+					 
 					   player.sendMessage(gold + pluginName + daqua + "Match will begin in " + delaySeconds + " seconds.");
 					   
 				   }

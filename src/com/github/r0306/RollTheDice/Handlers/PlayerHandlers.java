@@ -1,7 +1,9 @@
 package com.github.r0306.RollTheDice.Handlers;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +13,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.github.r0306.RollTheDice.Executor;
 import com.github.r0306.RollTheDice.RollTheDice;
+import com.github.r0306.RollTheDice.Disguise.Disguise;
+import com.github.r0306.RollTheDice.Disguise.Disguise.MobType;
 
 public class PlayerHandlers extends Executor implements Listener 
 {
@@ -44,6 +48,10 @@ public class PlayerHandlers extends Executor implements Listener
 		Player player = event.getPlayer();
 		
 		List<String> playerNames = plugin.getConfig().getStringList("Players.List");
+		LinkedList<String> test = new LinkedList<String>();
+		
+		Disguise d = new Disguise(10, test , MobType.Cow);
+		Disguise.disguiseDB.put(player.getName(), d);
 		
 		if (!playerNames.contains(player.getName()))
 		{

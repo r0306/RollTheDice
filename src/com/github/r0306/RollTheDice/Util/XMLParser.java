@@ -44,10 +44,10 @@ public class XMLParser extends Util
 		
 	}
 	
-	public static String getIntroMessage(Integer i) throws SAXException, IOException, ParserConfigurationException
+	public static String getName(Integer i) throws SAXException, IOException, ParserConfigurationException
 	{
 		
-		return getValue("Intro", getSide(i));
+		return getValue("Name", getSide(i));
 		
 	}
 	
