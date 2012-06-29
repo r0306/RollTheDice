@@ -3,17 +3,25 @@ package com.github.r0306.RollTheDice.Disguise;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.server.Packet;
+import net.minecraft.server.Packet18ArmAnimation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Server;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+import org.bukkit.event.*;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -44,7 +52,6 @@ public class DisguiseListeners extends Disguise implements Listener
    // {
 	if (disguiseDB.containsKey(event.getPlayer().getName())) {
 		sendMovement(event.getPlayer(), null, event.getPlayer().getVelocity(), event.getTo());
-		System.out.println("hi");
 	}
 		
    // }
@@ -123,6 +130,48 @@ public class DisguiseListeners extends Disguise implements Listener
     }
   }
 
+  @EventHandler
+  public void onDamage(EntityDamageEvent event) {
+    if ((!event.isCancelled()) && 
+      ((event.getEntity() instanceof Player))) {
+      Player player = (Player)event.getEntity();
+      if (disguiseDB.containsKey(player.getName()))
+      {
+        Packet18ArmAnimation packet = new Packet18ArmAnimation();
+        packet.a = ((Disguise)disguiseDB.get(player.getName())).entityID;
+        packet.b = 2;
+        sendPacketToWorld(player.getWorld(), new Packet[] { packet });
+      }
+    }
+  }
+  
+  @EventHandler
+  public void onDamagee(PlayerInteractEvent event) {
+ //   if ((!event.isCancelled())) {
+	  System.out.println(event.getAction().toString());
+      Player player = (Player)event.getPlayer();
+      Player p = null;
+      if (event.getAction() == Action.LEFT_CLICK_AIR) {
+    	  System.out.println("ll");
+    	  return;
+      } else {
+    	  System.out.println(event.getAction().toString());
+    	  return;
+      }
+  }
+ /*     
+      if (disguiseDB.containsKey(p.getName()))
+      {
+        Packet18ArmAnimation packet = new Packet18ArmAnimation();
+        packet.a = ((Disguise)disguiseDB.get(p.getName())).entityID;
+        packet.b = 2;
+        sendPacketToWorld(p.getWorld(), new Packet[] { packet });
+      }
+    }
+    */
+//  }
+  
+  
   @EventHandler
   public void onPickup(PlayerPickupItemEvent event)
   {
