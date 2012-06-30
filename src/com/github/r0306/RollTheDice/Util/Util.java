@@ -1,5 +1,7 @@
 package com.github.r0306.RollTheDice.Util;
 
+import java.io.InputStream;
+
 import org.bukkit.ChatColor;
 
 public class Util
@@ -12,13 +14,13 @@ public class Util
 		
 	}
 	
-	public static String toString(Integer i)
+	public  String toString(Integer i)
 	{
-		
+
 		return "_" + Integer.toString(i);
 		
 	}
-	
+		
 	public static String colorizeText(String string)
 	{
       

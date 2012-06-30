@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.xml.sax.SAXException;
 
 import com.github.r0306.RollTheDice.DiceHandlers.Dice;
+import com.github.r0306.RollTheDice.Storage.XMLAccessor;
 import com.github.r0306.RollTheDice.Util.Colors;
 import com.github.r0306.RollTheDice.Util.XMLParser;
 
@@ -141,7 +142,8 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				}
 				else if (args[0].equalsIgnoreCase("wins"))
 				{
-					
+					XMLAccessor xl = new XMLAccessor();
+					System.out.println(xl.getXML() == null);
 					getWins(player);
 					
 				}

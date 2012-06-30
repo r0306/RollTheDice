@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.print.attribute.standard.Sides;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,8 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.github.r0306.RollTheDice.RollTheDice;
-import com.github.r0306.RollTheDice.Storage.Test;
+import com.github.r0306.RollTheDice.Storage.XMLAccessor;
 
 public class XMLParser extends Util
 {
@@ -25,8 +23,7 @@ public class XMLParser extends Util
 	public static Document parseXML() throws SAXException, IOException, ParserConfigurationException
 	{
 		
-		//InputStream input = XMLParser.class.getResourceAsStream("/lol.txt");
-		File input = new File("C:\\Users\\MRT253\\Downloads\\Server\\plugins\\RollTheDice\\Sides.xml");
+		InputStream input = XMLAccessor.getXML();
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(input);
