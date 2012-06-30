@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,9 +18,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.xml.sax.SAXException;
 
 import com.github.r0306.RollTheDice.DiceHandlers.Dice;
 import com.github.r0306.RollTheDice.Util.Colors;
+import com.github.r0306.RollTheDice.Util.XMLParser;
 
 public class Executor extends Arena implements CommandExecutor, Colors
 {
@@ -121,6 +125,18 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				{
 					
 					getKills(player);
+					try {
+						System.out.println(XMLParser.getName(1));
+					} catch (SAXException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ParserConfigurationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
 				}
 				else if (args[0].equalsIgnoreCase("wins"))

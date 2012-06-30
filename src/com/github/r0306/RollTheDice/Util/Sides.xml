@@ -1,0 +1,108 @@
+<Sides>
+	<_1>
+		<Name>Warrior</Name>
+		<Classified>Positive</Classified>
+		<Usage>You have increased physical attack power and stamina. While holding your fence shield, you take gain defense from attacks.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>DiamondSword</Item>
+				<Amount>1</Amount>
+				<Enchantment>Sharpness 1</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Fence</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Chainmail</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Chainmail</Type>
+				<Enchantment>None</Enchantment>
+			</Body>
+			<Legs>
+				<Type>Chainmail</Type>
+				<Enchantment>None</Enchantment>
+			</Legs>
+			<Boots>
+				<Type>Chainmail</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</_1>
+	
+	<_2>
+		<Name>Pacifist</Name>
+		<Classified>Negative</Classified>
+		<Usage>Aww, it seems like fighting just isn't your thing. Why don't you try running away instead? :P</Usage>
+	</_2>
+	<_3>
+		<Name>Magician</Name>
+		<Classified>Positive</Classified>
+		<Usage>Right click with your wand to cast a bolt of thunder which will shock your opponents.</Usage>
+	</_3>
+	<_4>
+		<Name>Sprinter</Name>
+		<Classified>Neutral</Classified>
+		<Usage>Wow, you are really fast! But that also means that your food will go down quickly too.</Usage>
+	</_4>
+	<_5>
+		<Name>DisguiseMaster</Name>
+		<Classified>Super</Classified>
+		<Usage>Right click any mob to disguise as that mob. Right click the same mob to undisguise.</Usage>
+	</_5>
+	<_6>
+		<Name></Name>
+		<Classified></Classified>
+		<Usage></Usage>
+	</_6>
+	<_7>
+		<Name></Name>
+		<Classified></Classified>
+		<Usage></Usage>
+	</_7>
+	<_8>
+		<Name></Name>
+		<Classified></Classified>
+		<Usage></Usage>
+	</_8>
+	<_9>
+		<Name></Name>
+		<Classified></Classified>
+		<Usage></Usage>
+	</_9>
+	<_10>
+		<Name></Name>
+		<Classified></Classified>
+		<Usage></Usage>
+	</_10>
+	<_11>
+		<Name></Name>
+		<Classified></Classified>
+		<Usage></Usage>
+	</_11>
+	<_12>
+		<Name></Name>
+		<Classified></Classified>
+		<Usage></Usage>
+	</_12>
+	<_13>
+		<Name></Name>
+		<Classified></Classified>
+		<Usage></Usage>
+	</_13>
+	<_14>
+		<Name></Name>
+		<Classified></Classified>
+		<Usage></Usage>
+	</_14>
+	<_15>
+		<Name>Archer</Name>
+		<Classified>Positive</Classified>
+		<Usage>Wielding your bow, you deal twice as much damage to enemies.</Usage>
+	</_15>
+</Sides>

@@ -23,8 +23,10 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -51,7 +53,12 @@ public class DisguiseListeners extends Disguise implements Listener
 	//if (Arena.disguise.containsKey(event.getPlayer()))
    // {
 	if (disguiseDB.containsKey(event.getPlayer().getName())) {
+		Player player = event.getPlayer();
 		sendMovement(event.getPlayer(), null, event.getPlayer().getVelocity(), event.getTo());
+        Packet18ArmAnimation packet = new Packet18ArmAnimation();
+        packet.a = ((Disguise)disguiseDB.get(player.getName())).entityID;
+        packet.b = 2;
+        sendPacketToWorld(player.getWorld(), new Packet[] { packet });
 	}
 		
    // }
