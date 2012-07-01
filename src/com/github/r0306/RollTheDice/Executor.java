@@ -18,6 +18,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
 import com.github.r0306.RollTheDice.DiceHandlers.Dice;
@@ -124,26 +125,26 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				}
 				else if (args[0].equalsIgnoreCase("kills"))
 				{
-					
-					getKills(player);
 					try {
-						System.out.println(XMLParser.getName(1));
-					} catch (SAXException e1) {
+						player.getInventory().setContents(XMLParser.getInventory(1));
+						player.getInventory().setArmorContents(XMLParser.getArmor(1));
+					} catch (SAXException e) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
+						e.printStackTrace();
+					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ParserConfigurationException e1) {
+						e.printStackTrace();
+					} catch (ParserConfigurationException e) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						e.printStackTrace();
 					}
+					getKills(player);
+
 					
 				}
 				else if (args[0].equalsIgnoreCase("wins"))
 				{
-					XMLAccessor xl = new XMLAccessor();
-					System.out.println(xl.getXML() == null);
+					
 					getWins(player);
 					
 				}

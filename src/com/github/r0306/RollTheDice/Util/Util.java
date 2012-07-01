@@ -14,10 +14,10 @@ public class Util
 		
 	}
 	
-	public  String toString(Integer i)
+	public static  String toString(Integer i)
 	{
 
-		return "_" + Integer.toString(i);
+		return Integer.toString(i);
 		
 	}
 		

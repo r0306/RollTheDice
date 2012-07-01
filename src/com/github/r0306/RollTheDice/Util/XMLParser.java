@@ -3,12 +3,16 @@ package com.github.r0306.RollTheDice.Util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,20 +27,21 @@ public class XMLParser extends Util
 	public static Document parseXML() throws SAXException, IOException, ParserConfigurationException
 	{
 		
-		InputStream input = XMLAccessor.getXML();
+		XMLAccessor xml = new XMLAccessor();
+		InputStream input = xml.getXML();
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(input);
 		doc.getDocumentElement().normalize();
-		
+
 		return doc;
 		
 	}
 	
 	public static NodeList getSides() throws SAXException, IOException, ParserConfigurationException
 	{
-		System.out.println(parseXML().getElementsByTagName("Sides").item(0).getChildNodes().item(1).getChildNodes().item(1).getNodeValue());
-		return parseXML().getElementsByTagName("Sides").item(0).getChildNodes();
+
+		return parseXML().getElementsByTagName("Side");
 		
 	}
 	
@@ -47,59 +52,250 @@ public class XMLParser extends Util
 		
 	}
 	
-	public static ItemStack[] getInventory(Integer i) throws SAXException, IOException, ParserConfigurationException
+	public static NodeList getArmorFromXML(Integer i) throws SAXException, IOException, ParserConfigurationException
 	{
 		
-		for (int l = 0; l < getInventoryFromXML(i).getLength(); l ++)
+		return getSide(i).getElementsByTagName("Armor");
+		
+	}
+	
+	public static NodeList getItemStacks(Integer i) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		return getInventoryElement(i).getElementsByTagName("ItemStack");
+		
+	}
+	
+	public static NodeList getHelmet(Integer i) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		return getArmorElement(i).getElementsByTagName("Head");
+		
+	}
+	
+	public static NodeList getChestpiece(Integer i) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		return getArmorElement(i).getElementsByTagName("Body");
+		
+	}
+	
+	public static NodeList getLeggings(Integer i) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		return getArmorElement(i).getElementsByTagName("Legs");
+		
+	}
+	
+	public static NodeList getBoots(Integer i) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		return getArmorElement(i).getElementsByTagName("Boots");
+		
+	}
+	
+	public static ItemStack[] getInventory(Integer i) throws SAXException, IOException, ParserConfigurationException
+	{
+	
+		ItemStack[] items = new ItemStack[getItemStacks(i).getLength()];
+		int itemCounter = 0;
+		
+		for (int l = 0; l < getItemStacks(i).getLength(); l ++)
 		{
 			
+			Material item = StringToItemStack.toMaterial(getValueOfItemStack("Item", i, l));
+			int amount = toInt(getValueOfItemStack("Amount", i, l));
+			ItemStack itemstack = new ItemStack(item, amount);
+
+			if (getEnchantment(i, l) != null)
+			{
 			
+				itemstack.addEnchantment(getEnchantment(i, l), getEnchantmentLevel(i, l));
+				
+			}
+			
+			items[itemCounter] = itemstack;
+			itemCounter++;
+		
+		}
+		
+		return items;
+		
+	}
+	
+	public static ItemStack[] getArmor(Integer i) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+		
+		ItemStack[] armor = new ItemStack[3];
+
+		Material headType = StringToItemStack.toMaterial(getValueOfArmor("Helmet", "Type", i));
+		Material chestType = StringToItemStack.toMaterial(getValueOfArmor("Body", "Type", i));
+		Material legType = StringToItemStack.toMaterial(getValueOfArmor("Legs", "Type", i));
+		Material footType = StringToItemStack.toMaterial(getValueOfArmor("Boots", "Type", i));
+		
+		ItemStack headItem = new ItemStack(headType, 1);
+		ItemStack chestItem = new ItemStack(chestType, 1);
+		ItemStack legItem = new ItemStack(legType, 1);
+		ItemStack footItem = new ItemStack(footType, 1);
+		
+		armor[0] = headItem;
+		armor[1] = chestItem;
+		armor[2] = legItem;
+		armor[3] = footItem;
+		
+		return armor;
+		
+	}
+	
+	public static Enchantment getEnchantment(Integer i, Integer l) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+		
+		String s = getValueOfItemStack("Enchantment", i, l);
+		
+		if (!s.equalsIgnoreCase("none"))
+		{
+			
+			String[] ench = s.split(" ");
+			Enchantment e = StringToItemStack.toEnchantment(ench[0]);
+			
+			return e;
+		
+		}
+		
+		return null;
+		
+	}
+	
+	public static Integer getEnchantmentLevel(Integer i, Integer l) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+		
+		String s = getValueOfItemStack("Enchantment", i, l);
+		
+		if (!s.equalsIgnoreCase("none"))
+		{
+			
+			String[] lvl = s.split(" ");
+			int level = toInt(lvl[1]);
+			
+			return level;
 			
 		}
+		
+		return null;
+		
+	}
+	
+	public static Element getInventoryElement(Integer i) throws SAXException, IOException, ParserConfigurationException
+	{
+				
+		return (getInventoryFromXML(i).item(0) instanceof Element) ? (Element) getInventoryFromXML(i).item(0) : null;
+		
+	}
+	
+	public static Element getArmorElement(Integer i) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		return (getArmorFromXML(i).item(0) instanceof Element) ? (Element) getArmorFromXML(i).item(0) : null;
+		
+	}
+	
+	public static Element getItemStackElement(Integer i, Integer number) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		return (getItemStacks(i).item(number) instanceof Element) ? (Element) getItemStacks(i).item(number) : null;
+		
+	}
+	
+	public static Element getArmorElement(String name, Integer i) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		if (name.equalsIgnoreCase("Head"))
+		{
+			
+			return (getHelmet(i).item(0) instanceof Element) ? (Element) getHelmet(i).item(0) : null;
+			
+		}
+		else if (name.equalsIgnoreCase("Body"))
+		{
+			
+			return (getChestpiece(i).item(0) instanceof Element) ? (Element) getChestpiece(i).item(0) : null;
+			
+		}
+		else if (name.equalsIgnoreCase("Legs"))
+		{
+			
+			return (getLeggings(i).item(0) instanceof Element) ? (Element) getLeggings(i).item(0) : null;
+			
+		}
+		else if (name.equalsIgnoreCase("Boots"))
+		{
+			
+			return (getBoots(i).item(0) instanceof Element) ? (Element) getBoots(i).item(0) : null;
+			
+		}
+		
 		return null;
 		
 	}
 	
 	public static Element getSide(Integer i) throws SAXException, IOException, ParserConfigurationException
 	{
-return (Element)getSides().item(++i);
-	//	return (getSides().item(++i).getNodeType() == Node.ELEMENT_NODE) ? (Element) getSides().item(++i) : null;
+		for (int l = 0; l < getSides().getLength(); l ++)
+		{
+
+			if (getSides().item(l).getAttributes().item(0).toString().equalsIgnoreCase("number=\"" + toString(i) + "\"") && getSides().item(l) instanceof Element)
+			{
+		
+				return (Element) getSides().item(l);
+				
+			}
+			
+		}
+		
+		return null;
 		
 	}
 	
 	public static String getName(Integer i) throws SAXException, IOException, ParserConfigurationException
 	{
 		
-		return getValue(i, "Name", getSide(i));
+		return getValue("Name", i);
 		
 	}
 	
 	public static String getUsageMessage(Integer i) throws SAXException, IOException, ParserConfigurationException
 	{
-		
-		return getValue(i, "Usage", getSide(i));
+
+		return getValue("Usage", i);
 		
 	}
 	
 	public static String getClass(Integer i) throws SAXException, IOException, ParserConfigurationException
 	{
-		
-		return getValue(i, "Classified", getSide(i));
+
+		return getValue("Classified", i);
 		
 	}
 		
-	public static String getValue(Integer i, String name, Element element) throws SAXException, IOException, ParserConfigurationException
+	public static String getValue(String name, Integer i) throws SAXException, IOException, ParserConfigurationException
 	{
 
-		System.out.println(getSide(++i).getElementsByTagName(name).item(1).getNodeName());
-		return getSide(++i).getElementsByTagName(name).item(1).getNodeName();
-		/*
-		NodeList nlList = element.getElementsByTagName(name).item(0).getChildNodes();
-		 
-        Node nValue = (Node) nlList.item(0);
- 
-        return nValue.getNodeValue();
-		*/
+		return getSide(i).getElementsByTagName(name).item(0).getChildNodes().item(0).getNodeValue();
+
+	}
+	
+	public static String getValueOfItemStack(String name, Integer i, Integer number) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+
+		return getItemStackElement(i, number).getElementsByTagName(name).item(0).getChildNodes().item(0).getNodeValue();
+		
+	}
+	
+	public static String getValueOfArmor(String type, String name, Integer i) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+					
+		return getArmorElement(type, i).getElementsByTagName(name).item(0).getChildNodes().item(0).getNodeValue();
+				
 	}
 	
 }

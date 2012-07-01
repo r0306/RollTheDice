@@ -8,7 +8,7 @@ public class XMLAccessor
 	public InputStream getXML()
 	{
 		
-		return getClass().getClassLoader().getResourceAsStream("Sides.xml");
+		return getClass().getClassLoader().getResourceAsStream("com/github/r0306/RollTheDice/Storage/Sides.xml");
 		
 	}
 	
