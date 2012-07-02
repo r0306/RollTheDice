@@ -24,6 +24,7 @@ import org.xml.sax.SAXException;
 import com.github.r0306.RollTheDice.DiceHandlers.Dice;
 import com.github.r0306.RollTheDice.Storage.XMLAccessor;
 import com.github.r0306.RollTheDice.Util.Colors;
+import com.github.r0306.RollTheDice.Util.Util;
 import com.github.r0306.RollTheDice.Util.XMLParser;
 
 public class Executor extends Arena implements CommandExecutor, Colors
@@ -127,7 +128,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				{
 					try {
 						player.getInventory().setContents(XMLParser.getInventory(1));
-						player.getInventory().setArmorContents(XMLParser.getArmor(1));
+						Util.setArmorContents(player, XMLParser.getArmor(1));
 					} catch (SAXException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
