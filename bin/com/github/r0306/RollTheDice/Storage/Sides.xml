@@ -17,19 +17,19 @@
 		</Inventory>
 		<Armor>
 			<Head>
-				<Type>Chainmail</Type>
+				<Type>Leather</Type>
 				<Enchantment>None</Enchantment>
 			</Head>
 			<Body>
-				<Type>Chainmail</Type>
+				<Type>Diamond</Type>
 				<Enchantment>None</Enchantment>
 			</Body>
 			<Legs>
-				<Type>Chainmail</Type>
+				<Type>Gold</Type>
 				<Enchantment>None</Enchantment>
 			</Legs>
 			<Boots>
-				<Type>Chainmail</Type>
+				<Type>Iron</Type>
 				<Enchantment>None</Enchantment>
 			</Boots>
 		</Armor>

@@ -234,6 +234,59 @@ public class StringToItemStack
 		
 	}
 	
+	public static Material stringToArmorType(String material, String type)
+	{
+		
+		if (material.equalsIgnoreCase("leather"))
+		{
+			
+			if (type.equalsIgnoreCase("head")) return Material.LEATHER_HELMET;
+			else if (type.equalsIgnoreCase("body")) return Material.LEATHER_CHESTPLATE;
+			else if (type.equalsIgnoreCase("legs")) return Material.LEATHER_LEGGINGS;
+			else if (type.equalsIgnoreCase("boots")) return Material.LEATHER_BOOTS;
+			
+		}
+		else if (material.equalsIgnoreCase("chainmail"))
+		{
+			
+			if (type.equalsIgnoreCase("head")) return Material.CHAINMAIL_HELMET;
+			else if (type.equalsIgnoreCase("body")) return Material.CHAINMAIL_CHESTPLATE;
+			else if (type.equalsIgnoreCase("legs")) return Material.CHAINMAIL_LEGGINGS;
+			else if (type.equalsIgnoreCase("boots")) return Material.CHAINMAIL_BOOTS;
+			
+		}
+		else if (material.equalsIgnoreCase("iron"))
+		{
+			
+			if (type.equalsIgnoreCase("head")) return Material.IRON_HELMET;
+			else if (type.equalsIgnoreCase("body")) return Material.IRON_CHESTPLATE;
+			else if (type.equalsIgnoreCase("legs")) return Material.IRON_LEGGINGS;
+			else if (type.equalsIgnoreCase("boots")) return Material.IRON_BOOTS;
+			
+		}
+		else if (material.equalsIgnoreCase("gold"))
+		{
+			
+			if (type.equalsIgnoreCase("head")) return Material.GOLD_HELMET;
+			else if (type.equalsIgnoreCase("body")) return Material.GOLD_CHESTPLATE;
+			else if (type.equalsIgnoreCase("legs")) return Material.GOLD_LEGGINGS;
+			else if (type.equalsIgnoreCase("boots")) return Material.GOLD_BOOTS;
+			
+		}
+		else if (material.equalsIgnoreCase("diamond"))
+		{
+			
+			if (type.equalsIgnoreCase("head")) return Material.DIAMOND_HELMET;
+			else if (type.equalsIgnoreCase("body")) return Material.DIAMOND_CHESTPLATE;
+			else if (type.equalsIgnoreCase("legs")) return Material.DIAMOND_LEGGINGS;
+			else if (type.equalsIgnoreCase("boots")) return Material.DIAMOND_BOOTS;
+			
+		}
+
+		return null;
+		
+	}
+	
 	public static Enchantment toEnchantment(String s)
 	{
 		

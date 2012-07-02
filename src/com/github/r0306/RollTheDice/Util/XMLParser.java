@@ -33,7 +33,8 @@ public class XMLParser extends Util
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(input);
 		doc.getDocumentElement().normalize();
-
+		input.close();
+		
 		return doc;
 		
 	}
@@ -68,7 +69,7 @@ public class XMLParser extends Util
 	
 	public static NodeList getHelmet(Integer i) throws SAXException, IOException, ParserConfigurationException
 	{
-		
+
 		return getArmorElement(i).getElementsByTagName("Head");
 		
 	}
@@ -126,24 +127,57 @@ public class XMLParser extends Util
 	public static ItemStack[] getArmor(Integer i) throws DOMException, SAXException, IOException, ParserConfigurationException
 	{
 		
-		ItemStack[] armor = new ItemStack[3];
+		Material headType = StringToItemStack.stringToArmorType(getValueOfArmor("Head", "Type", i), "Head");
+		Material chestType = StringToItemStack.stringToArmorType(getValueOfArmor("Body", "Type", i), "Body");
+		Material legType = StringToItemStack.stringToArmorType(getValueOfArmor("Legs", "Type", i), "Legs");
+		Material footType = StringToItemStack.stringToArmorType(getValueOfArmor("Boots", "Type", i), "Boots");
+		
+		ItemStack headItem = null;
+		ItemStack chestItem = null;
+		ItemStack legItem = null;
+		ItemStack footItem = null;
+		
+		if (headType != null)
+			headItem = new ItemStack(headType, 1);
+		if (chestType != null)
+			footItem = new ItemStack(footType, 1);
+		if (chestType != null)
+			legItem = new ItemStack(legType, 1);
+		if (footType != null)
+			chestItem = new ItemStack(chestType, 1);
 
-		Material headType = StringToItemStack.toMaterial(getValueOfArmor("Helmet", "Type", i));
-		Material chestType = StringToItemStack.toMaterial(getValueOfArmor("Body", "Type", i));
-		Material legType = StringToItemStack.toMaterial(getValueOfArmor("Legs", "Type", i));
-		Material footType = StringToItemStack.toMaterial(getValueOfArmor("Boots", "Type", i));
+		ItemStack[] armor = new ItemStack[countItems(headItem, chestItem, legItem, footItem)];
 		
-		ItemStack headItem = new ItemStack(headType, 1);
-		ItemStack chestItem = new ItemStack(chestType, 1);
-		ItemStack legItem = new ItemStack(legType, 1);
-		ItemStack footItem = new ItemStack(footType, 1);
+		int counter = 0;
 		
-		armor[0] = headItem;
-		armor[1] = chestItem;
-		armor[2] = legItem;
-		armor[3] = footItem;
+		if (headItem != null)
+		armor[counter++] = headItem;
+		if (chestItem != null)
+		armor[counter++] = chestItem;
+		if (legItem != null)
+		armor[counter++] = legItem;
+		if (footItem != null)
+		armor[counter++] = footItem;
 		
 		return armor;
+		
+	}
+	
+	public static Integer countItems(ItemStack head, ItemStack body, ItemStack leg, ItemStack foot)
+	{
+		
+		int count = 0;
+		
+		if (head != null)
+			count ++;
+		if (body != null)
+			count ++;
+		if (leg != null)
+			count ++;
+		if (foot != null)
+			count ++;
+		
+		return count;
 		
 	}
 	
@@ -201,17 +235,17 @@ public class XMLParser extends Util
 	
 	public static Element getItemStackElement(Integer i, Integer number) throws SAXException, IOException, ParserConfigurationException
 	{
-		
+
 		return (getItemStacks(i).item(number) instanceof Element) ? (Element) getItemStacks(i).item(number) : null;
 		
 	}
 	
-	public static Element getArmorElement(String name, Integer i) throws SAXException, IOException, ParserConfigurationException
+	public static Element getArmorElementByType(String name, Integer i) throws SAXException, IOException, ParserConfigurationException
 	{
-		
+
 		if (name.equalsIgnoreCase("Head"))
 		{
-			
+
 			return (getHelmet(i).item(0) instanceof Element) ? (Element) getHelmet(i).item(0) : null;
 			
 		}
@@ -233,7 +267,7 @@ public class XMLParser extends Util
 			return (getBoots(i).item(0) instanceof Element) ? (Element) getBoots(i).item(0) : null;
 			
 		}
-		
+
 		return null;
 		
 	}
@@ -293,8 +327,8 @@ public class XMLParser extends Util
 	
 	public static String getValueOfArmor(String type, String name, Integer i) throws DOMException, SAXException, IOException, ParserConfigurationException
 	{
-					
-		return getArmorElement(type, i).getElementsByTagName(name).item(0).getChildNodes().item(0).getNodeValue();
+
+		return getArmorElementByType(type, i).getElementsByTagName(name).item(0).getChildNodes().item(0).getNodeValue();
 				
 	}
 	
