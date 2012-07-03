@@ -49,7 +49,7 @@ public class Util
 	
 	public static void setArmorContents(Player player, ItemStack[] armor)
 	{
-		System.out.println(armor[0].getType().toString());
+
 		for (ItemStack i : armor)
 		{
 			
@@ -69,13 +69,16 @@ public class Util
 	public static String checkArmor(ItemStack i)
 	{
 		
-		if (i.getType().toString().contains("Helmet"))
+		String[] fullName = i.getType().toString().split("_");
+		String typeName = fullName[1];
+		
+		if (typeName.equalsIgnoreCase("Helmet"))
 			return "Head";
-		else if (i.getType().toString().contains("(?!)ChestPlate"))
+		else if (typeName.equalsIgnoreCase("ChestPlate"))
 			return "Body";
-		else if (i.getType().toString().contains("(?!)Leggings"))
+		else if (typeName.equalsIgnoreCase("Leggings"))
 			return "Legs";
-		else if (i.getType().toString().contains("(?!)Boots"))
+		else if (typeName.equalsIgnoreCase("Boots"))
 			return "Foot";
 		
 		

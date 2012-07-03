@@ -127,8 +127,9 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				else if (args[0].equalsIgnoreCase("kills"))
 				{
 					try {
-						player.getInventory().setContents(XMLParser.getInventory(1));
+					//	player.getInventory().setContents(XMLParser.getInventory(1));
 						Util.setArmorContents(player, XMLParser.getArmor(1));
+
 					} catch (SAXException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

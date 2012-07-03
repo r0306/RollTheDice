@@ -3,7 +3,9 @@ package com.github.r0306.RollTheDice.Util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -107,17 +109,16 @@ public class XMLParser extends Util
 			Material item = StringToItemStack.toMaterial(getValueOfItemStack("Item", i, l));
 			int amount = toInt(getValueOfItemStack("Amount", i, l));
 			ItemStack itemstack = new ItemStack(item, amount);
-
-			if (getEnchantment(i, l) != null)
-			{
 			
-				itemstack.addEnchantment(getEnchantment(i, l), getEnchantmentLevel(i, l));
+			for (int x = 0; (getEnchantment(i, l, x) != null) ; x ++) {
 				
+				itemstack.addEnchantment(getEnchantment(i, l, x), getEnchantmentLevel(i, l));		
+								
 			}
 			
 			items[itemCounter] = itemstack;
 			itemCounter++;
-		
+			
 		}
 		
 		return items;
@@ -149,17 +150,105 @@ public class XMLParser extends Util
 		ItemStack[] armor = new ItemStack[countItems(headItem, chestItem, legItem, footItem)];
 		
 		int counter = 0;
-		
+				
 		if (headItem != null)
-		armor[counter++] = headItem;
+			armor[counter++] = addEnchantments(headItem, "Head", i);
 		if (chestItem != null)
-		armor[counter++] = chestItem;
+			armor[counter++] = addEnchantments(chestItem, "Body", i);
 		if (legItem != null)
-		armor[counter++] = legItem;
+			armor[counter++] = addEnchantments(legItem, "Legs", i);
 		if (footItem != null)
-		armor[counter++] = footItem;
-		
+			armor[counter++] = addEnchantments(footItem, "Boots", i);
+				
 		return armor;
+		
+	}
+		
+	public static ItemStack addEnchantments(ItemStack item, String name, Integer i) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+		
+		List<Enchantment> enchantments = getEnchantments(name, i);
+		List<Integer> levels = getEnchantmentLevels(name, i);
+
+		int index = 0;
+		for (Enchantment e : enchantments)
+		{
+			
+			if (levels.get(index) != -1)
+			{
+			
+				item.addEnchantment(e, levels.get(index));
+			
+			}
+			
+			index ++;
+			
+		}
+		
+		return item;
+		
+	}
+		
+	public static List<Enchantment> getEnchantments(String name, Integer i) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+		
+		List<Enchantment> enchantments = new ArrayList<Enchantment>();
+		
+		for (int x = 0; x <= getArmorNodeLength(name, i, x) ; x ++ )
+		{
+
+			String item = getArmorEnchantments(name, i, x);
+			
+			if (item != null)
+			{
+				
+				String[] ench = item.split(" ");
+				Enchantment e = StringToItemStack.toEnchantment(ench[0]);
+				enchantments.add(e);
+			
+			}
+			
+		}
+		
+		return enchantments;
+		
+	}
+	
+	public static List<Integer> getEnchantmentLevels(String name, Integer i) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+		
+		List<Integer> levels = new ArrayList<Integer>();
+		
+		for (int x = 0; x <= getArmorNodeLength(name, i, x) ; x ++ )
+		{
+			
+			String item = getArmorEnchantments(name, i, x);
+			
+			if (item != null && !item.equalsIgnoreCase("none"))
+			{
+				
+				String[] ench = item.split(" ");
+				Integer e = toInt(ench[1]);
+				levels.add(e);
+			
+			}
+			else if (item.equalsIgnoreCase("none"))
+			{
+				
+				levels.add(-1);
+				
+			}
+			
+		}
+		
+		return levels;
+		
+	}
+	
+	public static Enchantment getArmorEnchantment(String type, Integer i, Integer index) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+		
+		return StringToItemStack.toEnchantment(getValueOfArmor(type, "Enchantment", i));
 		
 	}
 	
@@ -181,10 +270,10 @@ public class XMLParser extends Util
 		
 	}
 	
-	public static Enchantment getEnchantment(Integer i, Integer l) throws DOMException, SAXException, IOException, ParserConfigurationException
+	public static Enchantment getEnchantment(Integer i, Integer l, Integer index) throws DOMException, SAXException, IOException, ParserConfigurationException
 	{
-		
-		String s = getValueOfItemStack("Enchantment", i, l);
+
+		String s = getItemEnchantments("Enchantment", i, l, index);
 		
 		if (!s.equalsIgnoreCase("none"))
 		{
@@ -330,6 +419,34 @@ public class XMLParser extends Util
 
 		return getArmorElementByType(type, i).getElementsByTagName(name).item(0).getChildNodes().item(0).getNodeValue();
 				
+	}
+	
+	public static String getItemEnchantments(String type, Integer i, Integer num, Integer number) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+		
+		return getItemStackElement(i, num).getElementsByTagName("Enchantment").item(0).getChildNodes().item(number).getNodeValue();
+		
+	}
+	
+	public static Integer getArmorNodeLength(String type, Integer i, Integer number) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+
+		return getArmorElementByType(type, i).getElementsByTagName("Enchantment").item(0).getChildNodes().getLength();
+		
+	}
+	
+	public static Integer getItemStackNodeLength(String type, Integer i, Integer num, Integer number) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		return getItemStackElement(i, num).getElementsByTagName("Enchantment").item(0).getChildNodes().getLength();
+		
+	}
+	
+	public static String getArmorEnchantments(String type, Integer i, Integer number) throws DOMException, SAXException, IOException, ParserConfigurationException
+	{
+
+		return getArmorElementByType(type, i).getElementsByTagName("Enchantment").item(number).getChildNodes().item(0).getNodeValue();
+		
 	}
 	
 }

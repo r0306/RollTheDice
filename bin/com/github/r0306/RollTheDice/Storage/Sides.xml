@@ -18,19 +18,23 @@
 		<Armor>
 			<Head>
 				<Type>Leather</Type>
-				<Enchantment>None</Enchantment>
+				<Enchantment>ProjectileProtection 1</Enchantment>
+				<Enchantment>ExplosionProtection 1</Enchantment>
 			</Head>
 			<Body>
 				<Type>Diamond</Type>
 				<Enchantment>None</Enchantment>
+				<Enchantment>ExplosionProtection 1</Enchantment>				
 			</Body>
 			<Legs>
 				<Type>Gold</Type>
 				<Enchantment>None</Enchantment>
+				<Enchantment>ExplosionProtection 1</Enchantment>				
 			</Legs>
 			<Boots>
 				<Type>Iron</Type>
-				<Enchantment>None</Enchantment>
+				<Enchantment>ProjectileProtection 2</Enchantment>
+				<Enchantment>ExplosionProtection 2</Enchantment>
 			</Boots>
 		</Armor>
 	</Side>
