@@ -110,8 +110,8 @@ public class XMLParser extends Util
 			int amount = toInt(getValueOfItemStack("Amount", i, l));
 			ItemStack itemstack = new ItemStack(item, amount);
 			
-			for (int x = 0; (getEnchantment(i, l, x) != null) ; x ++) {
-				
+			for (int x = 0; getItemStackNodeLength(i, l, x) <= x ; x ++) {
+
 				itemstack.addEnchantment(getEnchantment(i, l, x), getEnchantmentLevel(i, l));		
 								
 			}
@@ -205,7 +205,7 @@ public class XMLParser extends Util
 				String[] ench = item.split(" ");
 				Enchantment e = StringToItemStack.toEnchantment(ench[0]);
 				enchantments.add(e);
-			
+				
 			}
 			
 		}
@@ -424,7 +424,7 @@ public class XMLParser extends Util
 	public static String getItemEnchantments(String type, Integer i, Integer num, Integer number) throws DOMException, SAXException, IOException, ParserConfigurationException
 	{
 		
-		return getItemStackElement(i, num).getElementsByTagName("Enchantment").item(0).getChildNodes().item(number).getNodeValue();
+		return getItemStackElement(i, num).getElementsByTagName("Enchantment").item(number).getChildNodes().item(0).getNodeValue();
 		
 	}
 	
@@ -435,7 +435,7 @@ public class XMLParser extends Util
 		
 	}
 	
-	public static Integer getItemStackNodeLength(String type, Integer i, Integer num, Integer number) throws SAXException, IOException, ParserConfigurationException
+	public static Integer getItemStackNodeLength(Integer i, Integer num, Integer number) throws SAXException, IOException, ParserConfigurationException
 	{
 		
 		return getItemStackElement(i, num).getElementsByTagName("Enchantment").item(0).getChildNodes().getLength();
