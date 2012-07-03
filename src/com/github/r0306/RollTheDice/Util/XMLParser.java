@@ -110,10 +110,18 @@ public class XMLParser extends Util
 			int amount = toInt(getValueOfItemStack("Amount", i, l));
 			ItemStack itemstack = new ItemStack(item, amount);
 			
-			for (int x = 0; getItemStackNodeLength(i, l, x) <= x ; x ++) {
+			for (int x = 0; x <= getItemStackNodeLength(i, l, x) ; x ++) {
+				System.out.println(i);
+				System.out.println(l);
+				System.out.println(x);
+				System.out.println((getEnchantment(i, l, x)));
+				if (getEnchantment(i, l, x) != null)
+				{
 
-				itemstack.addEnchantment(getEnchantment(i, l, x), getEnchantmentLevel(i, l));		
-								
+					itemstack.addEnchantment(getEnchantment(i, l, x), getEnchantmentLevel(i, l));		
+					
+				}
+				
 			}
 			
 			items[itemCounter] = itemstack;
@@ -274,7 +282,7 @@ public class XMLParser extends Util
 	{
 
 		String s = getItemEnchantments("Enchantment", i, l, index);
-		
+
 		if (!s.equalsIgnoreCase("none"))
 		{
 			
@@ -437,7 +445,7 @@ public class XMLParser extends Util
 	
 	public static Integer getItemStackNodeLength(Integer i, Integer num, Integer number) throws SAXException, IOException, ParserConfigurationException
 	{
-		
+
 		return getItemStackElement(i, num).getElementsByTagName("Enchantment").item(0).getChildNodes().getLength();
 		
 	}

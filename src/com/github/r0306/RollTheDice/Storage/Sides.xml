@@ -8,11 +8,12 @@
 				<Item>Diamond Sword</Item>
 				<Amount>1</Amount>
 				<Enchantment>Sharpness 1</Enchantment>
+				<Enchantment>Mobloot 1</Enchantment>
 			</ItemStack>
 			<ItemStack>
-				<Item>Fence</Item>
+				<Item>Iron Sword</Item>
 				<Amount>1</Amount>
-				<Enchantment>None</Enchantment>
+				<Enchantment>Sharpness 1</Enchantment>
 			</ItemStack>
 		</Inventory>
 		<Armor>
@@ -23,8 +24,7 @@
 			</Head>
 			<Body>
 				<Type>Diamond</Type>
-				<Enchantment>None</Enchantment>
-				<Enchantment>ExplosionProtection 1</Enchantment>				
+				<Enchantment>None</Enchantment>				
 			</Body>
 			<Legs>
 				<Type>Gold</Type>
