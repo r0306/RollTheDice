@@ -6,8 +6,13 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.FileConfigurationOptions;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.r0306.RollTheDice.DiceHandlers._1;
+import com.github.r0306.RollTheDice.DiceHandlers._2;
+import com.github.r0306.RollTheDice.DiceHandlers._3;
+import com.github.r0306.RollTheDice.DiceHandlers._4;
 import com.github.r0306.RollTheDice.Disguise.DisguiseListeners;
 import com.github.r0306.RollTheDice.Handlers.PlayerHandlers;
 import com.github.r0306.RollTheDice.Util.Colors;
@@ -29,6 +34,7 @@ public class RollTheDice extends JavaPlugin implements Colors
 		getCommand("rtd").setExecutor(myExecutor);
 		getServer().getPluginManager().registerEvents(new PlayerHandlers(this), this);
 		getServer().getPluginManager().registerEvents(new DisguiseListeners(), this);
+		registerAllDiceEvents(getServer().getPluginManager());
 		System.out.println("RollTheDice version [" + getDescription().getVersion() + "] loaded.");
 		
 	}
@@ -58,6 +64,16 @@ public class RollTheDice extends JavaPlugin implements Colors
 		cfgOptions.header("This is the RollTheDice configuration file.");
 		cfgOptions.copyHeader(true);
 		saveConfig();
+		
+	}
+	
+	public void registerAllDiceEvents(PluginManager pm)
+	{
+		
+		pm.registerEvents(new _1(), this);
+		pm.registerEvents(new _2(), this);
+		pm.registerEvents(new _3(this), this);
+		pm.registerEvents(new _4(), this);
 		
 	}
 

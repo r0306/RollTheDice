@@ -32,7 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.World;
 
-import com.github.r0306.RollTheDice.Arena;
+import com.github.r0306.RollTheDice.DiceHandlers.Arena;
 
 public class DisguiseListeners extends Disguise implements Listener
 {
@@ -68,7 +68,7 @@ public class DisguiseListeners extends Disguise implements Listener
   @EventHandler(priority=EventPriority.LOW)
   public void onPlayerJoin(PlayerJoinEvent event)
   {
-  	
+  /*	
 	showWorldDisguises(event.getPlayer());
 
     if (disguiseQuitters.contains(event.getPlayer().getName()))
@@ -81,7 +81,7 @@ public class DisguiseListeners extends Disguise implements Listener
     }
     
 	disguisePlayer(event.getPlayer(), new Disguise(getNextAvailableID(), MobType.Blaze));
-  
+  */
   }
 
   @EventHandler

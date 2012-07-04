@@ -1,7 +1,10 @@
 package com.github.r0306.RollTheDice.Handlers;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -10,9 +13,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.xml.sax.SAXException;
 
 import com.github.r0306.RollTheDice.Executor;
 import com.github.r0306.RollTheDice.RollTheDice;
+import com.github.r0306.RollTheDice.DiceHandlers.Dice;
 import com.github.r0306.RollTheDice.Disguise.Disguise;
 import com.github.r0306.RollTheDice.Disguise.Disguise.MobType;
 
@@ -67,7 +73,7 @@ public class PlayerHandlers extends Executor implements Listener
 	}
 	
 	@EventHandler
-	public void onDeath(PlayerDeathEvent event)
+	public void onDeath(PlayerDeathEvent event) throws SAXException, IOException, ParserConfigurationException
 	{
 		
 		Player player = event.getEntity();
@@ -89,7 +95,7 @@ public class PlayerHandlers extends Executor implements Listener
 				
 				
 			}
-				
+
 			kills.put(killer, kills.get(killer) + 1);
 				
 			if (kills.get(killer) >= min)
@@ -98,6 +104,21 @@ public class PlayerHandlers extends Executor implements Listener
 				stopMatch(false, killer);
 				
 			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent event) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		Player player = event.getPlayer();
+		
+		if (inMatch.contains(player))
+		{
+			
+			assignPlayer(player, Dice.roll());
 			
 		}
 		

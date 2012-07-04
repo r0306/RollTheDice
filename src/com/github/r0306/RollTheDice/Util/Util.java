@@ -86,4 +86,18 @@ public class Util
 			
 	}
 	
+	public static Double calculateTotalLevelExp(Integer level)
+	{
+		
+		return (3.5D * level) + 6.75D;
+		
+	}
+	
+	public static Double getExpToAdd(Integer level, Long ticks)
+	{
+		
+		return calculateTotalLevelExp(level) / ticks;
+		
+	}
+	
 }

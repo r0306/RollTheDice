@@ -8,33 +8,29 @@
 				<Item>Diamond Sword</Item>
 				<Amount>1</Amount>
 				<Enchantment>Sharpness 1</Enchantment>
-				<Enchantment>Mobloot 1</Enchantment>
 			</ItemStack>
 			<ItemStack>
-				<Item>Iron Sword</Item>
+				<Item>Fence</Item>
 				<Amount>1</Amount>
-				<Enchantment>Sharpness 1</Enchantment>
+				<Enchantment>None</Enchantment>
 			</ItemStack>
 		</Inventory>
 		<Armor>
 			<Head>
-				<Type>Leather</Type>
-				<Enchantment>ProjectileProtection 1</Enchantment>
-				<Enchantment>ExplosionProtection 1</Enchantment>
+				<Type>ChainMail</Type>
+				<Enchantment>None</Enchantment>
 			</Head>
 			<Body>
-				<Type>Diamond</Type>
-				<Enchantment>None</Enchantment>				
+				<Type>ChainMail</Type>
+				<Enchantment>None</Enchantment>		
 			</Body>
 			<Legs>
-				<Type>Gold</Type>
-				<Enchantment>None</Enchantment>
-				<Enchantment>ExplosionProtection 1</Enchantment>				
+				<Type>ChainMail</Type>
+				<Enchantment>None</Enchantment>		
 			</Legs>
 			<Boots>
-				<Type>Iron</Type>
-				<Enchantment>ProjectileProtection 2</Enchantment>
-				<Enchantment>ExplosionProtection 2</Enchantment>
+				<Type>ChainMail</Type>
+				<Enchantment>None</Enchantment>
 			</Boots>
 		</Armor>
 	</Side>
@@ -42,21 +38,136 @@
 		<Name>Pacifist</Name>
 		<Classified>Negative</Classified>
 		<Usage>Aww, it seems like fighting just isn't your thing. Why don't you try running away instead? :P</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Yellow Flower</Item>
+				<Amount>30</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Cookie</Item>
+				<Amount>2</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Dirt</Item>
+				<Amount>10</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
 	</Side>
 	<Side number = "3">
-		<Name>Magician</Name>
+		<Name>Mage</Name>
 		<Classified>Positive</Classified>
-		<Usage>Right click with your wand to cast a bolt of thunder which will shock your opponents.</Usage>
+		<Usage>Right click with your wand to cast a bolt of energy which will shock your opponents.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Blaze Rod</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Book</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
 	</Side>
 	<Side number = "4">
 		<Name>Sprinter</Name>
 		<Classified>Neutral</Classified>
-		<Usage>Wow, you are really fast! But that also means that your food will go down quickly too.</Usage>
+		<Usage>You really like to run so we packed you a pair of shoes. This also means that your food will go down quickly so watch out.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Wood Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Diamond</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
 	</Side>
 	<Side number = "5">
 		<Name>DisguiseMaster</Name>
-		<Classified>Super</Classified>
+		<Classified>Positive</Classified>
 		<Usage>Right click any mob to disguise as that mob. Right click the same mob to undisguise.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Wood Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
 	</Side>
 	<Side number = "6">
 		<Name></Name>

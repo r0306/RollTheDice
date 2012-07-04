@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
+import com.github.r0306.RollTheDice.DiceHandlers.Arena;
 import com.github.r0306.RollTheDice.DiceHandlers.Dice;
 import com.github.r0306.RollTheDice.Storage.XMLAccessor;
 import com.github.r0306.RollTheDice.Util.Colors;
@@ -126,20 +127,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				}
 				else if (args[0].equalsIgnoreCase("kills"))
 				{
-					try {
-						//player.getInventory().setContents(XMLParser.getInventory(1));
-						Util.setArmorContents(player, XMLParser.getArmor(1));
 
-					} catch (SAXException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParserConfigurationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 					getKills(player);
 
 					
@@ -779,7 +767,15 @@ public class Executor extends Arena implements CommandExecutor, Colors
 						   player.sendMessage(gold + pluginName + aqua + "Match has started.");
 						   
 					   }
-					   startMatch(inMatch);
+					   try {
+						startMatch(inMatch);
+					} catch (SAXException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (ParserConfigurationException e) {
+						e.printStackTrace();
+					}
 					   plugin.getServer().getScheduler().cancelTask(id);
 					   
 				   }
@@ -804,7 +800,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		
 	}
 	
-	public void startMatch(List<Player> players)
+	public void startMatch(List<Player> players) throws SAXException, IOException, ParserConfigurationException
 	{
 
 		for (Player player : players)
@@ -960,10 +956,28 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		
 	}
 	
-	public void assignPlayer(Player player, Integer side)
+	public void assignPlayer(Player player, Integer side) throws SAXException, IOException, ParserConfigurationException
 	{
 		
 		dice.put(player, side);
+		sendInfo(player, side);
+		setInventory(player, side);
+		
+	}
+	
+	public void sendInfo(Player player, Integer side) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		player.sendMessage(gold + pluginName + daqua + "You have rolled " + yellow + side + daqua + ": " + XMLParser.getName(side));
+		player.sendMessage(gold + pluginName + gray + XMLParser.getUsageMessage(side));
+			
+	}
+	
+	public void setInventory(Player player, Integer side) throws SAXException, IOException, ParserConfigurationException
+	{
+		
+		player.getInventory().setContents(XMLParser.getInventory(side));
+		Util.setArmorContents(player, XMLParser.getArmor(side));
 		
 	}
 	
