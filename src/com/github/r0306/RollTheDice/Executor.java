@@ -32,7 +32,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 {
 	
 	private RollTheDice plugin;
-	
+		
 	public Executor(RollTheDice plugin)
 	{
 		
@@ -45,8 +45,8 @@ public class Executor extends Arena implements CommandExecutor, Colors
 	private int id;
 	private int stopId;
 	
-	private FileConfiguration playerInventories = null;
-	private File playerInventoryFile = null;
+	private static FileConfiguration playerInventories = null;
+	private static File playerInventoryFile = null;
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
@@ -120,7 +120,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 					if (checkPerms(player, "rtd.play"))
 					{
 						
-						leaveMatch(player);
+						leaveMatch(false, player);
 					
 					}
 					
@@ -512,8 +512,10 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				inMatch.add(player);
 				saveInventory(player);
 				saveExperience(player);
+				player.setExp(0);
+				player.setLevel(0);
 				player.sendMessage(gold + pluginName + daqua + "You have joined the match.");
-				
+				broadcast(dgreen + player.getName() + " has joined the match.", player);
 				if(calculateRemaining() > 0)
 				{
 					
@@ -522,9 +524,9 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				}
 				else
 				{
-					
+						
 					startCountDown();
-					
+										
 				}
 				
 			}
@@ -571,10 +573,11 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		getInventories().set("Inventories." + player.getName() + ".Armor", player.getInventory().getArmorContents());
 		saveInventories();
 		player.getInventory().clear();
+		player.getInventory().setArmorContents(null);
 		player.sendMessage(gold + pluginName + dgreen + "Your inventory has been saved and will be restored after the match");
 		
 	}
-	
+		
 	public void restoreInventory(Player player)
 	{
 		
@@ -588,7 +591,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		player.sendMessage(gold + pluginName + dgreen + "Your inventory has been restored.");
 		
 	}
-	
+		
 	public void saveExperience(Player player)
 	{
 		
@@ -606,7 +609,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		float exp = (float) getInventories().getDouble("Experience." + player.getName() + ".Exp");
 		int level = getInventories().getInt("Experience." + player.getName() + ".Level");
 		player.setLevel(level);
-		player.setExp(exp);
+		player.setExp(1F);
 		
 	}
 	
@@ -617,7 +620,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		{
 	    
 			playerInventoryFile = new File(plugin.getDataFolder(), "PlayerInventories.yml");
-	    
+		
 		}
 	    
 		playerInventories = YamlConfiguration.loadConfiguration(playerInventoryFile);
@@ -670,34 +673,53 @@ public class Executor extends Arena implements CommandExecutor, Colors
 
 	}
 	
-	public void leaveMatch(Player player)
+	public void leaveMatch(boolean end, Player player)
 	{
 		
 		if (inMatch.contains(player))
 		{
-							
-			player.sendMessage(gold + pluginName + aqua + "You have left the match.");
-			inMatch.remove(player);
-			restoreInventory(player);
-			restoreExperience(player);
 			
-			if (isStarted)
+			if (!end)
 			{
 			
-				for (Player p : inMatch)
+				player.sendMessage(gold + pluginName + aqua + "You have left the match.");
+				broadcast(dgreen + player.getName() + " has left the match.", player);
+				
+			}
+			
+			inMatch.remove(player);
+			restoreInventory(player);
+			restoreExperience(player);	
+			
+			if (inMatch.size() < 2)
+			{
+			
+				broadcast(daqua + "There are not enough players. Match countdown has been cancelled.", null);
+				Bukkit.getScheduler().cancelTask(id);
+				
+			}
+
+			if (isStarted)
+			{
+				
+				if (inMatch.size() < 2)
 				{
 					
-					p.sendMessage(dgreen + player.getName() + " has left the match.");
+					Player remaining = inMatch.get(0);
+					
+					stopMatch(false, remaining);
 					
 				}
 			
 			}
-				
+			
+			
 		}
 		else
 		{
 			
-			player.sendMessage(gold + pluginName + red + "You were not in the match.");
+			player.sendMessage(gold + pluginName + red + "You are not in the match.");
+		
 		}
 		
 	}
@@ -743,7 +765,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 			 
 			   if (delaySeconds > 0)
 			   {
-				   
+
 				   for (Player player : inMatch)
 				   {
 					 
@@ -768,16 +790,15 @@ public class Executor extends Arena implements CommandExecutor, Colors
 						   
 					   }
 					   try {
-						startMatch(inMatch);
-					} catch (SAXException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					} catch (ParserConfigurationException e) {
-						e.printStackTrace();
-					}
+						   startMatch(inMatch);
+					   } catch (SAXException e) {
+							e.printStackTrace();
+					   } catch (IOException e) {
+						   e.printStackTrace();
+					   } catch (ParserConfigurationException e) {
+						   e.printStackTrace();
+					   }
 					   plugin.getServer().getScheduler().cancelTask(id);
-					   
 				   }
 				   else
 				   {
@@ -786,7 +807,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 					   {
 						   
 						   inMatch.get(0).sendMessage(gold + pluginName + daqua + "There are not enough players. Match has been cancelled.");
-						   leaveMatch(inMatch.get(0));
+						   leaveMatch(true, inMatch.get(0));
 						   plugin.getServer().getScheduler().cancelTask(id);
 						   
 					   }
@@ -807,6 +828,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		{
 			
 			assignPlayer(player, Dice.roll());
+			player.setExp(1F);
 			
 		}
 		
@@ -927,20 +949,20 @@ public class Executor extends Arena implements CommandExecutor, Colors
 			Bukkit.broadcastMessage(gold + pluginName + daqua + "The time limit was reached.");
 			checkWinner();
 			
+			for (Player player : inMatch)
+			{
+				
+				leaveMatch(true, player);
+				
+			}
+			
 		}
 		
 		else
 		{
-			
+
 			plugin.getServer().getScheduler().cancelTask(stopId);
 			broadcastWinner(p);
-			
-		}
-		
-		for (Player player : inMatch)
-		{
-			
-			leaveMatch(player);
 			
 		}
 		
@@ -962,6 +984,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		dice.put(player, side);
 		sendInfo(player, side);
 		setInventory(player, side);
+		player.setExp(6.75F);
 		
 	}
 	

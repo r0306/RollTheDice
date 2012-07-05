@@ -16,8 +16,15 @@ public class _4 extends Arena implements Listener
 		
 		if (isIn(player, 4))
 		{
+
+			if (!player.isSprinting())
+			{
 			
-			player.setSprinting(true);
+				player.setSprinting(true);
+			
+			}
+			
+			player.setVelocity(player.getVelocity().multiply(0.1));
 			
 		}
 		

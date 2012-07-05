@@ -2,53 +2,46 @@ package com.github.r0306.RollTheDice.DiceHandlers;
 
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.github.r0306.RollTheDice.RollTheDice;
-import com.github.r0306.RollTheDice.Util.Util;
-
 public class _3 extends Arena implements Listener
 {
 
-	final long DELAY_TICKS = 60; 
-	private HashMap<Player, Integer> ids = new HashMap<Player, Integer>();
+	final long DELAY_TICKS = 80; 
 	private HashMap<Entity, Player> casters = new HashMap<Entity, Player>();
-	
-	private RollTheDice plugin;
-	public _3(RollTheDice plugin)
-	{
 		
-		this.plugin = plugin;
-		
-	}
-	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event)
 	{
 		
 		Player player = event.getPlayer();
-		
-		if (isIn(player, 3))
-		{
+	
+		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) { 
 			
-			if (player.getItemInHand().getType() == Material.BLAZE_ROD)
+			if (isIn(player, 3))
 			{
 				
-				if (!ids.containsKey(player))
+				if (player.getItemInHand().getType() == Material.BLAZE_ROD)
 				{
 					
-					magicShockWave(player);
-					scheduleDelayedCoolDownFire(player);
-				
+					if (player.getExp() == 1F)
+					{
+						
+						magicShockWave(player);
+						DelayCoolDown cd = new DelayCoolDown();
+						cd.scheduleDelayedCoolDown(player, DELAY_TICKS);
+					
+					}
+					
 				}
 				
 			}
@@ -68,7 +61,8 @@ public class _3 extends Arena implements Listener
 			{
 				
 				event.setDamage(8);
-				
+				damageDB.put(event.getEntity(), casters.get(event.getDamager()));
+		
 			}
 			
 		}
@@ -96,45 +90,11 @@ public class _3 extends Arena implements Listener
 		
 	public void magicShockWave(Player player)
 	{
-		
-		Entity entity = player.getWorld().spawn(player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch()), Snowball.class);
-		casters.put(entity, player);
-	
-	}
-	
-	public void scheduleDelayedCoolDownFire(Player player)
-	{
-		
-		final Player p = player;
-		final Double exp = Util.getExpToAdd(player.getLevel(), DELAY_TICKS);
-		final int level = p.getLevel();
-		
-		int id = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
-		{
 
-			   public void run()
-			   {
-			    
-				   if (p.getExp() < Util.calculateTotalLevelExp(level))
-				   {   
-					 
-					   p.setExp((float) (p.getExp() + 0.01));
-				   
-				   }
-				   else
-				   {
-					   
-					   plugin.getServer().getScheduler().cancelTask(ids.get(p));
-					   ids.remove(p);
-					   
-				   }
-			   
-			   }
-			
-		}, 1L, 1L);
-		
-		ids.put(p, id);
-		
-	}
+		Entity entity = player.launchProjectile(Snowball.class);
+		casters.put(entity, player);
+		player.setExp(0F);
 	
+	}
+		
 }

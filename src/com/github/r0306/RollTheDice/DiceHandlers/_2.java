@@ -6,11 +6,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
+import com.github.r0306.RollTheDice.RollTheDice;
 import com.github.r0306.RollTheDice.Util.Colors;
 
 public class _2 extends Arena implements Listener, Colors
 {
-
+	
 	@EventHandler
 	public void onEntityAttack(EntityDamageByEntityEvent event)
 	{
@@ -45,7 +46,7 @@ public class _2 extends Arena implements Listener, Colors
 			{
 				
 				event.setCancelled(true);
-				player.sendMessage(gold + pluginName + red + "Wow. I never knew you could even hold a bow!.");
+				player.sendMessage(gold + pluginName + red + "Wow. I never knew you could even hold a bow!");
 				
 			}
 			

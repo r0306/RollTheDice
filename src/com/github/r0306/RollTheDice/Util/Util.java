@@ -1,10 +1,10 @@
 package com.github.r0306.RollTheDice.Util;
 
-import java.io.InputStream;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import com.github.r0306.RollTheDice.Executor;
 
 public class Util
 {
@@ -86,17 +86,33 @@ public class Util
 			
 	}
 	
-	public static Double calculateTotalLevelExp(Integer level)
+	public static Float calculateTotalLevelExp(Integer level)
 	{
 		
-		return (3.5D * level) + 6.75D;
+		return (3.5F * level) + 6.75F;
 		
 	}
 	
-	public static Double getExpToAdd(Integer level, Long ticks)
+	public static Float getExpToAdd(Integer level, Long ticks)
 	{
 		
 		return calculateTotalLevelExp(level) / ticks;
+		
+	}
+	
+	public static Float delayExp(Long ticks)
+	{
+		
+		return (float) (100F / (float) ticks) / 100F;
+		
+	}
+	
+	public static void restoreEverything(Player player)
+	{
+		
+		Executor e = new Executor(null);
+		e.restoreInventory(player);
+		e.restoreExperience(player);
 		
 	}
 	

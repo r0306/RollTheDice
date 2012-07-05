@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 public class _1 extends Arena implements Listener 
 {
-
+	
 	@EventHandler
 	public void fenceDefense(EntityDamageByEntityEvent event)
 	{

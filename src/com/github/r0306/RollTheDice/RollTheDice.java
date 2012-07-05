@@ -6,9 +6,11 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.FileConfigurationOptions;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.r0306.RollTheDice.DiceHandlers.Arena;
 import com.github.r0306.RollTheDice.DiceHandlers._1;
 import com.github.r0306.RollTheDice.DiceHandlers._2;
 import com.github.r0306.RollTheDice.DiceHandlers._3;
@@ -16,6 +18,7 @@ import com.github.r0306.RollTheDice.DiceHandlers._4;
 import com.github.r0306.RollTheDice.Disguise.DisguiseListeners;
 import com.github.r0306.RollTheDice.Handlers.PlayerHandlers;
 import com.github.r0306.RollTheDice.Util.Colors;
+import com.github.r0306.RollTheDice.Util.Util;
 
 public class RollTheDice extends JavaPlugin implements Colors
 {
@@ -42,6 +45,7 @@ public class RollTheDice extends JavaPlugin implements Colors
 	public void onDisable()
 	{
 		
+		restoreInventories();
 		System.out.println("RollTheDice version [" + getDescription().getVersion() + "] unloaded.");
 		
 	}
@@ -67,12 +71,26 @@ public class RollTheDice extends JavaPlugin implements Colors
 		
 	}
 	
+	public void restoreInventories()
+	{
+		
+		for (Player p : Arena.inMatch)
+		{
+			
+			Util.restoreEverything(p);
+			p.sendMessage(gold + pluginName + daqua + "The match has ended because of a server reload.");
+			
+		}
+		
+	}
+	
+	
 	public void registerAllDiceEvents(PluginManager pm)
 	{
 		
 		pm.registerEvents(new _1(), this);
 		pm.registerEvents(new _2(), this);
-		pm.registerEvents(new _3(this), this);
+		pm.registerEvents(new _3(), this);
 		pm.registerEvents(new _4(), this);
 		
 	}

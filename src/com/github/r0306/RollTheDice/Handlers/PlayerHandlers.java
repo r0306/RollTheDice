@@ -1,26 +1,25 @@
 package com.github.r0306.RollTheDice.Handlers;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.bukkit.entity.EntityType;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.util.Vector;
 import org.xml.sax.SAXException;
 
 import com.github.r0306.RollTheDice.Executor;
 import com.github.r0306.RollTheDice.RollTheDice;
 import com.github.r0306.RollTheDice.DiceHandlers.Dice;
-import com.github.r0306.RollTheDice.Disguise.Disguise;
-import com.github.r0306.RollTheDice.Disguise.Disguise.MobType;
 
 public class PlayerHandlers extends Executor implements Listener 
 {
@@ -41,7 +40,7 @@ public class PlayerHandlers extends Executor implements Listener
 		if (inMatch.contains(player) && isStarted)
 		{
 			
-			leaveMatch(player);
+			leaveMatch(false, player);
 			
 		}
 		
@@ -54,8 +53,6 @@ public class PlayerHandlers extends Executor implements Listener
 		Player player = event.getPlayer();
 
 		List<String> playerNames = plugin.getConfig().getStringList("Players.List");
-		LinkedList<String> test = new LinkedList<String>();
-		
 		
 		if (!playerNames.contains(player.getName()))
 		{
@@ -113,15 +110,47 @@ public class PlayerHandlers extends Executor implements Listener
 	public void onRespawn(PlayerRespawnEvent event) throws SAXException, IOException, ParserConfigurationException
 	{
 		
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 		
 		if (inMatch.contains(player))
 		{
-			
-			assignPlayer(player, Dice.roll());
+
+			assignPlayer(player, Dice.roll());	
 			
 		}
 		
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+		{
+			
+			   public void run()
+			   {
+			    
+				   	player.setExp(1F);
+			   
+			   }
+			
+		}, 5L);
+		
+	}
+	
+	@EventHandler
+	public void onMove(PlayerMoveEvent event)
+	{
+		Location to = event.getTo();
+		Location from = event.getFrom();
+		if (event.getPlayer().getVelocity().length() < 0.9) {
+		Vector diff = new Vector(to.getX() - from.getX(), to.getY() - from.getY(), to.getZ() - from.getZ());
+		diff = diff.multiply(1.5);
+		to = from.clone().add(diff.getX(), diff.getY(), diff.getZ());
+		event.getPlayer().setVelocity(diff);
+		}
+		else
+		{
+			Vector diff = new Vector(to.getX() - from.getX(), to.getY() - from.getY(), to.getZ() - from.getZ());
+			diff = diff.multiply(0.8);
+			to = from.clone().add(diff.getX(), diff.getY(), diff.getZ());
+			event.getPlayer().setVelocity(diff);
+		}
 	}
 
 }
