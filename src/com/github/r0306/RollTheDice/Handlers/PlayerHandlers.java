@@ -1,6 +1,7 @@
 package com.github.r0306.RollTheDice.Handlers;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -10,16 +11,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.xml.sax.SAXException;
 
 import com.github.r0306.RollTheDice.Executor;
 import com.github.r0306.RollTheDice.RollTheDice;
 import com.github.r0306.RollTheDice.DiceHandlers.Dice;
+import com.github.r0306.RollTheDice.DiceHandlers.MovementHandlers;
 
 public class PlayerHandlers extends Executor implements Listener 
 {
@@ -31,6 +36,7 @@ public class PlayerHandlers extends Executor implements Listener
 		this.plugin = plugin;
 	}
 
+	HashMap<Player, Location> locations = new HashMap<Player, Location>();
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event)
 	{
@@ -134,23 +140,35 @@ public class PlayerHandlers extends Executor implements Listener
 	}
 	
 	@EventHandler
-	public void onMove(PlayerMoveEvent event)
+	public void onInteract(PlayerInteractEvent e)
 	{
-		Location to = event.getTo();
-		Location from = event.getFrom();
-		if (event.getPlayer().getVelocity().length() < 0.9) {
-		Vector diff = new Vector(to.getX() - from.getX(), to.getY() - from.getY(), to.getZ() - from.getZ());
-		diff = diff.multiply(1.5);
-		to = from.clone().add(diff.getX(), diff.getY(), diff.getZ());
-		event.getPlayer().setVelocity(diff);
+		System.out.println(e.getPlayer().getVelocity().length());
+		
+	}
+	
+	@EventHandler
+	public void onMove(PlayerMoveEvent event){
+		Player player = event.getPlayer();
+
+		if (!MovementHandlers.isScheduled(player)) {
+			System.out.println("lol");
+			MovementHandlers.registerMovement(player);
+		player.setSprinting(true);
+		MovementHandlers.schedulePotionCheck(player, PotionEffectType.SPEED);
+		}
+
+		/*
+		if (event.getTo().getBlockX() != event.getFrom().getBlockX() && event.getTo().getZ() != event.getFrom().getZ())
+		{
+			
+			event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 500, 1));
+		
 		}
 		else
 		{
-			Vector diff = new Vector(to.getX() - from.getX(), to.getY() - from.getY(), to.getZ() - from.getZ());
-			diff = diff.multiply(0.8);
-			to = from.clone().add(diff.getX(), diff.getY(), diff.getZ());
-			event.getPlayer().setVelocity(diff);
+			event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 0, 0), true);
+			
 		}
+		*/
 	}
-
 }

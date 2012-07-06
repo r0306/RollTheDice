@@ -18,6 +18,7 @@ import com.github.r0306.RollTheDice.DiceHandlers._4;
 import com.github.r0306.RollTheDice.Disguise.DisguiseListeners;
 import com.github.r0306.RollTheDice.Handlers.PlayerHandlers;
 import com.github.r0306.RollTheDice.Util.Colors;
+import com.github.r0306.RollTheDice.Util.Plugin;
 import com.github.r0306.RollTheDice.Util.Util;
 
 public class RollTheDice extends JavaPlugin implements Colors
@@ -26,6 +27,7 @@ public class RollTheDice extends JavaPlugin implements Colors
 	public static String version = "";
 	public static String website = "";
 	private Executor myExecutor;
+	public static Plugin p;
 	
 	public void onEnable()
 	{
@@ -35,6 +37,7 @@ public class RollTheDice extends JavaPlugin implements Colors
 		website = getDescription().getWebsite();
     	myExecutor = new Executor(this);
 		getCommand("rtd").setExecutor(myExecutor);
+		p = new Plugin(this);
 		getServer().getPluginManager().registerEvents(new PlayerHandlers(this), this);
 		getServer().getPluginManager().registerEvents(new DisguiseListeners(), this);
 		registerAllDiceEvents(getServer().getPluginManager());

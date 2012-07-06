@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class _4 extends Arena implements Listener
 {
@@ -25,9 +27,9 @@ public class _4 extends Arena implements Listener
 			}
 			
 			player.setVelocity(player.getVelocity().multiply(0.1));
-			
+			event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 500, 1));
 		}
 		
 	}
-	
+		
 }
