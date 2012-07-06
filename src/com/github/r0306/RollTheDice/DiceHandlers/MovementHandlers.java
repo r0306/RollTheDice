@@ -29,30 +29,28 @@ public class MovementHandlers
 				   if (!player.hasPotionEffect(effect))
 				   {
 					   
-					   player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 500, 1));
-					   //cancelTask(getTaskId(player));
-					   //removePlayer(player);
-					   
+					  // player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 500, 1));
+					   if (isScheduled(player)){
+					   cancelTask(getTaskId(player));
+					   removePlayer(player);
+					   }
 				   }
 				   
 				   if (checkLocations(player))
 				   {
 
 					   player.removePotionEffect(effect);
-					   player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 0, 0));
-					   cancelTask(getTaskId(player));
-					   removePlayer(player);
+					   player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 0, 0), true);
+					   if (isScheduled(player)){
+						   cancelTask(getTaskId(player));
+						   removePlayer(player);
+						   }
 					   
 				   }
-				   else
-				   {
-					   
-						MovementHandlers.registerMovement(player);
-				   }
-			   
+					MovementHandlers.registerMovement(player);			   
 			   }
 			
-		}, 20L,20L);
+		}, 10L,10L);
 		
 		taskIds.put(player, id);
 		

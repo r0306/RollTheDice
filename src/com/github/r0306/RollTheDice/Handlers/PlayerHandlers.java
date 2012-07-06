@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -120,7 +121,6 @@ public class PlayerHandlers extends Executor implements Listener
 		
 		if (inMatch.contains(player))
 		{
-
 			assignPlayer(player, Dice.roll());	
 			
 		}
@@ -149,13 +149,22 @@ public class PlayerHandlers extends Executor implements Listener
 	@EventHandler
 	public void onMove(PlayerMoveEvent event){
 		Player player = event.getPlayer();
-
+	/*
 		if (!MovementHandlers.isScheduled(player)) {
 			System.out.println("lol");
 			MovementHandlers.registerMovement(player);
-		player.setSprinting(true);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 500, 1));
+	//	player.setSprinting(true);
 		MovementHandlers.schedulePotionCheck(player, PotionEffectType.SPEED);
 		}
+		*/
+		if (player.isSprinting())
+		{
+			event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().normalize().multiply(0.5));		
+			
+		}
+		
+		
 
 		/*
 		if (event.getTo().getBlockX() != event.getFrom().getBlockX() && event.getTo().getZ() != event.getFrom().getZ())
@@ -170,5 +179,18 @@ public class PlayerHandlers extends Executor implements Listener
 			
 		}
 		*/
+	}
+	
+	@EventHandler
+	public void onToggle(PlayerToggleSprintEvent event)
+	{
+		int food = event.getPlayer().getFoodLevel();
+		if (event.isSprinting())
+		{
+			event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().normalize().multiply(0.5));
+		event.setCancelled(true);
+	//	event.getPlayer().setFoodLevel(food);
+		}
+		
 	}
 }
