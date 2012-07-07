@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
 
@@ -66,31 +67,18 @@ public class DisguiseListeners extends Disguise implements Listener
   @EventHandler(priority=EventPriority.LOW)
   public void onPlayerJoin(PlayerJoinEvent event)
   {
-	 Player player = event.getPlayer()
-	 Disguise d = new Disguise(getNextAvailableID(), MobType.Blaze);
-	 disguisePlayer(event.getPlayer(), d);
-	        EntityPlayer entity = ((CraftPlayer)player).getHandle();
-	        if (!(entity.netServerHandler instanceof DCHandler)) {
-	          if (this.plugin.spoutEnabled()) {
-	            entity.netServerHandler.disconnected = true;
-	            NetServerHandler newHandler = SpoutHandleProducer.getHandle(entity.server, entity.netServerHandler.networkManager, entity);
-	            newHandler.a(entity.locX, entity.locY, entity.locZ, entity.yaw, entity.pitch);
-	            entity.server.networkListenThread.a(newHandler);
-	          } else if (this.plugin.getServer().getPluginManager().getPlugin("Orebfuscator") != null) {
-	            NetServerHandler newHandler = OrebfuscatorHandleProducer.getHandle(entity.server, entity.netServerHandler);
-	            entity.netServerHandler = newHandler;
-	            entity.netServerHandler.networkManager.a(newHandler);
-	            entity.server.networkListenThread.a(newHandler);
-	          } else {
-	            entity.netServerHandler.disconnected = true;
-	            NetServerHandler newHandler = new DCNetServerHandler(entity.server, entity.netServerHandler.networkManager, entity);
-	            newHandler.a(entity.locX, entity.locY, entity.locZ, entity.yaw, entity.pitch);
-	            entity.server.networkListenThread.a(newHandler);
-	          }
-	        }
+	    Player player = event.getPlayer();
+	    EntityPlayer entity = ((CraftPlayer)player).getHandle();
+	    if (!(entity.netServerHandler instanceof DCHandler)) {
+	        entity.netServerHandler.disconnected = true;
+	        NetServerHandler newHandler = new DCNetServerHandler(entity.server, entity.netServerHandler.networkManager, entity);
+	        newHandler.a(entity.locX, entity.locY, entity.locZ, entity.yaw, entity.pitch);
+	        entity.server.networkListenThread.a(newHandler);
+	    }
 
-	      }
-	  /*	
+  }
+	
+  /*	
 	showWorldDisguises(event.getPlayer());
 
     if (disguiseQuitters.contains(event.getPlayer().getName()))
@@ -104,7 +92,7 @@ public class DisguiseListeners extends Disguise implements Listener
     
 	disguisePlayer(event.getPlayer(), new Disguise(getNextAvailableID(), MobType.Blaze));
   */
-  }
+  
 
   @EventHandler
   public void onPlayerQuit(PlayerQuitEvent event) {

@@ -68,7 +68,7 @@ public class Disguise
 		  return this.nextID++;
 	  
 	  }
-
+	  
 	  public Disguise(int entityID, String data, MobType mob)
 	  {
 	    this.entityID = entityID;
