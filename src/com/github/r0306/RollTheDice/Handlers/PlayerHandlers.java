@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,8 +25,10 @@ import org.xml.sax.SAXException;
 
 import com.github.r0306.RollTheDice.Executor;
 import com.github.r0306.RollTheDice.RollTheDice;
+import com.github.r0306.RollTheDice.DiceHandlers.Arena;
 import com.github.r0306.RollTheDice.DiceHandlers.Dice;
 import com.github.r0306.RollTheDice.DiceHandlers.MovementHandlers;
+import com.github.r0306.RollTheDice.Util.Plugin;
 
 public class PlayerHandlers extends Executor implements Listener 
 {
@@ -142,55 +145,46 @@ public class PlayerHandlers extends Executor implements Listener
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e)
 	{
-		System.out.println(e.getPlayer().getVelocity().length());
+		Arena.dice.put(e.getPlayer(), 4);
+
 		
 	}
-	
+	public 		Vector v = null;
 	@EventHandler
 	public void onMove(PlayerMoveEvent event){
-		Player player = event.getPlayer();
-	/*
-		if (!MovementHandlers.isScheduled(player)) {
-			System.out.println("lol");
-			MovementHandlers.registerMovement(player);
-			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 500, 1));
-	//	player.setSprinting(true);
-		MovementHandlers.schedulePotionCheck(player, PotionEffectType.SPEED);
-		}
-		*/
-		if (player.isSprinting())
-		{
-			event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().normalize().multiply(0.5));		
-			
-		}
 		
-		
-
-		/*
-		if (event.getTo().getBlockX() != event.getFrom().getBlockX() && event.getTo().getZ() != event.getFrom().getZ())
-		{
-			
-			event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 500, 1));
-		
-		}
-		else
-		{
-			event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 0, 0), true);
-			
-		}
-		*/
+	
 	}
 	
+	boolean sprint = false;
+	/*
 	@EventHandler
 	public void onToggle(PlayerToggleSprintEvent event)
 	{
-		int food = event.getPlayer().getFoodLevel();
+		final int food = event.getPlayer().getFoodLevel();
+		final Player p = event.getPlayer();
+		
 		if (event.isSprinting())
 		{
-			event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().normalize().multiply(0.5));
-		event.setCancelled(true);
+			
+			event.getPlayer().setFoodLevel(1);
+			//sprint = true;
+			//event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().normalize().multiply(0.050));
+		//event.setCancelled(true);
 	//	event.getPlayer().setFoodLevel(food);
+			 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
+				{
+					   			
+					   public void run()
+					   {
+						   p.setFoodLevel(food);
+						   
+					   }
+					
+				}, 0L);
+			
 		}
 		
 	}
+	*/
 }

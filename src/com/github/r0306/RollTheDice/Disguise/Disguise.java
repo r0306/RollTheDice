@@ -344,6 +344,20 @@ public class Disguise
 		  }
 	 
 	  }
+	 
+	  public Player getPlayerFromDisguiseID(int id)
+	  {
+	    
+		  if (disguiseIDs.containsKey(Integer.valueOf(id)))
+		  {
+	     
+			  return Bukkit.getServer().getPlayer((String)disguiseIDs.get(Integer.valueOf(id)));
+	   
+		  }
+	    
+		  return null;
+	 
+	  }
 
 	  public Byte getHolding()
 	  {

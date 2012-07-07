@@ -19,7 +19,7 @@ public class MovementHandlers
 			
 	public static void schedulePotionCheck(final Player player, final PotionEffectType effect)
 	{
-		MovementHandlers.registerMovement(player);
+
 		int id = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Plugin.getPlugin(), new Runnable()
 		{
 			   			
@@ -29,11 +29,14 @@ public class MovementHandlers
 				   if (!player.hasPotionEffect(effect))
 				   {
 					   
-					  // player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 500, 1));
-					   if (isScheduled(player)){
-					   cancelTask(getTaskId(player));
-					   removePlayer(player);
+					   if (isScheduled(player))
+					   {
+					   
+						   cancelTask(getTaskId(player));
+						   removePlayer(player);
+					   
 					   }
+				   
 				   }
 				   
 				   if (checkLocations(player))
@@ -41,16 +44,21 @@ public class MovementHandlers
 
 					   player.removePotionEffect(effect);
 					   player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 0, 0), true);
-					   if (isScheduled(player)){
+					   
+					   if (isScheduled(player))
+					   {
 						   cancelTask(getTaskId(player));
 						   removePlayer(player);
-						   }
+						   
+					   }
 					   
 				   }
-					MovementHandlers.registerMovement(player);			   
+					
+				   MovementHandlers.registerMovement(player);			   
+			  
 			   }
 			
-		}, 10L,10L);
+		}, 3L,3L);
 		
 		taskIds.put(player, id);
 		

@@ -26,8 +26,18 @@ public class _4 extends Arena implements Listener
 			
 			}
 			
-			player.setVelocity(player.getVelocity().multiply(0.1));
-			event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 500, 1));
+			if (!MovementHandlers.isScheduled(player))
+			{
+				
+				MovementHandlers.registerMovement(player);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 0));	
+				player.setSaturation(0.0F);
+				MovementHandlers.schedulePotionCheck(player, PotionEffectType.SPEED);
+			
+			}
+			
+			player.setExhaustion(4F);
+
 		}
 		
 	}
