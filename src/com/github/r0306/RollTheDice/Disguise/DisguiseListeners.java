@@ -23,6 +23,7 @@ import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -69,11 +70,12 @@ public class DisguiseListeners extends Disguise implements Listener
   {
 	    Player player = event.getPlayer();
 	    EntityPlayer entity = ((CraftPlayer)player).getHandle();
-	    if (!(entity.netServerHandler instanceof DCHandler)) {
-	        entity.netServerHandler.disconnected = true;
-	        NetServerHandler newHandler = new DCNetServerHandler(entity.server, entity.netServerHandler.networkManager, entity);
-	        newHandler.a(entity.locX, entity.locY, entity.locZ, entity.yaw, entity.pitch);
-	        entity.server.networkListenThread.a(newHandler);
+	    if (!(entity.netServerHandler instanceof Handler)) {	
+	    	entity.netServerHandler.disconnected = true;
+    		NetServerHandler newHandler = new EntityServerHandler(entity.server, entity.netServerHandler.networkManager, entity);
+    		newHandler.a(entity.locX, entity.locY, entity.locZ, entity.yaw, entity.pitch);
+    		entity.server.networkListenThread.a(newHandler);
+	        
 	    }
 
   }
@@ -164,22 +166,18 @@ public class DisguiseListeners extends Disguise implements Listener
   
   
   
-  @EventHandler
-  public void onDisguiseHit(PlayerInvalidInteractEvent event) {
-    if (event.getAction()) {
-    	System.out.println("hi");
+  @EventHandler (priority = EventPriority.MONITOR)
+  public void onDisguiseHit(PlayerDisguiseHitEvent event) {
+	  System.out.println("hit");
+//	  if (event.getAction()) {
       Player attacked = getPlayerFromDisguiseID(event.getTarget());
       if (attacked != null)
       {
         ((CraftPlayer)event.getPlayer()).getHandle().attack(((CraftPlayer)attacked).getHandle());
       }
     }
-  }
 
-  
-  
-  
-  @EventHandler
+@EventHandler
   public void onPickup(PlayerPickupItemEvent event)
   {
     if ((!event.isCancelled()) && 

@@ -40,7 +40,7 @@ public class Disguise
 	  private int encposY;
 	  private int encposZ;
 	  private boolean firstpos = true;
-	  protected int nextID = -1947483648;
+	  protected static int nextID = -1947483648;
 	  
 	  public static ConcurrentHashMap<String, Disguise> disguiseDB = new ConcurrentHashMap<String, Disguise>();
 	  public LinkedList<String> disguiseQuitters = new LinkedList<String>();
@@ -65,7 +65,7 @@ public class Disguise
 	  public int getNextAvailableID()
 	  {
 	    
-		  return this.nextID++;
+		  return Disguise.nextID++;
 	  
 	  }
 	  
@@ -399,6 +399,13 @@ public class Disguise
 	   
 		  return (byte)(int)((int)degree * 256.0F / 360.0F);
 	  
+	  }
+	  
+	  public static boolean isDisguised(Player player)
+	  {
+		  
+		  return disguiseDB.containsKey(player.getName());
+		  
 	  }
 	  
 	  public void unDisguisePlayer(Player player)

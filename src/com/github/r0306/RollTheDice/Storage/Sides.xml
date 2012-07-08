@@ -142,7 +142,7 @@
 	<Side number = "5">
 		<Name>DisguiseMaster</Name>
 		<Classified>Positive</Classified>
-		<Usage>Right click any mob to disguise as that mob. Right click the same mob to undisguise.</Usage>
+		<Usage>Right click any mob to disguise as that mob. Right click the air to undisguise.</Usage>
 		<Inventory>
 			<ItemStack>
 				<Item>Wood Sword</Item>

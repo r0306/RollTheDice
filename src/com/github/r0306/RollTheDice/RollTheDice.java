@@ -10,11 +10,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
+import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
+
 import com.github.r0306.RollTheDice.DiceHandlers.Arena;
 import com.github.r0306.RollTheDice.DiceHandlers._1;
 import com.github.r0306.RollTheDice.DiceHandlers._2;
 import com.github.r0306.RollTheDice.DiceHandlers._3;
 import com.github.r0306.RollTheDice.DiceHandlers._4;
+import com.github.r0306.RollTheDice.DiceHandlers._5;
 import com.github.r0306.RollTheDice.Disguise.DisguiseListeners;
 import com.github.r0306.RollTheDice.Handlers.PlayerHandlers;
 import com.github.r0306.RollTheDice.Util.Colors;
@@ -28,6 +32,7 @@ public class RollTheDice extends JavaPlugin implements Colors
 	public static String website = "";
 	private Executor myExecutor;
 	public static Plugin p;
+	public static DisguiseCraftAPI disguiseAPI;
 	
 	public void onEnable()
 	{
@@ -38,6 +43,7 @@ public class RollTheDice extends JavaPlugin implements Colors
     	myExecutor = new Executor(this);
 		getCommand("rtd").setExecutor(myExecutor);
 		p = new Plugin(this);
+		setUpAPI();
 		getServer().getPluginManager().registerEvents(new PlayerHandlers(this), this);
 		getServer().getPluginManager().registerEvents(new DisguiseListeners(), this);
 		registerAllDiceEvents(getServer().getPluginManager());
@@ -95,6 +101,19 @@ public class RollTheDice extends JavaPlugin implements Colors
 		pm.registerEvents(new _2(), this);
 		pm.registerEvents(new _3(), this);
 		pm.registerEvents(new _4(), this);
+		pm.registerEvents(new _5(), this);
+		
+	}
+	
+	public void setUpAPI()
+	{
+		
+		if (getServer().getPluginManager().getPlugin("DisguiseCraft") != null)
+		{
+			
+			disguiseAPI = DisguiseCraft.getAPI();
+			
+		}
 		
 	}
 

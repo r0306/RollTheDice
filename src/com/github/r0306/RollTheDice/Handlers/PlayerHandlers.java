@@ -145,8 +145,8 @@ public class PlayerHandlers extends Executor implements Listener
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e)
 	{
-		Arena.dice.put(e.getPlayer(), 4);
-
+		Arena.dice.put(e.getPlayer(), 3);
+		System.out.println("put");
 		
 	}
 	public 		Vector v = null;

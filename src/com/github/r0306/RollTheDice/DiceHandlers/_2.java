@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
-import com.github.r0306.RollTheDice.RollTheDice;
 import com.github.r0306.RollTheDice.Util.Colors;
 
 public class _2 extends Arena implements Listener, Colors
