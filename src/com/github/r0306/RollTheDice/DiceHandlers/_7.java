@@ -1,6 +1,8 @@
 package com.github.r0306.RollTheDice.DiceHandlers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,7 +12,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -21,6 +25,7 @@ public class _7 extends Arena implements Listener
 {
 
 	static HashMap<Location, Material> iceLocations = new HashMap<Location, Material>();
+	static List<Location> water = new ArrayList<Location>();
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event)
@@ -56,41 +61,35 @@ public class _7 extends Arena implements Listener
 	@EventHandler
 	public void preventSpread(BlockFromToEvent event)
 	{
+				
+		if (event.getBlock().getType() == Material.WATER || event.getBlock().getType() == Material.STATIONARY_WATER)
+		{
+			System.out.println(event.getToBlock().getType().toString());
+			if (event.getToBlock().getType() == Material.WATER || event.getToBlock().getType() == Material.STATIONARY_WATER || event.getBlock().getType() == Material.AIR)
+			{
+			
+				event.setCancelled(true);
+			
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onForm(BlockSpreadEvent event)
+	{
 		
 		if (event.getBlock().getType() == Material.WATER || event.getBlock().getType() == Material.STATIONARY_WATER)
 		{
 			
-			if (event.getToBlock().getType() == Material.AIR)
+			if (water.contains(event.getSource()))
 			{
 				
-				for (BlockFace face : BlockFace.values())
-				{
-					
-					Location location = event.getBlock().getRelative(face).getLocation();
-					
-					for (BlockFace f : BlockFace.values())
-					{
-					
-						Location location2 = location.getBlock().getRelative(f).getLocation();
-						
-						if (location2.getBlock().getRelative(face).getType() == Material.ICE)		
-						{
-							
-							if (iceLocations.containsKey(location2.getBlock()))
-							{
-								
-								event.setCancelled(true);
-							
-							}
-							
-						}
-						
-					}
+				event.setCancelled(true);
 				
-				}
-			
 			}
-			
+		
 		}
 		
 	}
@@ -110,9 +109,10 @@ public class _7 extends Arena implements Listener
 					
 					if (!isAround(player, block.getLocation()))
 					{
-						
-						block.setType(iceLocations.get(block.getLocation()));
+					
+						block.setType(Material.WATER);
 						iceLocations.remove(block.getLocation());
+						water.add(block.getLocation());
 						
 					}
 					else
