@@ -26,16 +26,24 @@ import com.github.r0306.RollTheDice.Storage.XMLAccessor;
 public class XMLParser extends Util
 {
 
+	static Document doc;
+	
 	public static Document parseXML() throws SAXException, IOException, ParserConfigurationException
 	{
 		
-		XMLAccessor xml = new XMLAccessor();
-		InputStream input = xml.getXML();
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(input);
-		doc.getDocumentElement().normalize();
-		input.close();
+		if (doc == null)
+		{
+		
+			XMLAccessor xml = new XMLAccessor();
+			InputStream input = xml.getXML();
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(input);
+			doc.getDocumentElement().normalize();
+			XMLParser.doc = doc;
+			input.close();
+			
+		}
 		
 		return doc;
 		

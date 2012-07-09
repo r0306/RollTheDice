@@ -170,14 +170,79 @@
 		</Armor>
 	</Side>
 	<Side number = "6">
-		<Name></Name>
-		<Classified></Classified>
-		<Usage></Usage>
+		<Name>Blindness</Name>
+		<Classified>Negative</Classified>
+		<Usage>The darkness envelops you. You have limited vision so watch your step now.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Stone Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Stone Axe</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Bread</Item>
+				<Amount>5</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
 	</Side>
 	<Side number = "7">
-		<Name></Name>
-		<Classified></Classified>
-		<Usage></Usage>
+		<Name>Water Treader</Name>
+		<Classified>Neutral</Classified>
+		<Usage>You freeze lakes with your feet, successfully allowing you to walk on water.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Stone Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Water Bucket</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>	
 	</Side>
 	<Side number = "8">
 		<Name></Name>

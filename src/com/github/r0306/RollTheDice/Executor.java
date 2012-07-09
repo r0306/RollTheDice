@@ -983,6 +983,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		
 		dice.put(player, side);
 		sendInfo(player, side);
+		getHandlers(player, side);
 		setInventory(player, side);
 		player.setExp(6.75F);
 		

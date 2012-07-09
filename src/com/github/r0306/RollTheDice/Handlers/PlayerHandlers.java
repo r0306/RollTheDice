@@ -143,9 +143,11 @@ public class PlayerHandlers extends Executor implements Listener
 	}
 	
 	@EventHandler
-	public void onInteract(PlayerInteractEvent e)
+	public void onInteract(PlayerInteractEvent e) throws SAXException, IOException, ParserConfigurationException
 	{
-		Arena.dice.put(e.getPlayer(), 3);
+		Executor ee = new Executor(plugin);
+		ee.assignPlayer(e.getPlayer(), 7);
+		
 		System.out.println("put");
 		
 	}
