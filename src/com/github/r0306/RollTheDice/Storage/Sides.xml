@@ -210,8 +210,8 @@
 		</Armor>
 	</Side>
 	<Side number = "7">
-		<Name>Water Treader</Name>
-		<Classified>Neutral</Classified>
+		<Name>Jesus</Name>
+		<Classified>Positive</Classified>
 		<Usage>You freeze lakes with your feet, successfully allowing you to walk on water.</Usage>
 		<Inventory>
 			<ItemStack>
@@ -245,19 +245,109 @@
 		</Armor>	
 	</Side>
 	<Side number = "8">
-		<Name></Name>
-		<Classified></Classified>
-		<Usage></Usage>
+		<Name>Flashy</Name>
+		<Classified>Neutral</Classified>
+		<Usage>I don't even know what is happening...</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Stone Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>	
 	</Side>
 	<Side number = "9">
-		<Name></Name>
-		<Classified></Classified>
-		<Usage></Usage>
+		<Name>Last Breath</Name>
+		<Classified>Negative</Classified>
+		<Usage>I feel sorry for you. You're a sitting duck with that low health of yours.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Iron Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Iron Shovel</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Log</Item>
+				<Amount>10</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Chainmail</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Chainmail</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>	
 	</Side>
 	<Side number = "10">
-		<Name></Name>
-		<Classified></Classified>
-		<Usage></Usage>
+		<Name>Explosive Bow</Name>
+		<Classified>Positive</Classified>
+		<Usage>Wielding your shiny bow, your arrows will explode after 3 seconds of contact.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Bow</Item>
+				<Amount>1</Amount>
+				<Enchantment>ArrowDamage 1</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Arrow</Item>
+				<Amount>15</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>	
 	</Side>
 	<Side number = "11">
 		<Name></Name>

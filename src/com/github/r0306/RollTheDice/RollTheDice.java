@@ -15,11 +15,14 @@ import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
 import com.github.r0306.RollTheDice.DiceHandlers.Arena;
 import com.github.r0306.RollTheDice.DiceHandlers._1;
+import com.github.r0306.RollTheDice.DiceHandlers._10;
 import com.github.r0306.RollTheDice.DiceHandlers._2;
 import com.github.r0306.RollTheDice.DiceHandlers._3;
 import com.github.r0306.RollTheDice.DiceHandlers._4;
 import com.github.r0306.RollTheDice.DiceHandlers._5;
 import com.github.r0306.RollTheDice.DiceHandlers._7;
+import com.github.r0306.RollTheDice.DiceHandlers._8;
+import com.github.r0306.RollTheDice.DiceHandlers._9;
 import com.github.r0306.RollTheDice.Disguise.DisguiseListeners;
 import com.github.r0306.RollTheDice.Handlers.PlayerHandlers;
 import com.github.r0306.RollTheDice.Util.Colors;
@@ -104,6 +107,9 @@ public class RollTheDice extends JavaPlugin implements Colors
 		pm.registerEvents(new _4(), this);
 		pm.registerEvents(new _5(), this);
 		pm.registerEvents(new _7(), this);
+		pm.registerEvents(new _8(), this);
+		pm.registerEvents(new _9(), this);
+		pm.registerEvents(new _10(), this);
 		
 	}
 	

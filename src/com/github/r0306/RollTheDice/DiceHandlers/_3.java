@@ -37,8 +37,7 @@ public class _3 extends Arena implements Listener
 					{
 						
 						magicShockWave(player);
-						DelayCoolDown cd = new DelayCoolDown();
-						cd.scheduleDelayedCoolDown(player, DELAY_TICKS);
+						DelayCoolDown.scheduleDelayedCoolDown(player, DELAY_TICKS);
 					
 					}
 					

@@ -21,11 +21,13 @@ public class DelayCoolDown
 		
 	private static HashMap<Player, Integer> ids = new HashMap<Player, Integer>();
 
-	public void scheduleDelayedCoolDown(Player player, final Long ticks)
+	public static void scheduleDelayedCoolDown(Player player, final Long ticks)
 	{
 		
 		final Player p = player;
 		final Float exp = Util.delayExp(ticks);
+		
+		p.setExp(0F);
 		
 		int id = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Plugin.getPlugin(), new Runnable()
 		{

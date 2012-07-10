@@ -985,7 +985,6 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		sendInfo(player, side);
 		getHandlers(player, side);
 		setInventory(player, side);
-		player.setExp(6.75F);
 		
 	}
 	
