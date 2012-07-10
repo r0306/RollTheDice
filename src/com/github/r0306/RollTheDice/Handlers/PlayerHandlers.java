@@ -155,7 +155,7 @@ public class PlayerHandlers extends Executor implements Listener
 	@EventHandler
 	public void onMove(PlayerMoveEvent event){
 		
-	
+		System.out.println(Byte.toString(event.getPlayer().getLocation().getBlock().getData()));
 	}
 	
 	boolean sprint = false;

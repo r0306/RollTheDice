@@ -24,7 +24,7 @@ import com.github.r0306.RollTheDice.Util.Plugin;
 public class _7 extends Arena implements Listener
 {
 
-	static HashMap<Location, Material> iceLocations = new HashMap<Location, Material>();
+	static HashMap<Location, Byte> iceLocations = new HashMap<Location, Byte>();
 	static List<Location> water = new ArrayList<Location>();
 	
 	@EventHandler
@@ -37,7 +37,7 @@ public class _7 extends Arena implements Listener
 		{
 			
 			Location location = player.getLocation().subtract(0, 1, 0);
-			
+
 			for(BlockFace face : BlockFace.values())
 			{
 			 
@@ -45,8 +45,8 @@ public class _7 extends Arena implements Listener
 				
 				if (block.getType() == Material.WATER || block.getType() == Material.STATIONARY_WATER)
 				{
-					
-					iceLocations.put(block.getLocation(), block.getType());
+
+					iceLocations.put(block.getLocation(), block.getData());
 					block.setType(Material.ICE);
 					scheduleDelayedThaw(player, block);
 					
@@ -62,14 +62,33 @@ public class _7 extends Arena implements Listener
 	public void preventSpread(BlockFromToEvent event)
 	{
 				
-		if (event.getBlock().getType() == Material.WATER || event.getBlock().getType() == Material.STATIONARY_WATER)
+		if (event.getBlock().getType() == Material.STATIONARY_WATER || event.getBlock().getType() == Material.WATER)
 		{
-			System.out.println(event.getToBlock().getType().toString());
-			if (event.getToBlock().getType() == Material.WATER || event.getToBlock().getType() == Material.STATIONARY_WATER || event.getBlock().getType() == Material.AIR)
+			
+			if (event.getToBlock().getType() == Material.STATIONARY_WATER || event.getToBlock().getType() == Material.WATER)
 			{
-			
-				event.setCancelled(true);
-			
+
+			    if (isSource(event.getBlock().getData()))
+				{
+
+					event.setCancelled(true);
+					
+				}
+				/*
+				for (BlockFace face : BlockFace.values())
+				{
+					
+					Block block = event.getToBlock().getRelative(face);
+					
+					if (block.getType() == Material.ICE || iceLocations.containsKey(block.getLocation()) || water.contains(block.getLocation()))
+					{
+					
+						event.setCancelled(true);
+						
+					}
+					
+				}
+				*/
 			}
 			
 		}
@@ -110,9 +129,21 @@ public class _7 extends Arena implements Listener
 					if (!isAround(player, block.getLocation()))
 					{
 					
-						block.setType(Material.WATER);
+						if (!isSource(iceLocations.get(block.getLocation())))
+						{
+							
+							block.setType(Material.WATER);
+							block.setData(iceLocations.get(block.getLocation()));
+							
+						}
+						else if (isSource(iceLocations.get(block.getLocation())))
+						{
+							
+							block.setType(Material.WATER);
+							
+						}
+						
 						iceLocations.remove(block.getLocation());
-						water.add(block.getLocation());
 						
 					}
 					else
@@ -143,6 +174,30 @@ public class _7 extends Arena implements Listener
 		int Z = location.getBlockZ();
 		
 		return (Math.abs(X - x) <= 3 && Math.abs(Y - y) <= 3 && Math.abs(Z - z ) <= 3);
+		
+	}
+	
+	public boolean isFlowing(byte blockOne, byte blockTwo)
+	{
+		
+		int one = Integer.parseInt(Byte.toString(blockOne));
+		int two = Integer.parseInt(Byte.toString(blockTwo));
+		
+		return true;
+		
+	}
+	
+	public boolean isSource(byte block)
+	{
+		
+		return Integer.parseInt(Byte.toString(block)) == 0;
+		
+	}
+	
+	public String source(boolean isSource)
+	{
+		
+		return (isSource) ? "source" : "stream";
 		
 	}
 	
