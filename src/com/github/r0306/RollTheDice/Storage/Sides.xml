@@ -455,13 +455,110 @@
 		</Armor>	
 	</Side>
 	<Side number = "14">
-		<Name></Name>
-		<Classified></Classified>
-		<Usage></Usage>
+		<Name>Ouch</Name>
+		<Classified>Negative</Classified>
+		<Usage>We're under attack from all sides. Take cover!</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Stone Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Wood Shovel</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
 	</Side>
 	<Side number = "15">
 		<Name>Archer</Name>
 		<Classified>Positive</Classified>
-		<Usage>Wielding your bow, you deal twice as much damage to enemies.</Usage>
+		<Usage>Deal more damage to enemies with improved bow power.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Bow</Item>
+				<Amount>1</Amount>
+				<Enchantment>ArrowDamage 2</Enchantment>
+				<Enchantment>KnockBackArrows 1</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Arrow</Item>
+				<Amount>32</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
 	</Side>
+	<Side number = "16">
+		<Name>Spanish</Name>
+		<Classified>Neutral</Classified>
+		<Usage>Hablas espanol?</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Stone Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>ANone</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Stone Shovel</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
+
 </Sides>

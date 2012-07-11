@@ -80,6 +80,8 @@ public class Arena implements Colors
 	        	     break;
 	        case 13: _13.schedulePlayerOrgasm(player);
 	                 break;
+	        case 14: _14.scheduleDelayedDamage(player);
+	                 break;
 	        	
 		}
 
