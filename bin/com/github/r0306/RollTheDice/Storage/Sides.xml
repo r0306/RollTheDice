@@ -350,19 +350,109 @@
 		</Armor>	
 	</Side>
 	<Side number = "11">
-		<Name></Name>
-		<Classified></Classified>
-		<Usage></Usage>
+		<Name>Turtle</Name>
+		<Classified>Negative</Classified>
+		<Usage>Don't worry, just keep trying and you will get there some day, even if it does take a few hours. ;)</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Iron Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Stone PickAxe</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>	
 	</Side>
 	<Side number = "12">
-		<Name></Name>
-		<Classified></Classified>
-		<Usage></Usage>
+		<Name>Circadian Disorder</Name>
+		<Classified>Neutral</Classified>
+		<Usage>Huh? Is it night or day? Are you sure?</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Stone Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Gold Shovel</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Chainmail</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
 	</Side>
 	<Side number = "13">
-		<Name></Name>
-		<Classified></Classified>
-		<Usage></Usage>
+		<Name>Orgasm</Name>
+		<Classified>Negative</Classified>
+		<Usage>You could classify this as a neutral except for the fact that enemies can hear you from a mile away...</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Stone Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Stone Axe</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Chainmail</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>	
 	</Side>
 	<Side number = "14">
 		<Name></Name>

@@ -70,21 +70,7 @@ public class _7 extends Arena implements Listener
 					event.setCancelled(true);
 					
 				}
-				/*
-				for (BlockFace face : BlockFace.values())
-				{
-					
-					Block block = event.getToBlock().getRelative(face);
-					
-					if (block.getType() == Material.ICE || iceLocations.containsKey(block.getLocation()) || water.contains(block.getLocation()))
-					{
-					
-						event.setCancelled(true);
-						
-					}
-					
-				}
-				*/
+			
 			}
 			
 		}

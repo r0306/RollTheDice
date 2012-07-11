@@ -134,7 +134,7 @@ public class DisguiseListeners extends Disguise implements Listener
         disguiseToWorld(disguisee.getWorld(), disguisee, new Packet[] { revivePacket });
     }
   }
-
+/*
   @EventHandler
   public void onTarget(EntityTargetEvent event) {
     if ((!event.isCancelled()) && 
@@ -148,7 +148,7 @@ public class DisguiseListeners extends Disguise implements Listener
           event.setCancelled(true);
     }
   }
-
+*/
   @EventHandler
   public void onDamage(EntityDamageEvent event) {
     if ((!event.isCancelled()) && 

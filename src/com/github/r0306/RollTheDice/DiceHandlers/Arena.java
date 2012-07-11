@@ -70,7 +70,16 @@ public class Arena implements Colors
 	        case 5: break;
 	        case 6: _6.blindPlayer(player);
 	        		break;
-	        case 7: 
+	        case 7: break;
+	        case 8: break;
+	        case 9: player.setHealth(2);
+	        		break;
+	        case 10: break;
+	        case 11: break;
+	        case 12: player.setPlayerTime(80000L, true); 
+	        	     break;
+	        case 13: _13.schedulePlayerOrgasm(player);
+	                 break;
 	        	
 		}
 

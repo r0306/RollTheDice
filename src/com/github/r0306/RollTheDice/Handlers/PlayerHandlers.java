@@ -146,16 +146,14 @@ public class PlayerHandlers extends Executor implements Listener
 	public void onInteract(PlayerInteractEvent e) throws SAXException, IOException, ParserConfigurationException
 	{
 		Executor ee = new Executor(plugin);
-		ee.assignPlayer(e.getPlayer(), 10);
-		
-		System.out.println("put");
+		ee.assignPlayer(e.getPlayer(), 13);
+
 		
 	}
 	public 		Vector v = null;
 	@EventHandler
 	public void onMove(PlayerMoveEvent event){
-		
-		System.out.println(Byte.toString(event.getPlayer().getLocation().getBlock().getData()));
+
 	}
 	
 	boolean sprint = false;
