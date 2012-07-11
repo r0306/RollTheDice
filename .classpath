@@ -5,6 +5,6 @@
 	<classpathentry kind="lib" path="C:/Users/MRT253/Downloads/Server/craftbukkit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/MRT253/Downloads/craftbukkit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/MRT253/Downloads/DisguiseCraft (1).jar"/>
-	<classpathentry kind="lib" path="C:/Users/MRT253/Downloads/google-api-translate-java-0.97.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MRT253/Downloads/microsoft-translator-java-api-0.6.1-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

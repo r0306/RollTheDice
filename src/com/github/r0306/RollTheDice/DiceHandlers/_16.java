@@ -5,14 +5,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
-import com.google.api.translate.Language;
-import com.google.api.translate.Translate;
+import com.memetix.mst.language.Language;
+import com.memetix.mst.translate.Translate;
 
 public class _16 extends Arena implements Listener
 {
 
 	@EventHandler
-	public void onChat(PlayerChatEvent event)
+	public void onChat(PlayerChatEvent event) throws Exception
 	{
 		
 		Player player = event.getPlayer();
@@ -20,7 +20,8 @@ public class _16 extends Arena implements Listener
 		if (isIn(player, 16))
 		{
 			
-			Translate.DEFAULT.execute(event.getMessage(), Language.ENGLISH, Language.SPANISH);
+			String message = Translate.execute(event.getMessage(), Language.ENGLISH, Language.SPANISH);
+			event.setMessage(message);
 		
 		}
 		
