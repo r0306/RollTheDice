@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerChatEvent;
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
 
+
 public class _16 extends Arena implements Listener
 {
 
@@ -20,6 +21,8 @@ public class _16 extends Arena implements Listener
 		if (isIn(player, 16))
 		{
 			
+			Translate.setClientId("r0306");
+			Translate.setClientSecret("OUPNPfVLBtOzKevJafAo12LoS8+5vEJEPeREkgLqPYs=");
 			String message = Translate.execute(event.getMessage(), Language.ENGLISH, Language.SPANISH);
 			event.setMessage(message);
 		

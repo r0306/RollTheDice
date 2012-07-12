@@ -560,5 +560,39 @@
 			</Boots>
 		</Armor>
 	</Side>
-
+	<Side number = "17">
+		<Name>Revival</Name>
+		<Classified>Positive</Classified>
+		<Usage>Well you know how they say a cat has nine lives? Well you have two.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Stone Sword</Item>
+				<Amount>1</Amount>
+				<Enchantment>ANone</Enchantment>
+			</ItemStack>
+			<ItemStack>
+				<Item>Stone Axe</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>Iron</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>Leather</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
 </Sides>

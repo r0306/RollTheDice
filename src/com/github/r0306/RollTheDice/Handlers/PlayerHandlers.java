@@ -146,7 +146,7 @@ public class PlayerHandlers extends Executor implements Listener
 	public void onInteract(PlayerInteractEvent e) throws SAXException, IOException, ParserConfigurationException
 	{
 		Executor ee = new Executor(plugin);
-		ee.assignPlayer(e.getPlayer(), 16);
+		ee.assignPlayer(e.getPlayer(), 17);
 
 		
 	}
