@@ -10,8 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.github.r0306.RollTheDice.Util.Colors;
@@ -23,21 +29,21 @@ public class _19 extends Arena implements Listener, Colors
 	static HashMap<Player, Integer> ids = new HashMap<Player, Integer>();
 	static HashMap<Player, String> CAPTCHAList = new HashMap<Player, String>();
 
-	public void scheduleRepeatingCAPTCHA(Player player)
+	public static void scheduleDelayedCAPTCHA(final Player player)
 	{
 		
-		int id = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Plugin.getPlugin(), new Runnable()
+		int id = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
 		{
 
 			@Override
 			public void run() 
 			{
+							
+				promptCAPTCHA(player);
 			
-				
-
 			}
 			
-		}, 50L, 50L);
+		}, 200L);
 		
 		ids.put(player, id);
 		
@@ -45,6 +51,54 @@ public class _19 extends Arena implements Listener, Colors
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event)
+	{
+		
+		Player player = event.getPlayer();
+		
+		if (isIn(player, 19))
+		{
+			
+			if (CAPTCHAList.containsKey(player))
+			{
+				
+				event.setCancelled(true);
+				
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onDeath(PlayerDeathEvent event)
+	{
+		
+		Player player = event.getEntity();
+		
+		if (isIn(player, 19))
+		{
+			
+			if (ids.containsKey(player))
+			{
+				
+				Bukkit.getScheduler().cancelTask(ids.get(player));
+				ids.remove(player);
+				
+			}
+			
+			if (CAPTCHAList.containsKey(player))
+			{
+				
+				CAPTCHAList.remove(player);
+				
+			}
+			
+		}
+		
+	}
+		
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event)
 	{
 		
 		Player player = event.getPlayer();
@@ -72,7 +126,99 @@ public class _19 extends Arena implements Listener, Colors
 		if (event.getDamager() instanceof Player)
 		{
 			
+			Player player = (Player) damager;
 			
+			if (isIn(player, 19))
+			{
+				
+				if (CAPTCHAList.containsKey(player))
+				{
+					
+					event.setCancelled(true);
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onInteract(PlayerInteractEvent event)
+	{
+		
+		Player player = event.getPlayer();
+		
+		if (isIn(player, 19))
+		{
+			
+			if (CAPTCHAList.containsKey(player))
+			{
+				
+				event.setCancelled(true);
+				
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onShoot(PlayerFishEvent event)
+	{
+		
+		Player player = event.getPlayer();
+		
+		if (isIn(player, 19))
+		{
+			
+			if (CAPTCHAList.containsKey(player))
+			{
+				
+				event.setCancelled(true);
+				
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onEggThrow(PlayerEggThrowEvent event)
+	{
+		
+		Player player = event.getPlayer();
+		
+		if (isIn(player, 19))
+		{
+			
+			if (CAPTCHAList.containsKey(player))
+			{
+				
+				event.getEgg().remove();
+				
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onBedEnter(PlayerBedEnterEvent event)
+	{
+		
+		Player player = event.getPlayer();
+		
+		if (isIn(player, 19))
+		{
+			
+			if (CAPTCHAList.containsKey(player))
+			{
+				
+				event.setCancelled(true);
+				
+			}
 			
 		}
 		
@@ -84,14 +230,14 @@ public class _19 extends Arena implements Listener, Colors
 		
 		Player player = event.getPlayer();
 		
-		if (isIn(player, 2019))
+		if (isIn(player, 19))
 		{
 			
 			if (CAPTCHAList.containsKey(player))
 			{
-				
-				event.setCancelled(true);
-				
+						
+				player.teleport(event.getFrom());
+
 			}
 			
 		}
@@ -115,6 +261,7 @@ public class _19 extends Arena implements Listener, Colors
 					
 					player.sendMessage(gold + pluginName + daqua + "Matched! You may proceed.");
 					CAPTCHAList.remove(player);
+					scheduleDelayedCAPTCHA(player);
 					
 				}
 				else
@@ -123,6 +270,8 @@ public class _19 extends Arena implements Listener, Colors
 					player.sendMessage(gold + pluginName + red + "CAPTCHA did not match. Remember it's case-sensitive.");
 					
 				}
+				
+				event.setCancelled(true);
 			
 			}
 			
@@ -130,7 +279,7 @@ public class _19 extends Arena implements Listener, Colors
 		
 	}
 	
-	public void promptCAPTCHA(Player player)
+	public static void promptCAPTCHA(Player player)
 	{
 		
 		String CAPTCHA = generateNewCAPTCHA();
@@ -141,11 +290,11 @@ public class _19 extends Arena implements Listener, Colors
 		
 	}
 	
-	public String generateNewCAPTCHA()
+	public static String generateNewCAPTCHA()
 	{
 		
 		int length = 15;
-		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		
 		Random rand = new Random();
 		

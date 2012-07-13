@@ -665,4 +665,34 @@
 			</Boots>
 		</Armor>
 	</Side>
+	<Side number = "20">
+		<Name>Care Package</Name>
+		<Classified>Positive</Classified>
+		<Usage>Throw your marker on the ground to mark the location for the drop.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Exp Bottle</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
 </Sides>
