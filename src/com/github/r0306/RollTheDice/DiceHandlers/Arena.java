@@ -82,6 +82,8 @@ public class Arena implements Colors
 	                 break;
 	        case 14: _14.scheduleDelayedDamage(player);
 	                 break;
+	        case 18: _18.scheduleRepeatingUpdate(player);
+	                 break;
 	        	
 		}
 

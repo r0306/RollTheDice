@@ -1,10 +1,5 @@
 package com.github.r0306.RollTheDice.DiceHandlers;
 
-import java.lang.reflect.Field;
-
-import net.minecraft.server.Packet40EntityMetadata;
-import net.minecraft.server.Packet41MobEffect;
-
 import org.bukkit.Effect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

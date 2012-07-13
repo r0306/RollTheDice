@@ -2,20 +2,15 @@ package com.github.r0306.RollTheDice.DiceHandlers;
 
 import java.util.HashMap;
 
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.Packet1Login;
-import net.minecraft.server.Packet24MobSpawn;
 import net.minecraft.server.Packet43SetExperience;
 import net.minecraft.server.Packet8UpdateHealth;
 import net.minecraft.server.Packet9Respawn;
 import net.minecraft.server.WorldType;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import com.github.r0306.RollTheDice.RollTheDice;
 import com.github.r0306.RollTheDice.Util.Colors;
 import com.github.r0306.RollTheDice.Util.Plugin;
 import com.github.r0306.RollTheDice.Util.Util;
@@ -100,32 +95,23 @@ public class DelayCoolDown implements Colors
 				   {
 					 
 					  p.setExp(0F);
-/*
-					  ((CraftPlayer)p).getHandle().netServerHandler.sendPacket(getHealth());
-
-					  ((CraftPlayer)p).getHandle().netServerHandler.sendPacket(getRespawn());
-				*/		
+	
 					  Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
 					  {
 							
 						  @Override
 						  public void run() 
 						  {
-							/*
-							  ((CraftServer)Bukkit.getServer()).set
-							  p.setHealth(20);
-							  ((CraftServer)Bukkit.getServer()).getHandle().updateClient((EntityPlayer)p);
-							  p.teleport(p.getWorld().getSpawnLocation());
-                              System.out.println(p.isDead());
-                              System.out.println(p.getHealth());
-*/
+
 							  ((CraftPlayer)p).getHandle().netServerHandler.sendPacket(getRespawn());
-							  for (Player player : Bukkit.getOnlinePlayers())
+							 
+							  for (Player p : Bukkit.getOnlinePlayers())
 							  {
 								  
 								  p.showPlayer(player);
 								  
 							  }
+							 
 							  player.teleport(player.getLocation());
 							  
 						  }

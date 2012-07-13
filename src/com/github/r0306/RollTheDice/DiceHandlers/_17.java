@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-
 import com.github.r0306.RollTheDice.Util.Colors;
 import com.github.r0306.RollTheDice.Util.Plugin;
 
@@ -29,63 +27,40 @@ public class _17 extends Arena implements Listener, Colors
 		if (isIn(player, 17))
 		{
 			
+			player.setHealth(20);
+			player.setExp(1F);
+			
 			for (Player p : Bukkit.getOnlinePlayers())
 			{
 				
 				((CraftPlayer)p).getHandle().netServerHandler.sendPacket(getMobStatus(player));
-				p.hidePlayer(player);
 				
 			}
+			
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
+			{
+				
+				@Override
+				public void run() 
+				{
 
+					for (Player p : Bukkit.getOnlinePlayers())
+					{
+						
+						p.hidePlayer(player);
+				
+					}
+					
+
+				}
+				
+			
+			}, 15L);
+			
 			player.sendMessage(gold + pluginName + blue + "REVIVING...");
 
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
-			{
-				
-				@Override
-				public void run() 
-				{
-
-					player.setExp(1F);
-					player.setHealth(20);
-					System.out.println(player.isDead());
-
-				}
-				
-			
-			}, 0L);
-/*
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
-			{
-				
-				@Override
-				public void run() 
-				{
-
-					player.setHealth(20);
-
-				}
-				
-			
-			}, 5L);
-*/
 			DelayCoolDown.scheduleDelayedCoolDownRespawn(player, DELAY_TICKS);
 			
-		}
-		
-	}
-
-	@EventHandler
-	public void onRespawn(PlayerRespawnEvent event)
-	{
-		System.out.println(event.getPlayer());
-		Player player = event.getPlayer();
-		
-		if (isIn(player, 17))
-		{
-
-
-		
 		}
 		
 	}
