@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownExpBottle;
@@ -30,12 +32,12 @@ public class _20 extends Arena implements Listener
 			
 			Player player = (Player) entity.getShooter();
 			
-			if (inMatch.contains(player))
-			{
-				
+		//	if (inMatch.contains(player))
+		//	{
+
 				carePackageSmoke(entity);
 				
-			}
+		//	}
 			
 		}
 		
@@ -54,19 +56,37 @@ public class _20 extends Arena implements Listener
 			@Override
 			public void run() 
 			{
+
+				location.getWorld().playEffect(location.getBlock().getRelative(0, 8, 0).getLocation(), Effect.ENDER_SIGNAL, 500);
 				
 				location.getWorld().playEffect(location, Effect.EXTINGUISH, 500);
 				
 				for (int i = 0; i < 9; i ++)
 				{
-					
-					location.getWorld().playEffect(location, Effect.SMOKE, i, 500);
-			
-				}
 				
+					for (int x = 0; x < 9; x ++)
+					{
+
+						location.getWorld().playEffect(location.getBlock().getRelative(0, i, 0).getLocation(), Effect.SMOKE, x, 500);
+						location.getWorld().playEffect(location.getBlock().getRelative(0, i, 0).getLocation(), Effect.SMOKE, x, 500);
+					
+
+					}
+					
+					for (int x = 8; x > -1; x --)
+					{
+					
+						location.getWorld().playEffect(location.getBlock().getRelative(0, i, 0).getLocation(), Effect.SMOKE, x, 500);
+						location.getWorld().playEffect(location.getBlock().getRelative(0, i, 0).getLocation(), Effect.SMOKE, x, 500);
+					
+
+					}
+						
+				}
+								
 				counter ++;
 				
-				if (counter == 30)
+				if (counter == 60)
 				{
 					
 					Bukkit.getScheduler().cancelTask(ids.get(entity));
@@ -85,21 +105,45 @@ public class _20 extends Arena implements Listener
 	public void dropCarePackage(final Entity entity, final Location location)
 	{
 		
-		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Plugin.getPlugin(), new Runnable()
+		int id = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Plugin.getPlugin(), new Runnable()
 		{
 		
-			Location loc = new Location(location.getWorld(), location.getBlockX(), 256, location.getBlockZ());
-			loc.
-			
+			Location loc = new Location(location.getWorld(), location.getBlockX(), 255, location.getBlockZ());
+			Material material = loc.getBlock().getType();
+			byte data = loc.getBlock().getData();
+
 			@Override
 			public void run() 
 			{
-				
-				
 			
+				material = loc.getBlock().getType();
+				data = loc.getBlock().getData();	
+				loc.getBlock().setType(Material.CHEST);
+				
+				if (loc.getBlockY() != 255)
+				{
+
+					loc.getBlock().getRelative(0, 1, 0).setType(material);
+					loc.getBlock().getRelative(0, 1, 0).setData(data);
+					
+				}
+
+				loc = loc.subtract(0, 1, 0);
+				
+				if (loc.getBlock().getType() != Material.AIR && loc.getBlock().getType() != Material.WATER && loc.getBlock().getType() != Material.STATIONARY_WATER && loc.getBlock().getType() != Material.LAVA && loc.getBlock().getType() != Material.STATIONARY_LAVA)
+				{
+					
+					loc.getWorld().playEffect(loc, Effect.GHAST_SHOOT, 10);
+					Bukkit.getScheduler().cancelTask(ids.get(entity));
+					ids.remove(entity);
+					
+				}
+								
 			}
 			
-		}, 10L, 10L);
+		}, 1L, 1L);
+		
+		ids.put(entity, id);
 		
 	}
 	
