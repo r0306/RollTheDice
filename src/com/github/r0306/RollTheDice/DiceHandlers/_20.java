@@ -1,12 +1,14 @@
 package com.github.r0306.RollTheDice.DiceHandlers;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownExpBottle;
@@ -59,7 +61,7 @@ public class _20 extends Arena implements Listener
 
 				location.getWorld().playEffect(location.getBlock().getRelative(0, 8, 0).getLocation(), Effect.ENDER_SIGNAL, 500);
 				
-				location.getWorld().playEffect(location, Effect.EXTINGUISH, 500);
+				location.getWorld().playEffect(location, Effect.EXTINGUISH, 30);
 				
 				for (int i = 0; i < 9; i ++)
 				{
@@ -67,30 +69,29 @@ public class _20 extends Arena implements Listener
 					for (int x = 0; x < 9; x ++)
 					{
 
-						location.getWorld().playEffect(location.getBlock().getRelative(0, i, 0).getLocation(), Effect.SMOKE, x, 500);
-						location.getWorld().playEffect(location.getBlock().getRelative(0, i, 0).getLocation(), Effect.SMOKE, x, 500);
-					
+						Random rand = new Random();
+						location.getWorld().playEffect(location.getBlock().getRelative(rand.nextInt(4) + 1, i, rand.nextInt(4) + 1).getLocation(), Effect.SMOKE, x, 500);
+						location.getWorld().playEffect(location.getBlock().getRelative(rand.nextInt(4) + 1, i, rand.nextInt(4) + 1).getLocation(), Effect.SMOKE, x, 500);
+						location.getWorld().playEffect(location.getBlock().getRelative(rand.nextInt(4) + 1, i, rand.nextInt(4) + 1).getLocation(), Effect.SMOKE, x, 500);
+						location.getWorld().playEffect(location.getBlock().getRelative(rand.nextInt(4) + 1, i, rand.nextInt(4) + 1).getLocation(), Effect.SMOKE, x, 500);
 
 					}
-					
-					for (int x = 8; x > -1; x --)
-					{
-					
-						location.getWorld().playEffect(location.getBlock().getRelative(0, i, 0).getLocation(), Effect.SMOKE, x, 500);
-						location.getWorld().playEffect(location.getBlock().getRelative(0, i, 0).getLocation(), Effect.SMOKE, x, 500);
-					
-
-					}
-						
+	
 				}
 								
 				counter ++;
 				
-				if (counter == 60)
+				if (counter == 20)
+				{
+					
+					dropCarePackage(entity, location);
+					
+				}
+				
+				if (counter == 30)
 				{
 					
 					Bukkit.getScheduler().cancelTask(ids.get(entity));
-					dropCarePackage(entity, location);
 					
 				}
 			
@@ -144,6 +145,30 @@ public class _20 extends Arena implements Listener
 		}, 1L, 1L);
 		
 		ids.put(entity, id);
+		
+	}
+	
+	public void fillChest(Location location)
+	{
+		
+		if (location.getBlock().getType() == Material.CHEST)
+		{
+			
+			Chest chest = (Chest) location.getBlock().getState();
+			
+			chest.getBlockInventory().setContents(arg0)
+			
+		}
+		
+	}
+	
+	public void getCarePackageDropsFood()
+	{
+		
+		Material[] materials = {Material.APPLE, Material.BREAD, Material.CAKE, Material.COOKED_BEEF, Material.COOKED_CHICKEN,
+								Material.COOKED_BEEF, Material.COOKED_FISH, Material.COOKIE, Material.GOLDEN_APPLE, Material.MELON,
+								Material.MUSHROOM_SOUP, Material.PORK, Material.RAW_BEEF, Material.RAW_CHICKEN, Material.RAW_FISH, 
+		}
 		
 	}
 	
