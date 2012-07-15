@@ -8,8 +8,12 @@ import net.minecraft.server.Packet9Respawn;
 import net.minecraft.server.WorldType;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import com.github.r0306.RollTheDice.Util.Colors;
 import com.github.r0306.RollTheDice.Util.Plugin;
@@ -26,6 +30,7 @@ public class DelayCoolDown implements Colors
 	}
 		
 	private static HashMap<Player, Integer> ids = new HashMap<Player, Integer>();
+	private static HashMap<Player, Integer> chestIds = new HashMap<Player, Integer>();
 
 	public static void scheduleDelayedCoolDown(Player player, final Long ticks)
 	{
@@ -130,6 +135,60 @@ public class DelayCoolDown implements Colors
 		
 		ids.put(p, id);
 		
+	}
+	
+	public static void scheduleDelayedChestOpen(final Player player, final long ticks, final Inventory inventory)
+	{
+		
+		final float exp = Util.delayExp(ticks);
+		final float originalExp = player.getExp();
+		
+		int id = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Plugin.getPlugin(), new Runnable()
+		{
+			
+			   int counter = 0;
+			
+			   public void run()
+			   {
+			    
+
+				   if (counter < ticks)
+				   {   
+
+					   player.setExp(player.getExp() + exp);
+					   ((CraftPlayer)player).getHandle().netServerHandler.sendPacket(getExp(player.getExp(), player.getLevel()));
+					   counter ++;
+					   
+				   }
+				   else
+				   {
+					 
+					   player.setExp(originalExp);
+					   player.openInventory(inventory);
+					   Bukkit.getServer().getScheduler().cancelTask(chestIds.get(player));
+					   chestIds.remove(player);
+			   					   
+				   }
+				   
+			   }
+			
+		}, 1L, 1L);
+		
+		chestIds.put(player, id);
+				
+	}
+	
+	public static void cancelChestOpen(Player player)
+	{
+		
+		if (chestIds.containsKey(player))
+		{
+			
+		   Bukkit.getServer().getScheduler().cancelTask(chestIds.get(player));
+		   chestIds.remove(player);
+		
+		}
+		   
 	}
 	
 	public static Packet8UpdateHealth getHealth()

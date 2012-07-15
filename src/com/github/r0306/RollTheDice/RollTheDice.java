@@ -34,6 +34,7 @@ import com.github.r0306.RollTheDice.DiceHandlers._8;
 import com.github.r0306.RollTheDice.DiceHandlers._9;
 import com.github.r0306.RollTheDice.Disguise.DisguiseListeners;
 import com.github.r0306.RollTheDice.Handlers.PlayerHandlers;
+import com.github.r0306.RollTheDice.KillStreaks.CarePackage;
 import com.github.r0306.RollTheDice.Util.Colors;
 import com.github.r0306.RollTheDice.Util.Plugin;
 import com.github.r0306.RollTheDice.Util.Util;
@@ -60,6 +61,7 @@ public class RollTheDice extends JavaPlugin implements Colors
 		getServer().getPluginManager().registerEvents(new PlayerHandlers(this), this);
 		getServer().getPluginManager().registerEvents(new DisguiseListeners(), this);
 		registerAllDiceEvents(getServer().getPluginManager());
+		registerAllKillStreaks(getServer().getPluginManager());
 		System.out.println("RollTheDice version [" + getDescription().getVersion() + "] loaded.");
 		
 	}
@@ -128,6 +130,13 @@ public class RollTheDice extends JavaPlugin implements Colors
 		pm.registerEvents(new _18(), this);
 		pm.registerEvents(new _19(), this);
 		pm.registerEvents(new _20(), this);
+		
+	}
+	
+	public void registerAllKillStreaks(PluginManager pm)
+	{
+		
+		pm.registerEvents(new CarePackage(), this);
 		
 	}
 	
