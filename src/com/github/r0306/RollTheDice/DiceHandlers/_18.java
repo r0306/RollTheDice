@@ -49,7 +49,7 @@ public class _18 extends Arena implements Listener
 							{
 							
 								player.sendBlockChange(loc, Material.SNOW_BLOCK.getId(), (byte) 0);
-						
+
 							}
 
 						}

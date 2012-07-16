@@ -9,12 +9,17 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
-public class _20 extends Arena implements Listener
+import com.github.r0306.RollTheDice.Util.Colors;
+
+public class _20 extends Arena implements Listener, Colors
 {
 	
 	static HashMap<Player, List<Location>> explosiveBlocks = new HashMap<Player, List<Location>>();
+	static HashMap<Player, Location> openingChest = new HashMap<Player, Location>();
 	
 	@EventHandler
 	public void onChestPlace(BlockPlaceEvent event)
@@ -41,7 +46,58 @@ public class _20 extends Arena implements Listener
 				
 				explosiveBlocks.put(player, list);
 				
+				player.sendMessage(gold + pluginName + daqua + "Fake care package set.");
+				
 			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onTrapOpen(PlayerInteractEvent event)
+	{
+		
+		Player player = event.getPlayer();
+		
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+		{
+			
+			for (List<Location> list : explosiveBlocks.values())
+			{
+			
+				if (list.contains(event.getClickedBlock().getLocation()))
+				{
+					
+					registerOpeningChest(player, event.getClickedBlock().getLocation());
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+		
+	public void registerOpeningChest(Player player, Location location)
+	{
+		
+		if (!openingChest.containsKey(player))
+		{
+			
+			openingChest.put(player, location);
+			
+		}
+		
+	}
+	
+	public void removeOpeningChest(Player player)
+	{
+		
+		if (openingChest.containsKey(player))
+		{
+			
+			openingChest.remove(player);
 			
 		}
 		

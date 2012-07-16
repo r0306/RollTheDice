@@ -201,6 +201,31 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				}
 	
 			}
+			else if (args.length == 3)
+			{
+				
+				if (args[0].equalsIgnoreCase("put"))
+				{
+					
+					try {
+						assignPlayer(Bukkit.getPlayer(args[1]), Integer.parseInt(args[2]));
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SAXException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParserConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+				
+			}
 			
 		}
 		

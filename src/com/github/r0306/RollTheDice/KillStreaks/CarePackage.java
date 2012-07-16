@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ExpBottleEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,6 +35,7 @@ public class CarePackage extends Arena implements Listener, Colors
 	static HashMap<Entity, Integer> ids = new HashMap<Entity, Integer>();
 	static HashMap<Entity, Integer> ids2 = new HashMap<Entity, Integer>();
 	static HashMap<Player, Float> exp = new HashMap<Player, Float>();
+	static HashMap<Player, Location> openingPackage = new HashMap<Player, Location>();
 	public static ArrayList<Location> packageDrops = new ArrayList<Location>();
 	final long DELAY_TICKS = 100L;
 
@@ -81,13 +83,13 @@ public class CarePackage extends Arena implements Listener, Colors
 					
 						Inventory inventory = ((Chest) event.getClickedBlock().getState()).getBlockInventory();
 						
-						DelayCoolDown.scheduleDelayedChestOpen(player, DELAY_TICKS, inventory);
+						DelayCoolDown.scheduleDelayedChestOpen(player, DELAY_TICKS, inventory, false);
 						
 						player.sendMessage(gold + pluginName + daqua + "Opening care package...");
 						
-						exp.put(player, exp.get(player));
+						registerOpeningChest(player, event.getClickedBlock().getLocation());
 						
-						player.setExp(0F);
+						registerOriginalExp(player);
 						
 						event.setCancelled(true);
 						
@@ -114,8 +116,7 @@ public class CarePackage extends Arena implements Listener, Colors
 			{
 				
 				DelayCoolDown.cancelChestOpen(player);
-				player.setExp(exp.get(player));
-				exp.remove(player);
+				restoreOriginalExp(player);
 				
 			}
 			
@@ -141,6 +142,40 @@ public class CarePackage extends Arena implements Listener, Colors
 			}
 			
 		}
+		
+	}
+	
+	@EventHandler
+	public void onMove(PlayerMoveEvent event)
+	{
+		
+		Player player = event.getPlayer();
+		
+		if (DelayCoolDown.isOpeningPackage(player))
+		{
+			
+			if (playerIsFarAway(player, getPlayerOpeningChest(player)))
+			{
+			
+				DelayCoolDown.cancelChestOpen(player);
+				unRegisterOpeningPackage(player);
+			
+			}	
+			
+		}
+		
+	}
+	
+	public boolean playerIsFarAway(Player player, Location packageLocation)
+	{
+		
+		Location location = player.getLocation();
+		
+		int diffX = Math.abs(location.getBlockX() - packageLocation.getBlockX());
+		int diffY = Math.abs(location.getBlockY() - packageLocation.getBlockY());
+		int diffZ = Math.abs(location.getBlockZ() - packageLocation.getBlockZ());
+		
+		return (diffX >= 3 && diffY >= 3 && diffZ >= 3);
 		
 	}
 	
@@ -190,7 +225,7 @@ public class CarePackage extends Arena implements Listener, Colors
 				if (counter == 30)
 				{
 					
-					Bukkit.getScheduler().cancelTask(ids.get(entity));
+					cancelSmokeTask(entity);
 					
 				}
 			
@@ -236,8 +271,7 @@ public class CarePackage extends Arena implements Listener, Colors
 					fillChest(loc.add(0, 1, 0));
 					loc.getWorld().playEffect(loc, Effect.GHAST_SHOOT, 10);
 					packageDrops.add(loc);
-					Bukkit.getScheduler().cancelTask(ids2.get(entity));
-					ids2.remove(entity);
+					cancelDropTask(entity);
 					
 				}
 								
@@ -246,6 +280,75 @@ public class CarePackage extends Arena implements Listener, Colors
 		}, 1L, 1L);
 		
 		ids2.put(entity, id);
+		
+	}
+	
+	public void cancelSmokeTask(Entity entity)
+	{
+		
+		Bukkit.getScheduler().cancelTask(ids.get(entity));
+		ids.remove(entity);
+		
+	}
+	
+	public void cancelDropTask(Entity entity)
+	{
+		
+		Bukkit.getScheduler().cancelTask(ids2.get(entity));
+		ids2.remove(entity);
+	
+	}
+	
+	public void registerOpeningChest(Player player, Location chestLocation)
+	{
+		
+		openingPackage.put(player, chestLocation);
+		
+	}
+	
+	public void unRegisterOpeningPackage(Player player)
+	{
+	
+		if (openingPackage.containsKey(player))
+		{
+		
+			openingPackage.remove(player);
+		
+		}
+			
+	}
+	
+	public Location getPlayerOpeningChest(Player player)
+	{
+	
+		return (openingPackage.containsKey(player)) ? openingPackage.get(player) : null;
+	
+	}
+	
+	public void restoreOriginalExp(Player player)
+	{
+		
+		if (exp.containsKey(player))
+		{
+			
+			player.setExp(exp.get(player));
+			exp.remove(player);
+			
+		}
+		
+	}
+	
+	public void registerOriginalExp(Player player)
+	{
+		
+		if (!exp.containsKey(player))
+		{
+			
+			exp.put(player, exp.get(player));
+			
+			player.setExp(0F);
+			
+		}
 		
 	}
 	

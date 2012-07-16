@@ -86,6 +86,8 @@ public class Arena implements Colors
 	                 break;
 	        case 19: _19.scheduleDelayedCAPTCHA(player);
 	        		 break;
+	        case 20: break;
+	        case 21: break;
 	        	
 		}
 

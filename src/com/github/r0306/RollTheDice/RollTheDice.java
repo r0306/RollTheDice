@@ -26,6 +26,7 @@ import com.github.r0306.RollTheDice.DiceHandlers._18;
 import com.github.r0306.RollTheDice.DiceHandlers._19;
 import com.github.r0306.RollTheDice.DiceHandlers._2;
 import com.github.r0306.RollTheDice.DiceHandlers._20;
+import com.github.r0306.RollTheDice.DiceHandlers._21;
 import com.github.r0306.RollTheDice.DiceHandlers._3;
 import com.github.r0306.RollTheDice.DiceHandlers._4;
 import com.github.r0306.RollTheDice.DiceHandlers._5;
@@ -130,6 +131,7 @@ public class RollTheDice extends JavaPlugin implements Colors
 		pm.registerEvents(new _18(), this);
 		pm.registerEvents(new _19(), this);
 		pm.registerEvents(new _20(), this);
+		pm.registerEvents(new _21(), this);
 		
 	}
 	

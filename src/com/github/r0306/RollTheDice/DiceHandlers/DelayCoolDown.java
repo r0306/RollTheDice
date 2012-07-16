@@ -15,6 +15,7 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import com.github.r0306.RollTheDice.KillStreaks.CarePackage;
 import com.github.r0306.RollTheDice.Util.Colors;
 import com.github.r0306.RollTheDice.Util.Plugin;
 import com.github.r0306.RollTheDice.Util.Util;
@@ -53,6 +54,7 @@ public class DelayCoolDown implements Colors
 				   {   
 
 					   p.setExp(p.getExp() + exp);
+					   ((CraftPlayer)p).getHandle().netServerHandler.sendPacket(getExp(p.getExp(), p.getLevel()));
 					   counter ++;
 					   
 				   }
@@ -137,7 +139,7 @@ public class DelayCoolDown implements Colors
 		
 	}
 	
-	public static void scheduleDelayedChestOpen(final Player player, final long ticks, final Inventory inventory)
+	public static void scheduleDelayedChestOpen(final Player player, final long ticks, final Inventory inventory, final boolean fake)
 	{
 		
 		final float exp = Util.delayExp(ticks);
@@ -162,11 +164,31 @@ public class DelayCoolDown implements Colors
 				   }
 				   else
 				   {
-					 
+					   
+					   CarePackage cp = new CarePackage();
+					   cp.unRegisterOpeningPackage(player);
 					   player.setExp(originalExp);
-					   player.openInventory(inventory);
-					   Bukkit.getServer().getScheduler().cancelTask(chestIds.get(player));
-					   chestIds.remove(player);
+					   
+					   if (fake)
+					   {
+						   
+						   _20 fakeCP = new _20();
+						   generatePackageExplosion(cp.getPlayerOpeningChest(player));
+						   fakeCP.removeOpeningChest(player);
+						   
+						   
+					   }
+					   else
+					   {
+						   
+						   player.openInventory(inventory);
+
+						   
+					   }
+
+
+					   cancelChestOpen(player);
+
 			   					   
 				   }
 				   
@@ -176,6 +198,20 @@ public class DelayCoolDown implements Colors
 		
 		chestIds.put(player, id);
 				
+	}
+	
+	public static void generatePackageExplosion(Location location)
+	{
+		
+		location.getWorld().createExplosion(location, 1.5F);
+		
+	}
+	
+	public static boolean isOpeningPackage(Player player)
+	{
+		
+		return chestIds.containsKey(player);
+		
 	}
 	
 	public static void cancelChestOpen(Player player)

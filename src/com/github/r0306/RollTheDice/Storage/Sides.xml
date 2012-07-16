@@ -666,9 +666,39 @@
 		</Armor>
 	</Side>
 	<Side number = "20">
-		<Name>Care Package</Name>
+		<Name>Fake Care Package</Name>
+		<Classified>Neutral</Classified>
+		<Usage>Chests will blow up when opened.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Chest</Item>
+				<Amount>10</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
+	<Side number = "21">
+		<Name>Dash</Name>
 		<Classified>Positive</Classified>
-		<Usage>Throw your marker on the ground to mark the location for the drop.</Usage>
+		<Usage>Right click to charge forward in a short burst of energy. Anyone in your way will be trampled.</Usage>
 		<Inventory>
 			<ItemStack>
 				<Item>Exp Bottle</Item>
