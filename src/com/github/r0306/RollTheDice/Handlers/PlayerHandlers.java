@@ -47,7 +47,7 @@ public class PlayerHandlers extends Executor implements Listener
 		
 		Player player = event.getPlayer();
 		
-		if (inMatch.contains(player) && isStarted)
+		if (inMatch.contains(player.getName()) && isStarted)
 		{
 			
 			leaveMatch(false, player);
@@ -103,9 +103,9 @@ public class PlayerHandlers extends Executor implements Listener
 				
 			}
 
-			kills.put(killer, kills.get(killer) + 1);
+			kills.put(killer.getName(), kills.get(killer.getName()) + 1);
 				
-			if (kills.get(killer) >= min)
+			if (kills.get(killer.getName()) >= min)
 			{
 				
 				stopMatch(false, killer);
@@ -122,7 +122,7 @@ public class PlayerHandlers extends Executor implements Listener
 		
 		final Player player = event.getPlayer();
 		
-		if (inMatch.contains(player))
+		if (inMatch.contains(player.getName()))
 		{
 			assignPlayer(player, Dice.roll());	
 			

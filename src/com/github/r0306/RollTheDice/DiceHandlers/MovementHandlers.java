@@ -14,8 +14,8 @@ import com.github.r0306.RollTheDice.Util.Plugin;
 public class MovementHandlers 
 {
 
-	static HashMap<Player, Integer> taskIds = new HashMap<Player, Integer>();
-	static HashMap<Player, Location> locations = new HashMap<Player, Location>();
+	static HashMap<String, Integer> taskIds = new HashMap<String, Integer>();
+	static HashMap<String, Location> locations = new HashMap<String, Location>();
 			
 	public static void schedulePotionCheck(final Player player, final PotionEffectType effect)
 	{
@@ -60,7 +60,7 @@ public class MovementHandlers
 			
 		}, 3L,3L);
 		
-		taskIds.put(player, id);
+		taskIds.put(player.getName(), id);
 		
 	}
 	
@@ -74,14 +74,14 @@ public class MovementHandlers
 	public static int getTaskId(Player player)
 	{
 		
-		return taskIds.get(player);
+		return taskIds.get(player.getName());
 		
 	}
 	
 	public static boolean isScheduled(Player player)
 	{
 		
-		return taskIds.containsKey(player);
+		return taskIds.containsKey(player.getName());
 		
 	}
 	
@@ -95,14 +95,14 @@ public class MovementHandlers
 	public static void removePlayer(Player player)
 	{
 		
-		taskIds.remove(player);
+		taskIds.remove(player.getName());
 		
 	}
 	
 	public static void registerMovement(Player player)
 	{
 		
-		locations.put(player, player.getLocation());
+		locations.put(player.getName(), player.getLocation());
 	
 	}
 	

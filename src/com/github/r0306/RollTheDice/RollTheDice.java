@@ -99,8 +99,10 @@ public class RollTheDice extends JavaPlugin implements Colors
 	public void restoreInventories()
 	{
 		
-		for (Player p : Arena.inMatch)
+		for (String name : Arena.inMatch)
 		{
+			
+			Player p = Bukkit.getPlayerExact(name);
 			
 			Util.restoreEverything(p);
 			p.sendMessage(gold + pluginName + daqua + "The match has ended because of a server reload.");

@@ -12,13 +12,15 @@ import com.github.r0306.RollTheDice.Util.Plugin;
 public class _6 extends Arena
 {
 	
-	private static HashMap<Player, Integer> ids = new HashMap<Player, Integer>();
+	private static HashMap<String, Integer> ids = new HashMap<String, Integer>();
 
 	public void clearAllPlayers()
 	{
 		
-		for (Player p : dice.keySet())
+		for (String name : dice.keySet())
 		{
+			
+			Player p = Bukkit.getPlayerExact(name);
 			
 			if (dice.get(p) == 6)
 			{
@@ -34,10 +36,10 @@ public class _6 extends Arena
 	public void unblindPlayer(Player player)
 	{
 		
-		if (ids.containsKey(player))
+		if (ids.containsKey(player.getName()))
 		{
 			
-			Bukkit.getScheduler().cancelTask(ids.get(player));
+			Bukkit.getScheduler().cancelTask(ids.get(player.getName()));
 		
 		}
 	
@@ -59,7 +61,7 @@ public class _6 extends Arena
 			
 		}, 0L, 100L);
 		
-		ids.put(player, id);
+		ids.put(player.getName(), id);
 		
 	}
 	

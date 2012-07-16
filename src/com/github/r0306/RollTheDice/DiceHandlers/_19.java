@@ -26,8 +26,8 @@ import com.github.r0306.RollTheDice.Util.Plugin;
 public class _19 extends Arena implements Listener, Colors
 {
 	
-	static HashMap<Player, Integer> ids = new HashMap<Player, Integer>();
-	static HashMap<Player, String> CAPTCHAList = new HashMap<Player, String>();
+	static HashMap<String, Integer> ids = new HashMap<String, Integer>();
+	static HashMap<String, String> CAPTCHAList = new HashMap<String, String>();
 
 	public static void scheduleDelayedCAPTCHA(final Player player)
 	{
@@ -45,7 +45,7 @@ public class _19 extends Arena implements Listener, Colors
 			
 		}, 200L);
 		
-		ids.put(player, id);
+		ids.put(player.getName(), id);
 		
 	}
 	
@@ -58,7 +58,7 @@ public class _19 extends Arena implements Listener, Colors
 		if (isIn(player, 19))
 		{
 			
-			if (CAPTCHAList.containsKey(player))
+			if (CAPTCHAList.containsKey(player.getName()))
 			{
 				
 				event.setCancelled(true);
@@ -78,18 +78,18 @@ public class _19 extends Arena implements Listener, Colors
 		if (isIn(player, 19))
 		{
 			
-			if (ids.containsKey(player))
+			if (ids.containsKey(player.getName()))
 			{
 				
-				Bukkit.getScheduler().cancelTask(ids.get(player));
-				ids.remove(player);
+				Bukkit.getScheduler().cancelTask(ids.get(player.getName()));
+				ids.remove(player.getName());
 				
 			}
 			
-			if (CAPTCHAList.containsKey(player))
+			if (CAPTCHAList.containsKey(player.getName()))
 			{
 				
-				CAPTCHAList.remove(player);
+				CAPTCHAList.remove(player.getName());
 				
 			}
 			
@@ -106,7 +106,7 @@ public class _19 extends Arena implements Listener, Colors
 		if (isIn(player, 19))
 		{
 			
-			if (CAPTCHAList.containsKey(player))
+			if (CAPTCHAList.containsKey(player.getName()))
 			{
 				
 				event.setCancelled(true);
@@ -131,7 +131,7 @@ public class _19 extends Arena implements Listener, Colors
 			if (isIn(player, 19))
 			{
 				
-				if (CAPTCHAList.containsKey(player))
+				if (CAPTCHAList.containsKey(player.getName()))
 				{
 					
 					event.setCancelled(true);
@@ -153,7 +153,7 @@ public class _19 extends Arena implements Listener, Colors
 		if (isIn(player, 19))
 		{
 			
-			if (CAPTCHAList.containsKey(player))
+			if (CAPTCHAList.containsKey(player.getName()))
 			{
 				
 				event.setCancelled(true);
@@ -173,7 +173,7 @@ public class _19 extends Arena implements Listener, Colors
 		if (isIn(player, 19))
 		{
 			
-			if (CAPTCHAList.containsKey(player))
+			if (CAPTCHAList.containsKey(player.getName()))
 			{
 				
 				event.setCancelled(true);
@@ -193,7 +193,7 @@ public class _19 extends Arena implements Listener, Colors
 		if (isIn(player, 19))
 		{
 			
-			if (CAPTCHAList.containsKey(player))
+			if (CAPTCHAList.containsKey(player.getName()))
 			{
 				
 				event.getEgg().remove();
@@ -213,7 +213,7 @@ public class _19 extends Arena implements Listener, Colors
 		if (isIn(player, 19))
 		{
 			
-			if (CAPTCHAList.containsKey(player))
+			if (CAPTCHAList.containsKey(player.getName()))
 			{
 				
 				event.setCancelled(true);
@@ -233,7 +233,7 @@ public class _19 extends Arena implements Listener, Colors
 		if (isIn(player, 19))
 		{
 			
-			if (CAPTCHAList.containsKey(player))
+			if (CAPTCHAList.containsKey(player.getName()))
 			{
 						
 				player.teleport(event.getFrom());
@@ -253,14 +253,14 @@ public class _19 extends Arena implements Listener, Colors
 		if (isIn(player, 19))
 		{
 			
-			if (CAPTCHAList.containsKey(player))
+			if (CAPTCHAList.containsKey(player.getName()))
 			{
 				
 				if (event.getMessage().equals(CAPTCHAList.get(player)))
 				{
 					
 					player.sendMessage(gold + pluginName + daqua + "Matched! You may proceed.");
-					CAPTCHAList.remove(player);
+					CAPTCHAList.remove(player.getName());
 					scheduleDelayedCAPTCHA(player);
 					
 				}
@@ -284,7 +284,7 @@ public class _19 extends Arena implements Listener, Colors
 		
 		String CAPTCHA = generateNewCAPTCHA();
 		
-		CAPTCHAList.put(player, CAPTCHA);
+		CAPTCHAList.put(player.getName(), CAPTCHA);
 		
 		player.sendMessage(gold + pluginName + daqua + "To procced, enter the following case-sensitive CAPTCHA: " + green + CAPTCHA);
 		

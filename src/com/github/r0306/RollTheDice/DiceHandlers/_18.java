@@ -18,7 +18,7 @@ import com.github.r0306.RollTheDice.Util.Plugin;
 public class _18 extends Arena implements Listener
 {
 
-	static HashMap<Player, Integer> ids = new HashMap<Player, Integer>();
+	static HashMap<String, Integer> ids = new HashMap<String, Integer>();
 
 	public static void scheduleRepeatingUpdate(final Player player)
 	{
@@ -86,7 +86,7 @@ public class _18 extends Arena implements Listener
 		
 		}, 0L, 100L);
 		
-		ids.put(player, id);
+		ids.put(player.getName(), id);
 		
 	}
 	
@@ -99,8 +99,8 @@ public class _18 extends Arena implements Listener
 		if (isIn(player, 18))
 		{
 			
-			Bukkit.getScheduler().cancelTask(ids.get(player));
-			ids.remove(player);
+			Bukkit.getScheduler().cancelTask(ids.get(player.getName()));
+			ids.remove(player.getName());
 			
 		}
 		

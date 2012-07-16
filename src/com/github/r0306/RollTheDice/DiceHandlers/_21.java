@@ -22,8 +22,8 @@ import com.github.r0306.RollTheDice.Util.Plugin;
 public class _21 extends Arena implements Listener
 {
 
-	static HashMap<Player, Integer> ids = new HashMap<Player, Integer>();
-	static ArrayList<Player> isDashing = new ArrayList<Player>();
+	static HashMap<String, Integer> ids = new HashMap<String, Integer>();
+	static ArrayList<String> isDashing = new ArrayList<String>();
 	final long DELAY_TICKS = 100L;
 	
 	@EventHandler
@@ -37,7 +37,7 @@ public class _21 extends Arena implements Listener
 			
 			if (event.getAction() == Action.LEFT_CLICK_BLOCK)
 			{
-				System.out.println(player.getExp());
+			
 				if (player.getExp() == 1F)
 				{
 					
@@ -103,7 +103,7 @@ public class _21 extends Arena implements Listener
 				   if (counter == 10)
 				   {
 					   
-					   Bukkit.getScheduler().cancelTask(ids.get(player));
+					   Bukkit.getScheduler().cancelTask(ids.get(player.getName()));
 					   scheduleRepeatingDash(player);
 					   setDashing(player, true);   
 					   
@@ -113,7 +113,7 @@ public class _21 extends Arena implements Listener
 			
 		}, 5L, 5L);
 		
-		ids.put(player, id);
+		ids.put(player.getName(), id);
 		
 	}
 	
@@ -141,7 +141,7 @@ public class _21 extends Arena implements Listener
 					if (counter == 50)
 					{
 						
-						Bukkit.getScheduler().cancelTask(ids.get(player));
+						Bukkit.getScheduler().cancelTask(ids.get(player.getName()));
 						setDashing(player, false);
 						DelayCoolDown.scheduleDelayedCoolDown(player, DELAY_TICKS);
 						
@@ -153,7 +153,7 @@ public class _21 extends Arena implements Listener
 			
 		}, 1L, 1L);
 		
-		ids.put(player, id);
+		ids.put(player.getName(), id);
 		
 	}
 		
@@ -173,7 +173,7 @@ public class _21 extends Arena implements Listener
 	public boolean isDashing(Player player)
 	{
 		
-		return isDashing.contains(player);
+		return isDashing.contains(player.getName());
 		
 	}
 	
@@ -183,13 +183,13 @@ public class _21 extends Arena implements Listener
 		if (dashing)
 		{
 			
-			isDashing.add(player);
+			isDashing.add(player.getName());
 			
 		}
-		else if (isDashing.contains(player))
+		else if (isDashing.contains(player.getName()))
 		{
 			
-			isDashing.remove(player);
+			isDashing.remove(player.getName());
 			
 		}
 		

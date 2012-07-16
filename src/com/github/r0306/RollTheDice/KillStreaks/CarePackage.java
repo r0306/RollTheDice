@@ -34,8 +34,8 @@ public class CarePackage extends Arena implements Listener, Colors
 	
 	static HashMap<Entity, Integer> ids = new HashMap<Entity, Integer>();
 	static HashMap<Entity, Integer> ids2 = new HashMap<Entity, Integer>();
-	static HashMap<Player, Float> exp = new HashMap<Player, Float>();
-	static HashMap<Player, Location> openingPackage = new HashMap<Player, Location>();
+	static HashMap<String, Float> exp = new HashMap<String, Float>();
+	static HashMap<String, Location> openingPackage = new HashMap<String, Location>();
 	public static ArrayList<Location> packageDrops = new ArrayList<Location>();
 	final long DELAY_TICKS = 100L;
 
@@ -50,7 +50,7 @@ public class CarePackage extends Arena implements Listener, Colors
 			
 			Player player = (Player) entity.getShooter();
 			
-			if (inMatch.contains(player))
+			if (inMatch.contains(player.getName()))
 			{
 
 				carePackageSmoke(entity);
@@ -78,7 +78,7 @@ public class CarePackage extends Arena implements Listener, Colors
 				if (packageDrops.contains(event.getClickedBlock().getLocation()))
 				{
 	
-					if (!exp.containsKey(player))
+					if (!exp.containsKey(player.getName()))
 					{
 					
 						Inventory inventory = ((Chest) event.getClickedBlock().getState()).getBlockInventory();
@@ -112,7 +112,7 @@ public class CarePackage extends Arena implements Listener, Colors
 			
 			Player player = (Player) event.getEntity();
 			
-			if (exp.containsKey(player))
+			if (exp.containsKey(player.getName()))
 			{
 				
 				DelayCoolDown.cancelChestOpen(player);
@@ -302,17 +302,17 @@ public class CarePackage extends Arena implements Listener, Colors
 	public void registerOpeningChest(Player player, Location chestLocation)
 	{
 		
-		openingPackage.put(player, chestLocation);
+		openingPackage.put(player.getName(), chestLocation);
 		
 	}
 	
 	public void unRegisterOpeningPackage(Player player)
 	{
 	
-		if (openingPackage.containsKey(player))
+		if (openingPackage.containsKey(player.getName()))
 		{
 		
-			openingPackage.remove(player);
+			openingPackage.remove(player.getName());
 		
 		}
 			
@@ -321,18 +321,18 @@ public class CarePackage extends Arena implements Listener, Colors
 	public Location getPlayerOpeningChest(Player player)
 	{
 	
-		return (openingPackage.containsKey(player)) ? openingPackage.get(player) : null;
+		return (openingPackage.containsKey(player.getName())) ? openingPackage.get(player.getName()) : null;
 	
 	}
 	
 	public void restoreOriginalExp(Player player)
 	{
 		
-		if (exp.containsKey(player))
+		if (exp.containsKey(player.getName()))
 		{
 			
-			player.setExp(exp.get(player));
-			exp.remove(player);
+			player.setExp(exp.get(player.getName()));
+			exp.remove(player.getName());
 			
 		}
 		
@@ -341,10 +341,10 @@ public class CarePackage extends Arena implements Listener, Colors
 	public void registerOriginalExp(Player player)
 	{
 		
-		if (!exp.containsKey(player))
+		if (!exp.containsKey(player.getName()))
 		{
 			
-			exp.put(player, exp.get(player));
+			exp.put(player.getName(), exp.get(player));
 			
 			player.setExp(0F);
 			

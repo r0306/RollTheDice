@@ -2,8 +2,10 @@ package com.github.r0306.RollTheDice.DiceHandlers;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
@@ -16,8 +18,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class _3 extends Arena implements Listener
 {
 
-	final long DELAY_TICKS = 80; 
-	private HashMap<Entity, Player> casters = new HashMap<Entity, Player>();
+	final long DELAY_TICKS = 80L; 
+	private HashMap<Entity, String> casters = new HashMap<Entity, String>();
 		
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event)
@@ -59,8 +61,13 @@ public class _3 extends Arena implements Listener
 			if (checkEntity(event.getDamager()))
 			{
 				
-				event.setDamage(8);
-				damageDB.put(event.getEntity(), casters.get(event.getDamager()));
+				if (event.getEntity() instanceof LivingEntity)
+				{
+					
+					event.setDamage(0);
+					((LivingEntity) event.getEntity()).damage(8, Bukkit.getPlayerExact(casters.get(event.getEntity())));
+					
+				}
 		
 			}
 			
@@ -91,7 +98,7 @@ public class _3 extends Arena implements Listener
 	{
 
 		Entity entity = player.launchProjectile(Snowball.class);
-		casters.put(entity, player);
+		casters.put(entity, player.getName());
 		player.setExp(0F);
 	
 	}

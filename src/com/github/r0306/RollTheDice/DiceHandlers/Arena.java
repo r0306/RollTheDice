@@ -4,22 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import com.github.r0306.RollTheDice.RollTheDice;
 import com.github.r0306.RollTheDice.Util.Colors;
-import com.github.r0306.RollTheDice.Util.Util;
 
 public class Arena implements Colors
 {
 	
-	public static List<Player> inMatch = new ArrayList<Player>();
+	public static List<String> inMatch = new ArrayList<String>();
 	public boolean isStarted;
-	public static HashMap<Player, Integer> dice = new HashMap<Player, Integer>();
-	public static HashMap<Player, Integer> kills = new HashMap<Player, Integer>();
-	public static HashMap<Player, String> disguise = new HashMap<Player, String>();
-	public static HashMap<Entity, Player> damageDB = new HashMap<Entity, Player>();
+	public static HashMap<String, Integer> dice = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> kills = new HashMap<String, Integer>();
+	public static HashMap<String, String> disguise = new HashMap<String, String>();
+	public static HashMap<Entity, String> damageDB = new HashMap<Entity, String>();
 	
 	public void clearAllFields()
 	{
@@ -36,15 +35,17 @@ public class Arena implements Colors
 	public boolean isIn(Player player, Integer side)
 	{
 		
-		return dice.containsKey(player) && dice.get(player) == side;
+		return dice.containsKey(player.getName()) && dice.get(player.getName()) == side;
 		
 	}
 	
 	public void broadcast(String message, Player exempt)
 	{
 		
-		for (Player p : inMatch)
+		for (String name : inMatch)
 		{
+			
+			Player p = Bukkit.getPlayerExact(name);
 			
 			if (p != exempt)
 			{
@@ -91,7 +92,6 @@ public class Arena implements Colors
 	        	
 		}
 
-		
 	}
 	
 }

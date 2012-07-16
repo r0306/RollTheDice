@@ -18,12 +18,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
 import com.github.r0306.RollTheDice.DiceHandlers.Arena;
 import com.github.r0306.RollTheDice.DiceHandlers.Dice;
-import com.github.r0306.RollTheDice.Storage.XMLAccessor;
 import com.github.r0306.RollTheDice.Util.Colors;
 import com.github.r0306.RollTheDice.Util.Util;
 import com.github.r0306.RollTheDice.Util.XMLParser;
@@ -40,7 +38,6 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		
 	}
 	
-	private int delay;
 	private int delaySeconds;
 	private int id;
 	private int stopId;
@@ -293,9 +290,10 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				player.sendMessage(gold + pluginName + dgreen + "----------------------------------------");
 				int counter = 1;
 				
-				for (Player p : inMatch)
+				for (String name : inMatch)
 				{
 					
+					Player p = Bukkit.getPlayerExact(name);
 					player.sendMessage(gold + pluginName + yellow + counter + ". " + green + p.getName());
 					counter++;
 					
@@ -533,8 +531,10 @@ public class Executor extends Arena implements CommandExecutor, Colors
 			
 			if (!isStarted)
 			{
+			
+				String name = player.getName();
 				
-				inMatch.add(player);
+				inMatch.add(name);
 				saveInventory(player);
 				saveExperience(player);
 				player.setExp(0);
@@ -631,7 +631,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 	public void restoreExperience(Player player)
 	{
 		
-		float exp = (float) getInventories().getDouble("Experience." + player.getName() + ".Exp");
+		getInventories().getDouble("Experience." + player.getName() + ".Exp");
 		int level = getInventories().getInt("Experience." + player.getName() + ".Level");
 		player.setLevel(level);
 		player.setExp(1F);
@@ -730,7 +730,7 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				if (inMatch.size() < 2)
 				{
 					
-					Player remaining = inMatch.get(0);
+					Player remaining = Bukkit.getPlayerExact(inMatch.get(0));
 					
 					stopMatch(false, remaining);
 					
@@ -791,9 +791,11 @@ public class Executor extends Arena implements CommandExecutor, Colors
 			   if (delaySeconds > 0)
 			   {
 
-				   for (Player player : inMatch)
+				   for (String name : inMatch)
 				   {
 					 
+					   Player player = Bukkit.getPlayer(name);
+					   
 					   player.sendMessage(gold + pluginName + daqua + "Match will begin in " + delaySeconds + " seconds.");
 					   
 				   }
@@ -808,21 +810,33 @@ public class Executor extends Arena implements CommandExecutor, Colors
 				   {
 					   
 					   isStarted = true;
-					   for (Player player : inMatch)
+					   for (String name : inMatch)
 					   {
+						   
+						   Player player = Bukkit.getPlayerExact(name);
 						   
 						   player.sendMessage(gold + pluginName + aqua + "Match has started.");
 						   
 					   }
-					   try {
+					   try 
+					   {
+						
 						   startMatch(inMatch);
+					   
 					   } catch (SAXException e) {
-							e.printStackTrace();
+					
+						   e.printStackTrace();
+					   
 					   } catch (IOException e) {
+						
 						   e.printStackTrace();
+					   
 					   } catch (ParserConfigurationException e) {
+						
 						   e.printStackTrace();
+					   
 					   }
+					   
 					   plugin.getServer().getScheduler().cancelTask(id);
 				   }
 				   else
@@ -831,8 +845,8 @@ public class Executor extends Arena implements CommandExecutor, Colors
 					   if (inMatch.size() == 1)
 					   {
 						   
-						   inMatch.get(0).sendMessage(gold + pluginName + daqua + "There are not enough players. Match has been cancelled.");
-						   leaveMatch(true, inMatch.get(0));
+						   Bukkit.getPlayerExact(inMatch.get(0)).sendMessage(gold + pluginName + daqua + "There are not enough players. Match has been cancelled.");
+						   leaveMatch(true, Bukkit.getPlayerExact(inMatch.get(0)));
 						   plugin.getServer().getScheduler().cancelTask(id);
 						   
 					   }
@@ -846,12 +860,13 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		
 	}
 	
-	public void startMatch(List<Player> players) throws SAXException, IOException, ParserConfigurationException
+	public void startMatch(List<String> players) throws SAXException, IOException, ParserConfigurationException
 	{
 
-		for (Player player : players)
+		for (String name : players)
 		{
 			
+			Player player = Bukkit.getPlayerExact(name);
 			assignPlayer(player, Dice.roll());
 			player.setExp(1F);
 			
@@ -878,10 +893,12 @@ public class Executor extends Arena implements CommandExecutor, Colors
 		List<Player> winners = new ArrayList<Player>();
 		String winnerList = "";
 		
-		for (Player player : kills.keySet())
+		for (String name : kills.keySet())
 		{
 			
+			Player player = Bukkit.getPlayer(name);
 			int pKills = kills.get(player);
+			
 			if (highest < pKills)
 			{
 				
@@ -947,8 +964,10 @@ public class Executor extends Arena implements CommandExecutor, Colors
 	public void updateScores(List<Player> winners)
 	{
 		
-		for (Player player : inMatch)
+		for (String name : inMatch)
 		{
+			
+			Player player = Bukkit.getPlayerExact(name);
 			
 			plugin.getConfig().set("Data." + player.getName() + ".Kills", plugin.getConfig().getInt("Data." + player.getName() + ".Kills" + kills.get(player)));
 			
@@ -974,8 +993,10 @@ public class Executor extends Arena implements CommandExecutor, Colors
 			Bukkit.broadcastMessage(gold + pluginName + daqua + "The time limit was reached.");
 			checkWinner();
 			
-			for (Player player : inMatch)
+			for (String name : inMatch)
 			{
+				
+				Player player = Bukkit.getPlayerExact(name);
 				
 				leaveMatch(true, player);
 				
@@ -1006,7 +1027,9 @@ public class Executor extends Arena implements CommandExecutor, Colors
 	public void assignPlayer(Player player, Integer side) throws SAXException, IOException, ParserConfigurationException
 	{
 		
-		dice.put(player, side);
+		String name = player.getName();
+		
+		dice.put(name, side);
 		sendInfo(player, side);
 		getHandlers(player, side);
 		setInventory(player, side);

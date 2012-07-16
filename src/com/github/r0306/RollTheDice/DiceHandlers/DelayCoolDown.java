@@ -30,8 +30,8 @@ public class DelayCoolDown implements Colors
 	
 	}
 		
-	private static HashMap<Player, Integer> ids = new HashMap<Player, Integer>();
-	private static HashMap<Player, Integer> chestIds = new HashMap<Player, Integer>();
+	private static HashMap<String, Integer> ids = new HashMap<String, Integer>();
+	private static HashMap<String, Integer> chestIds = new HashMap<String, Integer>();
 
 	public static void scheduleDelayedCoolDown(Player player, final Long ticks)
 	{
@@ -62,8 +62,8 @@ public class DelayCoolDown implements Colors
 				   {
 					 
 					   p.setExp(1);
-					   Bukkit.getServer().getScheduler().cancelTask(ids.get(p));
-					   ids.remove(p);
+					   Bukkit.getServer().getScheduler().cancelTask(ids.get(p.getName()));
+					   ids.remove(p.getName());
 					   
 				   }
 			   
@@ -71,7 +71,7 @@ public class DelayCoolDown implements Colors
 			
 		}, 1L, 1L);
 		
-		ids.put(p, id);
+		ids.put(p.getName(), id);
 		
 	}
 	
@@ -124,10 +124,10 @@ public class DelayCoolDown implements Colors
 						  }
 						
 					  }, 0L);
-;
+
 					  p.sendMessage(gold + pluginName + green + "You have been revived.");
-					  Bukkit.getServer().getScheduler().cancelTask(ids.get(p));
-					  ids.remove(p);
+					  Bukkit.getServer().getScheduler().cancelTask(ids.get(p.getName()));
+					  ids.remove(p.getName());
 					   
 				   }
 			   
@@ -135,7 +135,7 @@ public class DelayCoolDown implements Colors
 			
 		}, 1L, 1L);
 		
-		ids.put(p, id);
+		ids.put(p.getName(), id);
 		
 	}
 	
@@ -196,7 +196,7 @@ public class DelayCoolDown implements Colors
 			
 		}, 1L, 1L);
 		
-		chestIds.put(player, id);
+		chestIds.put(player.getName(), id);
 				
 	}
 	
@@ -210,18 +210,18 @@ public class DelayCoolDown implements Colors
 	public static boolean isOpeningPackage(Player player)
 	{
 		
-		return chestIds.containsKey(player);
+		return chestIds.containsKey(player.getName());
 		
 	}
 	
 	public static void cancelChestOpen(Player player)
 	{
 		
-		if (chestIds.containsKey(player))
+		if (chestIds.containsKey(player.getName()))
 		{
 			
-		   Bukkit.getServer().getScheduler().cancelTask(chestIds.get(player));
-		   chestIds.remove(player);
+		   Bukkit.getServer().getScheduler().cancelTask(chestIds.get(player.getName()));
+		   chestIds.remove(player.getName());
 		
 		}
 		   

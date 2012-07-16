@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.entity.Player;
-
 public class Arena 
 {
 	
-	public static List<Player> inMatch = new ArrayList<Player>();
+	public static List<String> inMatch = new ArrayList<String>();
 	public boolean isStarted;
-	public static HashMap<Player, Integer> dice = new HashMap<Player, Integer>();
-	public static HashMap<Player, Integer> kills = new HashMap<Player, Integer>();
-	public static HashMap<Player, String> disguise = new HashMap<Player, String>();
+	public static HashMap<String, Integer> dice = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> kills = new HashMap<String, Integer>();
+	public static HashMap<String, String> disguise = new HashMap<String, String>();
 
 	public void clearAllFields()
 	{

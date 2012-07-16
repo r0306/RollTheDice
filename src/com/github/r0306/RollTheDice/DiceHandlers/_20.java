@@ -18,8 +18,8 @@ import com.github.r0306.RollTheDice.Util.Colors;
 public class _20 extends Arena implements Listener, Colors
 {
 	
-	static HashMap<Player, List<Location>> explosiveBlocks = new HashMap<Player, List<Location>>();
-	static HashMap<Player, Location> openingChest = new HashMap<Player, Location>();
+	static HashMap<String, List<Location>> explosiveBlocks = new HashMap<String, List<Location>>();
+	static HashMap<String, Location> openingChest = new HashMap<String, Location>();
 	
 	@EventHandler
 	public void onChestPlace(BlockPlaceEvent event)
@@ -33,18 +33,18 @@ public class _20 extends Arena implements Listener, Colors
 			if (event.getBlock().getType() == Material.CHEST)
 			{
 				
-				if (!explosiveBlocks.containsKey(player))
+				if (!explosiveBlocks.containsKey(player.getName()))
 				{
 					
 					List<Location> list = new ArrayList<Location>();
-					explosiveBlocks.put(player, list);
+					explosiveBlocks.put(player.getName(), list);
 					
 				}
 				
-				List<Location> list = explosiveBlocks.get(player);
+				List<Location> list = explosiveBlocks.get(player.getName());
 				list.add(event.getBlock().getLocation());
 				
-				explosiveBlocks.put(player, list);
+				explosiveBlocks.put(player.getName(), list);
 				
 				player.sendMessage(gold + pluginName + daqua + "Fake care package set.");
 				
@@ -82,10 +82,10 @@ public class _20 extends Arena implements Listener, Colors
 	public void registerOpeningChest(Player player, Location location)
 	{
 		
-		if (!openingChest.containsKey(player))
+		if (!openingChest.containsKey(player.getName()))
 		{
 			
-			openingChest.put(player, location);
+			openingChest.put(player.getName(), location);
 			
 		}
 		
@@ -94,10 +94,10 @@ public class _20 extends Arena implements Listener, Colors
 	public void removeOpeningChest(Player player)
 	{
 		
-		if (openingChest.containsKey(player))
+		if (openingChest.containsKey(player.getName()))
 		{
 			
-			openingChest.remove(player);
+			openingChest.remove(player.getName());
 			
 		}
 		

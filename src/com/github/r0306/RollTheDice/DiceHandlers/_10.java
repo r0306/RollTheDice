@@ -27,7 +27,7 @@ import com.github.r0306.RollTheDice.Util.Plugin;
 public class _10 extends Arena implements Listener, Colors
 {
 	
-	static HashMap<Entity, Player> explosiveArrows = new HashMap<Entity, Player>();
+	static HashMap<Entity, String> explosiveArrows = new HashMap<Entity, String>();
 	static List<Block> entityDamage = new ArrayList<Block>();
 	final Long DELAY_TICKS = 120L;
 
@@ -46,7 +46,7 @@ public class _10 extends Arena implements Listener, Colors
 				if (player.getExp() == 1F)
 				{
 					
-					explosiveArrows.put(event.getProjectile(), player);
+					explosiveArrows.put(event.getProjectile(), player.getName());
 					DelayCoolDown.scheduleDelayedCoolDown(player, DELAY_TICKS);
 					
 				}
