@@ -28,6 +28,13 @@ import com.github.r0306.RollTheDice.DiceHandlers._2;
 import com.github.r0306.RollTheDice.DiceHandlers._20;
 import com.github.r0306.RollTheDice.DiceHandlers._21;
 import com.github.r0306.RollTheDice.DiceHandlers._22;
+import com.github.r0306.RollTheDice.DiceHandlers._23;
+import com.github.r0306.RollTheDice.DiceHandlers._24;
+import com.github.r0306.RollTheDice.DiceHandlers._25;
+import com.github.r0306.RollTheDice.DiceHandlers._26;
+import com.github.r0306.RollTheDice.DiceHandlers._27;
+import com.github.r0306.RollTheDice.DiceHandlers._28;
+import com.github.r0306.RollTheDice.DiceHandlers._29;
 import com.github.r0306.RollTheDice.DiceHandlers._3;
 import com.github.r0306.RollTheDice.DiceHandlers._4;
 import com.github.r0306.RollTheDice.DiceHandlers._5;
@@ -67,7 +74,7 @@ public class RollTheDice extends JavaPlugin implements Colors
 		System.out.println("RollTheDice version [" + getDescription().getVersion() + "] loaded.");
 		
 	}
-	
+		
 	public void onDisable()
 	{
 		
@@ -136,6 +143,13 @@ public class RollTheDice extends JavaPlugin implements Colors
 		pm.registerEvents(new _20(), this);
 		pm.registerEvents(new _21(), this);
 		pm.registerEvents(new _22(), this);
+		pm.registerEvents(new _23(), this);
+		pm.registerEvents(new _24(), this);
+		pm.registerEvents(new _25(), this);
+		pm.registerEvents(new _26(), this);
+		pm.registerEvents(new _27(), this);
+		pm.registerEvents(new _28(), this);
+		pm.registerEvents(new _29(), this);
 		
 	}
 	

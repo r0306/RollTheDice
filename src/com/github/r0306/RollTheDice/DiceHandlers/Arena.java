@@ -89,6 +89,17 @@ public class Arena implements Colors
 	        		 break;
 	        case 20: break;
 	        case 21: break;
+	        case 22: break;
+	        case 23: _23.disguiseAsZombie(player);
+	        		 break;
+	        case 24: break;
+	        case 25: break;
+	        case 26: _26.scheduleArmSwing(player);
+	                 break;
+	        case 27: break;
+	        case 28: break;
+	        case 29: _29.scheduleTurning(player);
+	                 break;
 	        	
 		}
 
