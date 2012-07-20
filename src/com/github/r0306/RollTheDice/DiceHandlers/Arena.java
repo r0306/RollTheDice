@@ -98,8 +98,9 @@ public class Arena implements Colors
 	                 break;
 	        case 27: break;
 	        case 28: break;
-	        case 29: _29.scheduleTurning(player);
-	                 break;
+	        case 29: break;
+	        case 30: _30.changeWeapon(player);
+	        		 break;
 	        	
 		}
 

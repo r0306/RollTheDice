@@ -11,7 +11,7 @@ public class Dice
 	{
 		
 		Random rolling = new Random();
-		int side = rolling.nextInt(4) + 1;
+		int side = rolling.nextInt(28) + 1;
 		
 		return side;
 	

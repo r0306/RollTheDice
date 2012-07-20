@@ -936,9 +936,99 @@
 		</Armor>
 	</Side>
 	<Side number = "29">
-		<Name>Head Turner</Name>
+		<Name>Suicide Bomber</Name>
+		<Classified>Positive</Classified>
+		<Usage>You explode when killed.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Exp Bottle</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
+	<Side number = "30">
+		<Name>Weapon Cycle</Name>
+		<Classified>Neutral</Classified>
+		<Usage>Switch to a different weapon each kill.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Exp Bottle</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
+	<Side number = "31">
+		<Name>No-Clip</Name>
+		<Classified>Positive</Classified>
+		<Usage>Walk through walls.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Exp Bottle</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
+	<Side number = "30">
+		<Name>Credits</Name>
 		<Classified>Negative</Classified>
-		<Usage>Round and round you go!</Usage>
+		<Usage>Have fun watching the credits!</Usage>
 		<Inventory>
 			<ItemStack>
 				<Item>Exp Bottle</Item>
