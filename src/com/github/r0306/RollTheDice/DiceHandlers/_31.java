@@ -4,14 +4,20 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import net.minecraft.server.Item;
+import net.minecraft.server.Packet104WindowItems;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.r0306.RollTheDice.Util.Plugin;
 
@@ -29,7 +35,7 @@ public class _31 extends Arena implements Listener
 		if (isIn(player, 31))
 		{
 			
-			if (!getTransparentMaterials().contains(player.getLocation().getBlock().getRelative(getPlayerDirection(player))) && !getTransparentMaterials().contains(player.getEyeLocation().getBlock().getRelative(getPlayerDirection(player))))
+			if (!getTransparentMaterials().contains(player.getLocation().getBlock().getRelative(getPlayerDirection(player)).getType()) || !getTransparentMaterials().contains(player.getEyeLocation().getBlock().getRelative(getPlayerDirection(player)).getType()))
 			{
 
 				walkThroughWalls(player);
@@ -43,51 +49,45 @@ public class _31 extends Arena implements Listener
 	public void walkThroughWalls(final Player player)
 	{
 		
-		final Location location = player.getLocation().getBlock().getRelative(getPlayerDirection(player)).getLocation();
-		final Location eyeLocation = player.getEyeLocation().getBlock().getRelative(getPlayerDirection(player)).getLocation();
+		int thickness = checkThickness(player);
 		
-		final Material materialLoc = location.getBlock().getType();
-		final Material materialEyeLoc = eyeLocation.getBlock().getType();
-		
-		location.getBlock().setType(Material.AIR);
-		eyeLocation.getBlock().setType(Material.AIR);
-		
-		repeatingCheck(location, eyeLocation, materialLoc, materialEyeLoc);
+		if (thickness > 0)
+		{
+			
+			BlockFace face = getPlayerDirection(player);
+			
+			player.teleport(player.getLocation().getBlock().getRelative(face, thickness).getLocation());
+			
+		}
 		
 	}
 	
-	public void repeatingCheck(final Location location, final Location eyeLocation, final Material materialLoc, final Material materialEyeLoc)
+	public int checkThickness(Player player)
 	{
 		
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
+		BlockFace face = getPlayerDirection(player);
+		
+		Block block = player.getLocation().getBlock().getRelative(face);
+		
+		int firstFree = 0;
+		
+		for (int i = 0; i < 2; i ++)
 		{
-
-			@Override
-			public void run() 
+		
+			if (!getTransparentMaterials().contains(block.getType()))
 			{
 				
-				location.getBlock().setType(materialLoc);
-				eyeLocation.getBlock().setType(materialEyeLoc);
-
+				firstFree ++;
+				break;
 				
 			}
 			
-		}, 20L);
+			block = block.getRelative(face);
 		
-	}
+		}
 		
-	public boolean matches(Location location, Location location2)
-	{
-		
-		int x = location.getBlockX();
-		int y = location.getBlockY();
-		int z = location.getBlockZ();
-		int X = location2.getBlockX();
-		int Y = location2.getBlockY();
-		int Z = location2.getBlockZ();
-		
-		return (x == X && y == Y && z == Z);
-		
+		return firstFree;
+			
 	}
 	
     public BlockFace getPlayerDirection(Player player)
@@ -104,21 +104,21 @@ public class _31 extends Arena implements Listener
     	int i = (int)((y+8) / 22.5);
         
     	if(i == 0){dir = BlockFace.WEST;}
-        else if(i == 1){dir = BlockFace.WEST;}
-        else if(i == 2){dir = BlockFace.NORTH;}
-        else if(i == 3){dir = BlockFace.NORTH;}
+        else if(i == 1){dir = BlockFace.WEST_NORTH_WEST;}
+        else if(i == 2){dir = BlockFace.NORTH_WEST;}
+        else if(i == 3){dir = BlockFace.NORTH_NORTH_WEST;}
         else if(i == 4){dir = BlockFace.NORTH;}
-        else if(i == 5){dir = BlockFace.NORTH;}
-        else if(i == 6){dir = BlockFace.NORTH;}
-        else if(i == 7){dir = BlockFace.EAST;}
+        else if(i == 5){dir = BlockFace.NORTH_NORTH_EAST;}
+        else if(i == 6){dir = BlockFace.NORTH_EAST;}
+        else if(i == 7){dir = BlockFace.EAST_NORTH_EAST;}
         else if(i == 8){dir = BlockFace.EAST;}
-        else if(i == 9){dir = BlockFace.EAST;}
-        else if(i == 10){dir = BlockFace.SOUTH;}
-        else if(i == 11){dir = BlockFace.SOUTH;}
+        else if(i == 9){dir = BlockFace.EAST_SOUTH_EAST;}
+        else if(i == 10){dir = BlockFace.SOUTH_EAST;}
+        else if(i == 11){dir = BlockFace.SOUTH_SOUTH_EAST;}
         else if(i == 12){dir = BlockFace.SOUTH;}
-        else if(i == 13){dir = BlockFace.SOUTH;}
-        else if(i == 14){dir = BlockFace.SOUTH;}
-        else if(i == 15){dir = BlockFace.WEST;}
+        else if(i == 13){dir = BlockFace.SOUTH_SOUTH_WEST;}
+        else if(i == 14){dir = BlockFace.SOUTH_WEST;}
+        else if(i == 15){dir = BlockFace.WEST_SOUTH_WEST;}
         else {dir = BlockFace.WEST;}
         
     	return dir;
@@ -142,5 +142,7 @@ public class _31 extends Arena implements Listener
 		return Arrays.asList(materials);
 		
 	}
+	
+
 	
 }
