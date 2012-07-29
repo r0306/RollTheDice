@@ -1025,7 +1025,37 @@
 			</Boots>
 		</Armor>
 	</Side>
-	<Side number = "30">
+	<Side number = "32">
+		<Name>Semi-Invincible</Name>
+		<Classified>Positive</Classified>
+		<Usage>Godmode on and off for 5 second increments.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Exp Bottle</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
+	<Side number = "33">
 		<Name>Credits</Name>
 		<Classified>Negative</Classified>
 		<Usage>Have fun watching the credits!</Usage>

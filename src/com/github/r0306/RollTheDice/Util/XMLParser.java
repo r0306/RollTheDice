@@ -1,10 +1,8 @@
 package com.github.r0306.RollTheDice.Util;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -17,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -48,7 +45,7 @@ public class XMLParser extends Util
 		return doc;
 		
 	}
-	
+		
 	public static NodeList getSides() throws SAXException, IOException, ParserConfigurationException
 	{
 

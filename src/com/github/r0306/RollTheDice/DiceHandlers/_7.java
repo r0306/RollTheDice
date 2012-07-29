@@ -158,17 +158,7 @@ public class _7 extends Arena implements Listener
 		return (Math.abs(X - x) <= 3 && Math.abs(Y - y) <= 3 && Math.abs(Z - z ) <= 3);
 		
 	}
-	
-	public boolean isFlowing(byte blockOne, byte blockTwo)
-	{
 		
-		int one = Integer.parseInt(Byte.toString(blockOne));
-		int two = Integer.parseInt(Byte.toString(blockTwo));
-		
-		return true;
-		
-	}
-	
 	public boolean isSource(byte block)
 	{
 		

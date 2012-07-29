@@ -45,7 +45,7 @@ public class _13 extends Arena implements Listener
 					((CraftPlayer)p).getHandle().netServerHandler.sendPacket(getEntityDestroyPacket(tempID));
 
 				}
-
+				
 			}
 			
 		}, 50L, 50L);

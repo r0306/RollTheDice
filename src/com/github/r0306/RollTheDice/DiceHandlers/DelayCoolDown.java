@@ -200,6 +200,94 @@ public class DelayCoolDown implements Colors
 				
 	}
 	
+	public static void scheduleDelayedCoolDownEndGodMode(final Player player, final Long ticks)
+	{
+		
+		final Player p = player;
+		final Float exp = Util.delayExp(ticks);
+		
+		int id = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Plugin.getPlugin(), new Runnable()
+		{
+			   
+			   int counter = 0;
+			
+			   public void run()
+			   {
+			    
+
+				   if (counter < ticks && p.getExp() >= 0F)
+				   {   
+
+					   p.setExp(p.getExp() - exp);
+					   ((CraftPlayer)p).getHandle().netServerHandler.sendPacket(getExp(p.getExp(), p.getLevel()));
+					   counter ++;
+					   
+				   }
+				   else
+				   {
+					 
+					  p.setExp(0F);
+					  
+					  Bukkit.getServer().getScheduler().cancelTask(ids.get(p.getName()));
+					  ids.remove(p.getName());
+	
+					  _32.scheduleGodModeCoolDown(player);
+					  	   
+				   }
+			   
+			   }
+			
+		}, 1L, 1L);
+		
+		ids.put(p.getName(), id);
+		
+	}
+	
+	public static void scheduleDelayedCoolDownGodMode(final Player player, final Long ticks)
+	{
+		
+		final Player p = player;
+		final Float exp = Util.delayExp(ticks);
+		
+		p.setExp(0F);
+		
+		int id = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Plugin.getPlugin(), new Runnable()
+		{
+			   
+			   int counter = 0;
+			
+			   public void run()
+			   {
+			    
+
+				   if (counter < ticks)
+				   {   
+
+					   p.setExp(p.getExp() + exp);
+					   ((CraftPlayer)p).getHandle().netServerHandler.sendPacket(getExp(p.getExp(), p.getLevel()));
+					   counter ++;
+					   
+				   }
+				   else
+				   {
+					 
+					   p.setExp(1);
+					   
+					   Bukkit.getServer().getScheduler().cancelTask(ids.get(p.getName()));
+					   ids.remove(p.getName());
+					   
+					   _32.scheduleGodModeDelay(player);
+					   
+				   }
+			   
+			   }
+			
+		}, 1L, 1L);
+		
+		ids.put(p.getName(), id);
+		
+	}
+	
 	public static void generatePackageExplosion(Location location)
 	{
 		

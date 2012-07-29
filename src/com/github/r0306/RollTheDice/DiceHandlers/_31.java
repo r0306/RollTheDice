@@ -1,13 +1,8 @@
 package com.github.r0306.RollTheDice.DiceHandlers;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-import net.minecraft.server.Item;
-import net.minecraft.server.Packet104WindowItems;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,16 +10,10 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.ItemStack;
-
-import com.github.r0306.RollTheDice.Util.Plugin;
 
 public class _31 extends Arena implements Listener
 {
-
-	static HashMap<String, Integer> ids = new HashMap<String, Integer>();
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event)
@@ -34,59 +23,77 @@ public class _31 extends Arena implements Listener
 		
 		if (isIn(player, 31))
 		{
-			
-			if (!getTransparentMaterials().contains(player.getLocation().getBlock().getRelative(getPlayerDirection(player)).getType()) || !getTransparentMaterials().contains(player.getEyeLocation().getBlock().getRelative(getPlayerDirection(player)).getType()))
+
+			if (!getTransparentMaterials().contains(player.getLocation().getBlock().getRelative(getPlayerDirection(player)).getType()) && !getTransparentMaterials().contains(player.getEyeLocation().getBlock().getRelative(getPlayerDirection(player)).getType()))
 			{
 
-				walkThroughWalls(player);
+				if (hasMoved(event.getFrom(), event.getTo(), player))
+				{
+				
+					walkThroughWalls(player);
+					
+				}
 					
 			}
-			
+
 		}
+		
+	}
+	
+	public boolean hasMoved(Location from, Location to, Player player)
+	{
+		
+		double x = from.getX();
+		double z = from.getZ();
+		double X = to.getX();
+		double Z = to.getX();
+		
+		return x != X && z != Z;
+		
+	}
+	
+	public boolean isNextTo(Player player)
+	{
+		
+		Location location = player.getLocation();
+		
+		BlockFace face = getPlayerDirection(player);
+		
+		Location facingLocation = player.getLocation().getBlock().getRelative(face).getLocation();
+		
+		return location.distance(facingLocation) <= 1.4;
 		
 	}
 	
 	public void walkThroughWalls(final Player player)
 	{
 		
-		int thickness = checkThickness(player);
-		
-		if (thickness > 0)
+		if (checkThickness(player) && isNextTo(player))
 		{
 			
 			BlockFace face = getPlayerDirection(player);
 			
-			player.teleport(player.getLocation().getBlock().getRelative(face, thickness).getLocation());
+			Location location = player.getLocation().getBlock().getRelative(face, 2).getLocation();
+			
+			location.setYaw(player.getLocation().getYaw());
+			
+			location.setPitch(player.getLocation().getPitch());
+			
+			player.teleport(location);
 			
 		}
 		
 	}
 	
-	public int checkThickness(Player player)
+	
+	public boolean checkThickness(Player player)
 	{
 		
 		BlockFace face = getPlayerDirection(player);
 		
-		Block block = player.getLocation().getBlock().getRelative(face);
+		Block block = player.getLocation().getBlock().getRelative(face, 2);		
 		
-		int firstFree = 0;
-		
-		for (int i = 0; i < 2; i ++)
-		{
-		
-			if (!getTransparentMaterials().contains(block.getType()))
-			{
-				
-				firstFree ++;
-				break;
-				
-			}
-			
-			block = block.getRelative(face);
-		
-		}
-		
-		return firstFree;
+		return getTransparentMaterials().contains(block.getType());
 			
 	}
 	
@@ -142,7 +149,5 @@ public class _31 extends Arena implements Listener
 		return Arrays.asList(materials);
 		
 	}
-	
-
-	
+		
 }

@@ -8,6 +8,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -143,12 +145,11 @@ public class PlayerHandlers extends Executor implements Listener
 	}
 	
 	@EventHandler
-	public void onInteract(PlayerInteractEvent e) throws SAXException, IOException, ParserConfigurationException
+	public void onInteract(final PlayerInteractEvent e) throws SAXException, IOException, ParserConfigurationException
 	{
 		Executor ee = new Executor(plugin);
 		//ee.assignPlayer(e.getPlayer(), 21);
-
-		
+				
 	}
 	public 		Vector v = null;
 	@EventHandler
@@ -157,6 +158,8 @@ public class PlayerHandlers extends Executor implements Listener
 	}
 	
 	boolean sprint = false;
+	
+
 	/*
 	@EventHandler
 	public void onToggle(PlayerToggleSprintEvent event)
