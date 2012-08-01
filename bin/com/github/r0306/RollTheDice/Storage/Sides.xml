@@ -1115,4 +1115,94 @@
 			</Boots>
 		</Armor>
 	</Side>
+	<Side number = "35">
+		<Name>KnockBack</Name>
+		<Classified>Neutral</Classified>
+		<Usage>Leave a trail of fire behind you.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Exp Bottle</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
+	<Side number = "36">
+		<Name>One-Way Turn</Name>
+		<Classified>Negative</Classified>
+		<Usage>You can only turn to the left.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Exp Bottle</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
+	<Side number = "37">
+		<Name>Grappling Hook</Name>
+		<Classified>Positive</Classified>
+		<Usage>Right click with hook to latch on and right click again to reel yourself over.</Usage>
+		<Inventory>
+			<ItemStack>
+				<Item>Exp Bottle</Item>
+				<Amount>1</Amount>
+				<Enchantment>None</Enchantment>
+			</ItemStack>
+		</Inventory>
+		<Armor>
+			<Head>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Head>
+			<Body>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Body>
+			<Legs>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>		
+			</Legs>
+			<Boots>
+				<Type>None</Type>
+				<Enchantment>None</Enchantment>
+			</Boots>
+		</Armor>
+	</Side>
 </Sides>
