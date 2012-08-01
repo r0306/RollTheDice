@@ -104,6 +104,7 @@ public class Arena implements Colors
 	        case 31: break;
 	        case 32: _32.scheduleGodModeDelay(player);
 	                 break;
+	        case 33: _33.sendCredits(player);
 	        	
 		}
 
