@@ -1,6 +1,7 @@
 package com.github.r0306.RollTheDice.DiceHandlers;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -38,6 +40,7 @@ public class _37 extends Arena implements Listener
 {
 
 	static HashMap<String, Entity> hooks = new HashMap<String, Entity>();
+	static ArrayList<Entity> projectiles = new ArrayList<Entity>();
 	
 	@EventHandler
 	public void onGrapple(PlayerFishEvent event) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
@@ -54,19 +57,18 @@ public class _37 extends Arena implements Listener
 				if (hooks.containsKey(player.getName()))
 				{
 					
-					Block block = getHookBlock(hooks.get(player.getName()));
+					Block block = hooks.get(player.getName()).getLocation().getBlock();
 					
 					System.out.println(block.getType());
 					
-					if (block.getType() == Material.AIR)
+					if (block.getType() == Material.AIR || block.getType() == Material.SNOW)
 					{
 						
-						player.sendBlockChange(hooks.get(player.getName()).getLocation(), Material.LADDER.getId(), getFace(hooks.get(player.getName())));
-
-						player.setVelocity(hooks.get(player.getName()).getLocation().toVector().subtract(player.getLocation().toVector()).normalize().multiply(new Vector(2, 2.5, 2)));
-						
-						//player.teleport(block.getLocation());
-						
+						//player.setVelocity(hooks.get(player.getName()).getLocation().toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector()).normalize().multiply(new Vector(2, 2, 2)));
+						Projectile fishing = player.launchProjectile(Snowball.class);
+					
+						fishing.setPassenger(player);
+						projectiles.add(fishing);
 					}
 					
 				}
@@ -98,6 +100,36 @@ public class _37 extends Arena implements Listener
 					hooks.put(player.getName(), hook);
 					
 				}
+				
+			}
+			
+		}
+		else if (event.getEntityType() == EntityType.SNOWBALL)
+		{
+			
+			if (projectiles.contains(event.getEntity()))
+			{
+			event.getEntity().getPassenger().eject();
+			event.getEntity().remove();
+			projectiles.remove(event.getEntity());
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onDamage(EntityDamageByEntityEvent event)
+	{
+		
+		if (event.getDamager() instanceof Snowball)
+		{
+			
+			if (projectiles.contains(event.getDamager()))
+			{
+				
+
+				event.setCancelled(true);
 				
 			}
 			
