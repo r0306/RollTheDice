@@ -818,24 +818,31 @@ public class Disguise
 	  {
 	    return new Packet29DestroyEntity(this.entityID);
 	  }
-
-	  public Packet5EntityEquipment getEquipmentChangePacket(short slot, ItemStack item) {
-	    if (isPlayer())
-	    {
-	      Packet5EntityEquipment packet;
-	      if (item == null) {
-	        packet = new Packet5EntityEquipment();
-	        packet.a = this.entityID;
-	        packet.b = slot;
-	        packet.c = -1;
-	        packet.d = 0;
-	      } else {
-	        packet = new Packet5EntityEquipment(this.entityID, slot, ((CraftItemStack)item).getHandle());
-	      }
-	      return packet;
-	    }
-	    return null;
-	  }
+	  
+	  public Packet5EntityEquipment getEquipmentChangePacket(short paramShort, ItemStack paramItemStack) {
+		    if (isPlayer())
+		    {
+		      Packet5EntityEquipment localPacket5EntityEquipment;
+		      if (paramItemStack == null) {
+		        localPacket5EntityEquipment = new Packet5EntityEquipment();
+		        localPacket5EntityEquipment.a = this.entityID;
+		        localPacket5EntityEquipment.b = paramShort;
+		        try
+		        {
+		          Field localField = localPacket5EntityEquipment.getClass().getDeclaredField("c");
+		          localField.setAccessible(true);
+		          localField.set(localPacket5EntityEquipment, null);
+		        } catch (Exception localException) {
+		          System.out.println("DisguiseCraft was unable to set the item type for a player disguise!");
+		          localException.printStackTrace();
+		        }
+		      } else {
+		        localPacket5EntityEquipment = new Packet5EntityEquipment(this.entityID, paramShort, ((CraftItemStack)paramItemStack).getHandle());
+		      }
+		      return localPacket5EntityEquipment;
+		    }
+		    return null;
+		  }
 
 	  public Packet32EntityLook getEntityLookPacket(Location loc)
 	  {

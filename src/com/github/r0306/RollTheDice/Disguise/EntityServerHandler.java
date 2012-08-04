@@ -1,6 +1,7 @@
 package com.github.r0306.RollTheDice.Disguise;
 
 import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.INetworkManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.NetworkManager;
@@ -14,7 +15,7 @@ public class EntityServerHandler extends NetServerHandler
   private MinecraftServer minecraftServer;
   private final CraftServer server;
 
-  public EntityServerHandler(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer)
+  public EntityServerHandler(MinecraftServer minecraftserver, INetworkManager networkmanager, EntityPlayer entityplayer)
   {
     super(minecraftserver, networkmanager, entityplayer);
     this.minecraftServer = minecraftserver;

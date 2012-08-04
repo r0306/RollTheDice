@@ -65,10 +65,10 @@ public class _37 extends Arena implements Listener
 					{
 						
 						//player.setVelocity(hooks.get(player.getName()).getLocation().toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector()).normalize().multiply(new Vector(2, 2, 2)));
-						Projectile fishing = player.launchProjectile(Snowball.class);
-					
-						fishing.setPassenger(player);
-						projectiles.add(fishing);
+						//Projectile fishing = player.launchProjectile(Snowball.class);
+						player.setVelocity(hooks.get(player.getName()).getLocation().toVector().subtract(player.getLocation().subtract(0, 0, 0).toVector()).normalize().multiply(new Vector(2, 2, 2)));
+						//fishing.setPassenger(player);
+						//projectiles.add(fishing);
 					}
 					
 				}
@@ -104,14 +104,29 @@ public class _37 extends Arena implements Listener
 			}
 			
 		}
-		else if (event.getEntityType() == EntityType.SNOWBALL)
+
+		
+	}
+	
+	@EventHandler
+	public void onHit(ProjectileHitEvent event)
+	{
+		
+		if (event.getEntityType() == EntityType.SNOWBALL)
 		{
 			
 			if (projectiles.contains(event.getEntity()))
 			{
+			Player p = (Player) event.getEntity().getPassenger();
 			event.getEntity().getPassenger().eject();
 			event.getEntity().remove();
 			projectiles.remove(event.getEntity());
+			//p.teleport(hooks.get(p.getName()));
+			//p.teleport(hooks.get(p.getName()));
+			//p.teleport(hooks.get(p.getName()));
+			//p.teleport(hooks.get(p.getName()));
+			p.getLocation().getBlock().getRelative(BlockFace.DOWN).setType(Material.DIRT);
+
 			}
 			
 		}

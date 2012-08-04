@@ -3,6 +3,7 @@ package com.github.r0306.RollTheDice.Disguise;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.minecraft.server.*;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.NetServerHandler;
 import net.minecraft.server.Packet;
@@ -70,11 +71,21 @@ public class DisguiseListeners extends Disguise implements Listener
   {
 	    Player player = event.getPlayer();
 	    EntityPlayer entity = ((CraftPlayer)player).getHandle();
-	    if (!(entity.netServerHandler instanceof Handler)) {	
+	    Object object;
+	    if (!(entity.netServerHandler instanceof Handler))
+	    {	
+	    	
+          entity.netServerHandler.disconnected = true;
+          object = new EntityServerHandler(entity.server, entity.netServerHandler.networkManager, entity);
+          ((NetServerHandler)object).a(entity.locX, entity.locY, entity.locZ, entity.yaw, entity.pitch);
+          entity.netServerHandler = ((NetServerHandler)object);
+          //entity.server.ac().a((NetServerHandler)object);
+	    	/*
 	    	entity.netServerHandler.disconnected = true;
     		NetServerHandler newHandler = new EntityServerHandler(entity.server, entity.netServerHandler.networkManager, entity);
     		newHandler.a(entity.locX, entity.locY, entity.locZ, entity.yaw, entity.pitch);
     		entity.server.networkListenThread.a(newHandler);
+    		*/
 	        
 	    }
 
