@@ -57,17 +57,44 @@ public class _37 extends Arena implements Listener
 				if (hooks.containsKey(player.getName()))
 				{
 					
-					Block block = hooks.get(player.getName()).getLocation().getBlock();
-					
-					System.out.println(block.getType());
-					
-					if (block.getType() == Material.AIR || block.getType() == Material.SNOW)
+					final Location location = hooks.get(player.getName()).getLocation();
+										
+					if (location.getBlock().getType() == Material.AIR || location.getBlock().getType() == Material.SNOW)
 					{
 						
 						//player.setVelocity(hooks.get(player.getName()).getLocation().toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector()).normalize().multiply(new Vector(2, 2, 2)));
 						//Projectile fishing = player.launchProjectile(Snowball.class);
-						player.setVelocity(hooks.get(player.getName()).getLocation().toVector().subtract(player.getLocation().subtract(0, 0, 0).toVector()).normalize().multiply(new Vector(2, 2, 2)));
-						//fishing.setPassenger(player);
+						final Vector velocity = location.toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector()).normalize().multiply(new Vector(2, 2, 2));
+						int difference;
+						
+						if (Math.abs(difference = (location.getBlockY() - player.getLocation().getBlockY())) < 5)
+						{
+						
+							final double magnitude = difference / 5;
+							
+							player.setVelocity(velocity.multiply(new Vector(1, 1, 1)));
+							
+							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
+							{
+
+								@Override
+								public void run() 
+								{
+									player.setVelocity(velocity.multiply(new Vector(1, 1, 1)));
+									//player.setVelocity(location.toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector().normalize().multiply(2)));
+							
+								}
+								
+							}, 01L);
+							
+						}
+						else
+						{
+						
+							player.setVelocity(velocity);
+						
+						}
+							//fishing.setPassenger(player);
 						//projectiles.add(fishing);
 					}
 					
