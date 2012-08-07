@@ -2,12 +2,14 @@ package com.github.r0306.RollTheDice.DiceHandlers;
 
 import java.util.HashMap;
 
+import net.minecraft.server.EnumGamemode;
 import net.minecraft.server.Packet43SetExperience;
 import net.minecraft.server.Packet8UpdateHealth;
 import net.minecraft.server.Packet9Respawn;
 import net.minecraft.server.WorldType;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
@@ -334,8 +336,8 @@ public class DelayCoolDown implements Colors
 		packet.a = 0;
 		packet.b = (byte)1;
 		packet.c = (byte)0;
-		packet.d = (short) 256;
-		packet.e = WorldType.VERSION_1_1f;
+		packet.d = EnumGamemode.SURVIVAL;
+		packet.e = WorldType.NORMAL_1_1;
 		
 		return packet;
 		

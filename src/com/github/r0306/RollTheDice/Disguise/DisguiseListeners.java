@@ -65,7 +65,7 @@ public class DisguiseListeners extends Disguise implements Listener
    // }
   
   }
-
+/*
   @EventHandler(priority=EventPriority.LOW)
   public void onPlayerJoin(PlayerJoinEvent event)
   {
@@ -86,7 +86,7 @@ public class DisguiseListeners extends Disguise implements Listener
     		newHandler.a(entity.locX, entity.locY, entity.locZ, entity.yaw, entity.pitch);
     		entity.server.networkListenThread.a(newHandler);
     		*/
-	        
+	      /*  
 	    }
 
   }

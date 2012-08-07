@@ -57,7 +57,7 @@ public class _37 extends Arena implements Listener
 				if (hooks.containsKey(player.getName()))
 				{
 					
-					final Location location = hooks.get(player.getName()).getLocation();
+					final Location location = hooks.get(player.getName()).getLocation();//hooks.get(player.getName()).getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR ? hooks.get(player.getName()).getLocation() : hooks.get(player.getName()).getLocation().getBlock().getRelative(BlockFace.UP).getLocation();
 										
 					if (location.getBlock().getType() == Material.AIR || location.getBlock().getType() == Material.SNOW)
 					{
@@ -65,13 +65,10 @@ public class _37 extends Arena implements Listener
 						//player.setVelocity(hooks.get(player.getName()).getLocation().toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector()).normalize().multiply(new Vector(2, 2, 2)));
 						//Projectile fishing = player.launchProjectile(Snowball.class);
 						final Vector velocity = location.toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector()).normalize().multiply(new Vector(2, 2, 2));
-						int difference;
 						
-						if (Math.abs(difference = (location.getBlockY() - player.getLocation().getBlockY())) < 5)
+						if (Math.abs(location.getBlockY() - player.getLocation().getBlockY()) < 2 && location.distance(player.getLocation()) > 4)
 						{
-						
-							final double magnitude = difference / 5;
-							
+													
 							player.setVelocity(velocity.multiply(new Vector(1, 1, 1)));
 							
 							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
@@ -85,13 +82,26 @@ public class _37 extends Arena implements Listener
 							
 								}
 								
-							}, 01L);
+							}, 1L);
 							
 						}
 						else
 						{
 						
 							player.setVelocity(velocity);
+							
+							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), new Runnable()
+							{
+
+								@Override
+								public void run() 
+								{
+									//player.setVelocity(velocity.multiply(new Vector(1, 1, 1)));
+									player.setVelocity(location.toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector().normalize().multiply(0.5)));
+							
+								}
+								
+							}, 1L);
 						
 						}
 							//fishing.setPassenger(player);
