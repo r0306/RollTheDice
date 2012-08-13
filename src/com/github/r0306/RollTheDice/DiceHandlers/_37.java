@@ -96,12 +96,12 @@ public class _37 extends Arena implements Listener
 								@Override
 								public void run() 
 								{
-									//player.setVelocity(velocity.multiply(new Vector(1, 1, 1)));
-									player.setVelocity(location.toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector().normalize().multiply(0.5)));
+									player.setVelocity(velocity.multiply(new Vector(1, 1, 1)));
+									//player.setVelocity(location.toVector().subtract(player.getLocation().subtract(0, 1, 0).toVector().normalize().multiply(0.5)));
 							
 								}
 								
-							}, 1L);
+							}, 0L);
 						
 						}
 							//fishing.setPassenger(player);
